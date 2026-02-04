@@ -42,7 +42,7 @@ function MainTabs() {
           tabBarIcon: ({ color, size }) => {
             const icons = {
               Suivi: 'heart',
-              Journal: 'book',
+              Échange: 'cafe',
               Vaccins: 'shield-checkmark',
               Savoirs: 'library',
               Profil: 'person',
@@ -52,7 +52,7 @@ function MainTabs() {
         })}
       >
         <Tab.Screen name="Suivi" component={DashboardScreen} />
-        <Tab.Screen name="Journal" component={JournalScreen} />
+        <Tab.Screen name="Échange" component={JournalScreen} />
         <Tab.Screen name="Vaccins" component={VaccinesScreen} />
         <Tab.Screen name="Savoirs" component={SavoirsScreen} />
         <Tab.Screen name="Profil" component={ProfileScreen} />
