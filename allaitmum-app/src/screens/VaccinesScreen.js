@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   },
   progressHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
   progressTitle: { fontSize: 18, fontWeight: '600' },
-  progressBar: { height: 10, borderRadius: 5, overflow: 'hidden', marginBottom: 8 },
+  progressBar: { height: 10, borderRadius: 5, marginBottom: 8 },
   progressFill: { height: '100%', borderRadius: 5 },
   progressText: { fontSize: 13 },
   upcomingHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
