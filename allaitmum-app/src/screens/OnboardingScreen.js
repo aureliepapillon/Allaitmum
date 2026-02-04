@@ -1,0 +1,339 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  Platform,
+  KeyboardAvoidingView,
+} from 'react-native';
+import { useTheme } from '../theme/ThemeContext';
+import { useApp } from '../utils/AppContext';
+import { Ionicons } from '@expo/vector-icons';
+
+export default function OnboardingScreen() {
+  const { theme } = useTheme();
+  const { completeOnboarding } = useApp();
+  const [step, setStep] = useState(1);
+  const [name, setName] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [gender, setGender] = useState('fille');
+  const [method, setMethod] = useState(null);
+  const [experience, setExperience] = useState(null);
+
+  const methods = [
+    { id: 'breast', icon: 'heart', label: 'Allaitement au sein', desc: 'Tétées directes' },
+    { id: 'pump', icon: 'water', label: 'Tire-allaitement', desc: 'Tire-lait + biberon' },
+    { id: 'mixed', icon: 'git-merge', label: 'Mixte', desc: 'Combinaison sein/biberon' },
+    { id: 'bottle-bm', icon: 'flask', label: 'Biberon lait maternel', desc: 'Exclusivement' },
+    { id: 'bottle-formula', icon: 'flask-outline', label: 'Biberon formule', desc: 'Lait infantile' },
+    { id: 'transition', icon: 'swap-horizontal', label: 'En transition', desc: 'Ça évolue' },
+  ];
+
+  const experiences = [
+    { id: 'first', label: "C'est mon premier bébé" },
+    { id: 'same', label: "Même parcours qu'avant" },
+    { id: 'different', label: 'Parcours différent cette fois' },
+    { id: 'skip', label: 'Je préfère ne pas en parler' },
+  ];
+
+  const handleComplete = (exp) => {
+    completeOnboarding({ name, birthDate, gender }, method, exp);
+  };
+
+  return (
+    <KeyboardAvoidingView
+      style={[styles.container, { backgroundColor: theme.backgroundGradientStart }]}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Step 1: Welcome */}
+        {step === 1 && (
+          <View style={styles.stepContainer}>
+            <View style={[styles.iconContainer, { backgroundColor: theme.primary }]}>
+              <Ionicons name="heart" size={40} color="#fff" />
+            </View>
+            <Text style={[styles.title, { color: theme.primary }]}>Allait'mum</Text>
+
+            <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
+              <Text style={[styles.cardTitle, { color: theme.primary }]}>Bienvenue</Text>
+              <Text style={[styles.cardText, { color: theme.text }]}>
+                Ici, toutes les mamans sont les bienvenues. Sein, tire-lait, biberon, mixte...
+                Ton parcours est unique. Ton choix est respecté.
+              </Text>
+              <Text style={[styles.cardSubtext, { color: theme.primary }]}>
+                Aucun jugement. Juste du soutien.
+              </Text>
+              <TouchableOpacity
+                style={[styles.mainButton, { backgroundColor: theme.primary }]}
+                onPress={() => setStep(2)}
+              >
+                <Text style={styles.mainButtonText}>Créer mon espace</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
+        {/* Step 2: Baby info */}
+        {step === 2 && (
+          <View style={styles.stepContainer}>
+            <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
+              <Ionicons
+                name="happy"
+                size={50}
+                color={theme.primary}
+                style={styles.stepIcon}
+              />
+              <Text style={[styles.cardTitle, { color: theme.primary }]}>
+                Parle-moi de ton bébé
+              </Text>
+
+              <Text style={[styles.label, { color: theme.text }]}>Prénom</Text>
+              <TextInput
+                style={[
+                  styles.input,
+                  { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark },
+                ]}
+                value={name}
+                onChangeText={setName}
+                placeholder="Le prénom de ton bébé"
+                placeholderTextColor={theme.textLight}
+              />
+
+              <Text style={[styles.label, { color: theme.text }]}>Date de naissance (AAAA-MM-JJ)</Text>
+              <TextInput
+                style={[
+                  styles.input,
+                  { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark },
+                ]}
+                value={birthDate}
+                onChangeText={setBirthDate}
+                placeholder="2025-01-15"
+                placeholderTextColor={theme.textLight}
+                keyboardType="numbers-and-punctuation"
+              />
+
+              <Text style={[styles.label, { color: theme.text }]}>Sexe</Text>
+              <View style={styles.genderRow}>
+                {['fille', 'garçon'].map((g) => (
+                  <TouchableOpacity
+                    key={g}
+                    style={[
+                      styles.genderButton,
+                      {
+                        borderColor: theme.primary,
+                        backgroundColor: gender === g ? theme.primary + '20' : theme.card,
+                      },
+                    ]}
+                    onPress={() => setGender(g)}
+                  >
+                    <Text
+                      style={[
+                        styles.genderText,
+                        { color: theme.primary, fontWeight: gender === g ? '700' : '500' },
+                      ]}
+                    >
+                      {g.charAt(0).toUpperCase() + g.slice(1)}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <TouchableOpacity
+                style={[
+                  styles.mainButton,
+                  {
+                    backgroundColor: !name || !birthDate ? theme.textLight : theme.primary,
+                  },
+                ]}
+                onPress={() => setStep(3)}
+                disabled={!name || !birthDate}
+              >
+                <Text style={styles.mainButtonText}>Hop, on y va !</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
+        {/* Step 3: Feeding method */}
+        {step === 3 && (
+          <View style={styles.stepContainer}>
+            <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
+              <Text style={[styles.cardTitle, { color: theme.primary }]}>
+                Comment nourris-tu {name} aujourd'hui ?
+              </Text>
+              <Text style={[styles.cardSubtext, { color: theme.text }]}>
+                Pas de bon ou mauvais choix. Juste ton choix.
+              </Text>
+
+              {methods.map((m) => (
+                <TouchableOpacity
+                  key={m.id}
+                  style={[
+                    styles.methodButton,
+                    {
+                      backgroundColor: method === m.id ? theme.primary : theme.card,
+                      borderColor: method === m.id ? theme.primary : theme.border,
+                    },
+                  ]}
+                  onPress={() => {
+                    setMethod(m.id);
+                    setTimeout(() => setStep(4), 300);
+                  }}
+                >
+                  <Ionicons
+                    name={m.icon}
+                    size={28}
+                    color={method === m.id ? '#fff' : theme.primary}
+                  />
+                  <View style={styles.methodTextContainer}>
+                    <Text
+                      style={[
+                        styles.methodLabel,
+                        { color: method === m.id ? '#fff' : theme.textDark },
+                      ]}
+                    >
+                      {m.label}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.methodDesc,
+                        { color: method === m.id ? 'rgba(255,255,255,0.8)' : theme.text },
+                      ]}
+                    >
+                      {m.desc}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        )}
+
+        {/* Step 4: Experience */}
+        {step === 4 && (
+          <View style={styles.stepContainer}>
+            <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
+              <Text style={[styles.cardTitle, { color: theme.primary }]}>
+                Une dernière chose...
+              </Text>
+              <Text style={[styles.cardSubtext, { color: theme.text }]}>
+                As-tu vécu d'autres expériences d'alimentation ?
+              </Text>
+              <Text style={[styles.optionalText, { color: theme.text }]}>
+                (Optionnel - pour mieux te comprendre)
+              </Text>
+
+              {experiences.map((exp) => (
+                <TouchableOpacity
+                  key={exp.id}
+                  style={[
+                    styles.expButton,
+                    {
+                      backgroundColor: experience === exp.id ? theme.primary : theme.card,
+                      borderColor: experience === exp.id ? theme.primary : theme.border,
+                    },
+                  ]}
+                  onPress={() => {
+                    setExperience(exp.id);
+                    handleComplete(exp.id);
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.expText,
+                      { color: experience === exp.id ? '#fff' : theme.textDark },
+                    ]}
+                  >
+                    {exp.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        )}
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24 },
+  stepContainer: { alignItems: 'center' },
+  iconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  title: { fontSize: 42, fontWeight: '600', marginBottom: 24 },
+  card: {
+    width: '100%',
+    borderRadius: 24,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5,
+  },
+  cardTitle: { fontSize: 24, fontWeight: '600', textAlign: 'center', marginBottom: 12 },
+  cardText: { fontSize: 15, lineHeight: 24, textAlign: 'center', marginBottom: 16 },
+  cardSubtext: { fontSize: 13, fontWeight: '500', textAlign: 'center', marginBottom: 20 },
+  mainButton: {
+    width: '100%',
+    paddingVertical: 16,
+    borderRadius: 16,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  mainButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  label: { fontSize: 13, fontWeight: '500', marginBottom: 6, marginTop: 16 },
+  input: {
+    width: '100%',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderRadius: 12,
+    borderWidth: 2,
+    fontSize: 15,
+  },
+  genderRow: { flexDirection: 'row', gap: 12, marginTop: 4 },
+  genderButton: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 12,
+    borderWidth: 2,
+    alignItems: 'center',
+  },
+  genderText: { fontSize: 15 },
+  methodButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 2,
+    marginBottom: 8,
+    gap: 12,
+  },
+  methodTextContainer: { flex: 1 },
+  methodLabel: { fontSize: 15, fontWeight: '600', marginBottom: 2 },
+  methodDesc: { fontSize: 13 },
+  stepIcon: { alignSelf: 'center', marginBottom: 16 },
+  optionalText: { fontSize: 12, fontStyle: 'italic', textAlign: 'center', marginBottom: 16 },
+  expButton: {
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 2,
+    marginBottom: 8,
+    alignItems: 'center',
+  },
+  expText: { fontSize: 15, fontWeight: '500' },
+});
