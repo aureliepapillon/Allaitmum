@@ -1,21 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
+  TextInput,
   TouchableOpacity,
   ScrollView,
   StyleSheet,
   Alert,
   Linking,
+  Modal,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 import { getBabyAge } from '../utils/helpers';
 
+const FEEDING_METHODS = [
+  { id: 'breast', label: 'Sein' },
+  { id: 'pump', label: 'Tire-lait' },
+  { id: 'mixed', label: 'Mixte' },
+  { id: 'bottle-bm', label: 'Biberon LM' },
+  { id: 'bottle-formula', label: 'Biberon formule' },
+  { id: 'transition', label: 'Transition' },
+];
+
 export default function ProfileScreen() {
   const { theme, isDark, toggleTheme } = useTheme();
-  const { baby, feedingSessions, diaperEntries, sleepSessions, moodEntries, vaccinesDone, resetApp } = useApp();
+  const {
+    baby, babies, activeBabyId,
+    feedingSessions, diaperEntries, sleepSessions, moodEntries, vaccinesDone,
+    resetApp, addBaby, switchBaby,
+  } = useApp();
+
+  const [showAddBaby, setShowAddBaby] = useState(false);
+  const [newName, setNewName] = useState('');
+  const [newBirthDate, setNewBirthDate] = useState('');
+  const [newGender, setNewGender] = useState('fille');
+  const [newWeight, setNewWeight] = useState('');
+  const [newHeight, setNewHeight] = useState('');
+  const [newMethod, setNewMethod] = useState(null);
 
   const handleReset = () => {
     Alert.alert(
@@ -26,6 +49,30 @@ export default function ProfileScreen() {
         { text: 'Réinitialiser', style: 'destructive', onPress: resetApp },
       ]
     );
+  };
+
+  const handleAddBaby = () => {
+    if (!newName || !newBirthDate || !newMethod) {
+      Alert.alert('Champs requis', 'Remplis au moins le prénom, la date de naissance et le mode d\'alimentation.');
+      return;
+    }
+    addBaby(
+      {
+        name: newName,
+        birthDate: newBirthDate,
+        gender: newGender,
+        birthWeight: newWeight ? parseFloat(newWeight) : null,
+        birthHeight: newHeight ? parseFloat(newHeight) : null,
+      },
+      newMethod
+    );
+    setShowAddBaby(false);
+    setNewName('');
+    setNewBirthDate('');
+    setNewGender('fille');
+    setNewWeight('');
+    setNewHeight('');
+    setNewMethod(null);
   };
 
   const stats = [
@@ -51,11 +98,46 @@ export default function ProfileScreen() {
     >
       <Text style={[styles.title, { color: theme.primary }]}>Profil</Text>
 
-      {/* Baby card */}
+      {/* Baby selector (if multiple babies) */}
+      {babies.length > 1 && (
+        <View style={[styles.card, { backgroundColor: theme.card }]}>
+          <Text style={[styles.cardTitle, { color: theme.primary }]}>Mes bébés</Text>
+          {babies.map((b) => (
+            <TouchableOpacity
+              key={b.id}
+              style={[
+                styles.babySelectorItem,
+                {
+                  backgroundColor: b.id === activeBabyId ? theme.primary + '15' : 'transparent',
+                  borderColor: b.id === activeBabyId ? theme.primary : theme.border,
+                },
+              ]}
+              onPress={() => switchBaby(b.id)}
+            >
+              <View style={[styles.miniAvatar, { backgroundColor: b.id === activeBabyId ? theme.primary : theme.secondary }]}>
+                <Text style={{ fontSize: 16 }}>{b.gender === 'fille' ? '👧' : '👦'}</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.babySelectorName, { color: b.id === activeBabyId ? theme.primary : theme.textDark }]}>
+                  {b.name}
+                </Text>
+                <Text style={[styles.babySelectorAge, { color: theme.textLight }]}>
+                  {getBabyAge(b.birthDate)}
+                </Text>
+              </View>
+              {b.id === activeBabyId && (
+                <Ionicons name="checkmark-circle" size={22} color={theme.primary} />
+              )}
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+
+      {/* Active baby card */}
       <View style={[styles.card, { backgroundColor: theme.card }]}>
         <View style={styles.babyRow}>
           <View style={[styles.avatar, { backgroundColor: theme.secondary }]}>
-            <Ionicons name="happy" size={32} color={theme.primary} />
+            <Text style={{ fontSize: 28 }}>{baby.gender === 'fille' ? '👧' : '👦'}</Text>
           </View>
           <View style={{ flex: 1 }}>
             <Text style={[styles.babyName, { color: theme.primary }]}>
@@ -66,9 +148,18 @@ export default function ProfileScreen() {
             </Text>
             <Text style={[styles.babyGender, { color: theme.textLight }]}>
               {baby.gender === 'fille' ? 'Fille' : 'Garçon'}
+              {baby.birthWeight ? ` — ${baby.birthWeight} kg` : ''}
+              {baby.birthHeight ? ` — ${baby.birthHeight} cm` : ''}
             </Text>
           </View>
         </View>
+        <TouchableOpacity
+          style={[styles.addBabyButton, { borderColor: theme.primary }]}
+          onPress={() => setShowAddBaby(true)}
+        >
+          <Ionicons name="add-circle-outline" size={20} color={theme.primary} />
+          <Text style={[styles.addBabyText, { color: theme.primary }]}>Ajouter un bébé</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Stats */}
@@ -153,6 +244,119 @@ export default function ProfileScreen() {
           <Text style={styles.resetText}>Réinitialiser l'application</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Add baby modal */}
+      <Modal visible={showAddBaby} animationType="slide" transparent>
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.modalHeader}>
+                <Text style={[styles.modalTitle, { color: theme.primary }]}>Nouveau bébé</Text>
+                <TouchableOpacity onPress={() => setShowAddBaby(false)}>
+                  <Ionicons name="close" size={28} color={theme.textLight} />
+                </TouchableOpacity>
+              </View>
+
+              <Text style={[styles.label, { color: theme.text }]}>Prénom *</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
+                value={newName}
+                onChangeText={setNewName}
+                placeholder="Prénom du bébé"
+                placeholderTextColor={theme.textLight}
+              />
+
+              <Text style={[styles.label, { color: theme.text }]}>Date de naissance (AAAA-MM-JJ) *</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
+                value={newBirthDate}
+                onChangeText={setNewBirthDate}
+                placeholder="2025-06-15"
+                placeholderTextColor={theme.textLight}
+                keyboardType="numbers-and-punctuation"
+              />
+
+              <Text style={[styles.label, { color: theme.text }]}>Sexe</Text>
+              <View style={styles.genderRow}>
+                {['fille', 'garçon'].map((g) => (
+                  <TouchableOpacity
+                    key={g}
+                    style={[
+                      styles.genderButton,
+                      {
+                        borderColor: theme.primary,
+                        backgroundColor: newGender === g ? theme.primary + '20' : theme.card,
+                      },
+                    ]}
+                    onPress={() => setNewGender(g)}
+                  >
+                    <Text style={[styles.genderText, { color: theme.primary, fontWeight: newGender === g ? '700' : '500' }]}>
+                      {g.charAt(0).toUpperCase() + g.slice(1)}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <View style={styles.measureRow}>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.label, { color: theme.text }]}>Poids (kg)</Text>
+                  <TextInput
+                    style={[styles.input, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
+                    value={newWeight}
+                    onChangeText={setNewWeight}
+                    placeholder="3.2"
+                    placeholderTextColor={theme.textLight}
+                    keyboardType="decimal-pad"
+                  />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.label, { color: theme.text }]}>Taille (cm)</Text>
+                  <TextInput
+                    style={[styles.input, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
+                    value={newHeight}
+                    onChangeText={setNewHeight}
+                    placeholder="50"
+                    placeholderTextColor={theme.textLight}
+                    keyboardType="decimal-pad"
+                  />
+                </View>
+              </View>
+
+              <Text style={[styles.label, { color: theme.text }]}>Mode d'alimentation *</Text>
+              <View style={styles.methodGrid}>
+                {FEEDING_METHODS.map((m) => (
+                  <TouchableOpacity
+                    key={m.id}
+                    style={[
+                      styles.methodChip,
+                      {
+                        backgroundColor: newMethod === m.id ? theme.primary : theme.card,
+                        borderColor: newMethod === m.id ? theme.primary : theme.border,
+                      },
+                    ]}
+                    onPress={() => setNewMethod(m.id)}
+                  >
+                    <Text style={{ color: newMethod === m.id ? '#fff' : theme.textDark, fontSize: 13, fontWeight: '500' }}>
+                      {m.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <TouchableOpacity
+                style={[
+                  styles.mainButton,
+                  { backgroundColor: (!newName || !newBirthDate || !newMethod) ? theme.textLight : theme.primary },
+                ]}
+                onPress={handleAddBaby}
+                disabled={!newName || !newBirthDate || !newMethod}
+              >
+                <Text style={styles.mainButtonText}>Ajouter ce bébé</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -177,6 +381,30 @@ const styles = StyleSheet.create({
   babyName: { fontSize: 22, fontWeight: '700' },
   babyAge: { fontSize: 14, marginTop: 2 },
   babyGender: { fontSize: 12, marginTop: 2 },
+  addBabyButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 14,
+    paddingVertical: 10,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
+  },
+  addBabyText: { fontSize: 14, fontWeight: '600' },
+  babySelectorItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 12,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    marginBottom: 8,
+  },
+  babySelectorName: { fontSize: 16, fontWeight: '600' },
+  babySelectorAge: { fontSize: 12, marginTop: 2 },
+  miniAvatar: { width: 36, height: 36, borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
   statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   statItem: {
     width: '47%',
@@ -213,4 +441,56 @@ const styles = StyleSheet.create({
     borderRadius: 14,
   },
   resetText: { color: '#fff', fontSize: 15, fontWeight: '600' },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    padding: 24,
+    maxHeight: '90%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  modalTitle: { fontSize: 22, fontWeight: '700' },
+  label: { fontSize: 13, fontWeight: '500', marginBottom: 6, marginTop: 14 },
+  input: {
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderRadius: 12,
+    borderWidth: 2,
+    fontSize: 15,
+  },
+  genderRow: { flexDirection: 'row', gap: 12, marginTop: 4 },
+  genderButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 12,
+    borderWidth: 2,
+    alignItems: 'center',
+  },
+  genderText: { fontSize: 15 },
+  measureRow: { flexDirection: 'row', gap: 12 },
+  methodGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 4 },
+  methodChip: {
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 12,
+    borderWidth: 1.5,
+  },
+  mainButton: {
+    paddingVertical: 16,
+    borderRadius: 16,
+    alignItems: 'center',
+    marginTop: 24,
+    marginBottom: 16,
+  },
+  mainButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
 });
