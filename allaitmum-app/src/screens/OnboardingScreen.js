@@ -20,8 +20,9 @@ export default function OnboardingScreen() {
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [gender, setGender] = useState('fille');
+  const [birthWeight, setBirthWeight] = useState('');
+  const [birthHeight, setBirthHeight] = useState('');
   const [method, setMethod] = useState(null);
-  const [experience, setExperience] = useState(null);
 
   const methods = [
     { id: 'breast', icon: 'heart', label: 'Allaitement au sein', desc: 'Tétées directes' },
@@ -32,15 +33,12 @@ export default function OnboardingScreen() {
     { id: 'transition', icon: 'swap-horizontal', label: 'En transition', desc: 'Ça évolue' },
   ];
 
-  const experiences = [
-    { id: 'first', label: "C'est mon premier bébé" },
-    { id: 'same', label: "Même parcours qu'avant" },
-    { id: 'different', label: 'Parcours différent cette fois' },
-    { id: 'skip', label: 'Je préfère ne pas en parler' },
-  ];
-
-  const handleComplete = (exp) => {
-    completeOnboarding({ name, birthDate, gender }, method, exp);
+  const handleComplete = (selectedMethod) => {
+    completeOnboarding(
+      { name, birthDate, gender, birthWeight: birthWeight ? parseFloat(birthWeight) : null, birthHeight: birthHeight ? parseFloat(birthHeight) : null },
+      selectedMethod,
+      null
+    );
   };
 
   return (
@@ -144,6 +142,37 @@ export default function OnboardingScreen() {
                 ))}
               </View>
 
+              <View style={styles.measureRow}>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.label, { color: theme.text }]}>Poids de naissance (kg)</Text>
+                  <TextInput
+                    style={[
+                      styles.input,
+                      { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark },
+                    ]}
+                    value={birthWeight}
+                    onChangeText={setBirthWeight}
+                    placeholder="3.2"
+                    placeholderTextColor={theme.textLight}
+                    keyboardType="decimal-pad"
+                  />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.label, { color: theme.text }]}>Taille (cm)</Text>
+                  <TextInput
+                    style={[
+                      styles.input,
+                      { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark },
+                    ]}
+                    value={birthHeight}
+                    onChangeText={setBirthHeight}
+                    placeholder="50"
+                    placeholderTextColor={theme.textLight}
+                    keyboardType="decimal-pad"
+                  />
+                </View>
+              </View>
+
               <TouchableOpacity
                 style={[
                   styles.mainButton,
@@ -183,7 +212,7 @@ export default function OnboardingScreen() {
                   ]}
                   onPress={() => {
                     setMethod(m.id);
-                    setTimeout(() => setStep(4), 300);
+                    setTimeout(() => handleComplete(m.id), 300);
                   }}
                 >
                   <Ionicons
@@ -215,48 +244,6 @@ export default function OnboardingScreen() {
           </View>
         )}
 
-        {/* Step 4: Experience */}
-        {step === 4 && (
-          <View style={styles.stepContainer}>
-            <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
-              <Text style={[styles.cardTitle, { color: theme.primary }]}>
-                Une dernière chose...
-              </Text>
-              <Text style={[styles.cardSubtext, { color: theme.text }]}>
-                As-tu vécu d'autres expériences d'alimentation ?
-              </Text>
-              <Text style={[styles.optionalText, { color: theme.text }]}>
-                (Optionnel - pour mieux te comprendre)
-              </Text>
-
-              {experiences.map((exp) => (
-                <TouchableOpacity
-                  key={exp.id}
-                  style={[
-                    styles.expButton,
-                    {
-                      backgroundColor: experience === exp.id ? theme.primary : theme.card,
-                      borderColor: experience === exp.id ? theme.primary : theme.border,
-                    },
-                  ]}
-                  onPress={() => {
-                    setExperience(exp.id);
-                    handleComplete(exp.id);
-                  }}
-                >
-                  <Text
-                    style={[
-                      styles.expText,
-                      { color: experience === exp.id ? '#fff' : theme.textDark },
-                    ]}
-                  >
-                    {exp.label}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-        )}
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -327,13 +314,5 @@ const styles = StyleSheet.create({
   methodLabel: { fontSize: 15, fontWeight: '600', marginBottom: 2 },
   methodDesc: { fontSize: 13 },
   stepIcon: { alignSelf: 'center', marginBottom: 16 },
-  optionalText: { fontSize: 12, fontStyle: 'italic', textAlign: 'center', marginBottom: 16 },
-  expButton: {
-    padding: 16,
-    borderRadius: 16,
-    borderWidth: 2,
-    marginBottom: 8,
-    alignItems: 'center',
-  },
-  expText: { fontSize: 15, fontWeight: '500' },
+  measureRow: { flexDirection: 'row', gap: 12 },
 });

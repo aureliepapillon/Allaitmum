@@ -6,9 +6,8 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isOnboarded, setIsOnboarded] = useState(false);
-  const [baby, setBaby] = useState({ name: '', birthDate: '', gender: 'fille' });
+  const [baby, setBaby] = useState({ name: '', birthDate: '', gender: 'fille', birthWeight: null, birthHeight: null });
   const [feedingMethod, setFeedingMethod] = useState(null);
-  const [experience, setExperience] = useState(null);
 
   // Feeding
   const [feedingSessions, setFeedingSessions] = useState([]);
@@ -35,7 +34,6 @@ export const AppProvider = ({ children }) => {
     const loadAll = async () => {
       const savedBaby = await storage.get('baby');
       const savedMethod = await storage.get('feedingMethod');
-      const savedExperience = await storage.get('experience');
       const savedFeedings = await storage.get('feedingSessions', []);
       const savedDiapers = await storage.get('diaperEntries', []);
       const savedSleep = await storage.get('sleepSessions', []);
@@ -46,7 +44,6 @@ export const AppProvider = ({ children }) => {
       if (savedBaby && savedMethod) {
         setBaby(savedBaby);
         setFeedingMethod(savedMethod);
-        setExperience(savedExperience);
         setIsOnboarded(true);
       }
 
@@ -86,21 +83,18 @@ export const AppProvider = ({ children }) => {
     if (!isLoading) storage.set('growthEntries', growthEntries);
   }, [growthEntries]);
 
-  const completeOnboarding = async (babyData, method, exp) => {
+  const completeOnboarding = async (babyData, method) => {
     setBaby(babyData);
     setFeedingMethod(method);
-    setExperience(exp);
     await storage.set('baby', babyData);
     await storage.set('feedingMethod', method);
-    await storage.set('experience', exp);
     setIsOnboarded(true);
   };
 
   const resetApp = async () => {
     await storage.clear();
-    setBaby({ name: '', birthDate: '', gender: 'fille' });
+    setBaby({ name: '', birthDate: '', gender: 'fille', birthWeight: null, birthHeight: null });
     setFeedingMethod(null);
-    setExperience(null);
     setFeedingSessions([]);
     setActiveFeeding(null);
     setDiaperEntries([]);
@@ -180,7 +174,6 @@ export const AppProvider = ({ children }) => {
         isOnboarded,
         baby,
         feedingMethod,
-        experience,
         completeOnboarding,
         resetApp,
         // Feeding
