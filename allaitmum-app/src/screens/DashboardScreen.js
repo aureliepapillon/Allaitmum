@@ -474,8 +474,8 @@ const styles = StyleSheet.create({
   },
   cardHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 16 },
   cardTitle: { fontSize: 20, fontWeight: '600', marginBottom: 12 },
-  badge: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, color: '#fff', fontSize: 12, fontWeight: '700', overflow: 'hidden' },
-  timer: { fontSize: 56, fontWeight: '700', textAlign: 'center', fontVariant: ['tabular-nums'], marginVertical: 8 },
+  badge: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, color: '#fff', fontSize: 12, fontWeight: '700' },
+  timer: { fontSize: 56, fontWeight: '700', textAlign: 'center', marginVertical: 8 },
   timerSub: { fontSize: 13, textAlign: 'center', marginBottom: 16 },
   mainButton: {
     flexDirection: 'row',
