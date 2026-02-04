@@ -183,7 +183,7 @@ export default function DashboardScreen() {
                 <Text style={[styles.toolLabel, { color: '#E57373' }]}>Sein D</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.toolBtn, { backgroundColor: '#E3F2FD' }]} onPress={() => startFeeding('none', 'bottle')}>
-                <Ionicons name="flask" size={28} color="#42A5F5" />
+                <Text style={styles.toolEmoji}>🍼</Text>
                 <Text style={[styles.toolLabel, { color: '#42A5F5' }]}>Biberon</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.toolBtn, { backgroundColor: '#E8F5E9' }]} onPress={() => startFeeding('both', 'pump-double')}>
@@ -463,6 +463,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   toolLabel: { fontSize: 13, fontWeight: '600' },
+  toolEmoji: { fontSize: 26 },
 
   // Active session
   activeSession: { alignItems: 'center', paddingVertical: 8 },
