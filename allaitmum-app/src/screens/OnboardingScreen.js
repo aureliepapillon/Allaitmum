@@ -12,59 +12,7 @@ import {
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 import { Ionicons } from '@expo/vector-icons';
-
-function LionMascot({ size = 120 }) {
-  return (
-    <View style={[lionStyles.container, { width: size, height: size }]}>
-      {/* Mane */}
-      <View style={[lionStyles.mane, { width: size, height: size, borderRadius: size / 2 }]} />
-      {/* Face */}
-      <View style={[lionStyles.face, { width: size * 0.72, height: size * 0.72, borderRadius: (size * 0.72) / 2 }]}>
-        {/* Eyes */}
-        <View style={lionStyles.eyesRow}>
-          <View style={lionStyles.eye}>
-            <View style={lionStyles.pupil} />
-          </View>
-          <View style={lionStyles.eye}>
-            <View style={lionStyles.pupil} />
-          </View>
-        </View>
-        {/* Nose */}
-        <View style={lionStyles.nose} />
-        {/* Mouth */}
-        <View style={lionStyles.mouthRow}>
-          <View style={lionStyles.mouthLeft} />
-          <View style={lionStyles.mouthRight} />
-        </View>
-        {/* Cheeks */}
-        <View style={[lionStyles.cheek, lionStyles.cheekLeft]} />
-        <View style={[lionStyles.cheek, lionStyles.cheekRight]} />
-      </View>
-      {/* Ears */}
-      <View style={[lionStyles.ear, lionStyles.earLeft]} />
-      <View style={[lionStyles.ear, lionStyles.earRight]} />
-    </View>
-  );
-}
-
-const lionStyles = StyleSheet.create({
-  container: { alignItems: 'center', justifyContent: 'center', marginBottom: 8 },
-  mane: { position: 'absolute', backgroundColor: '#D4956E' },
-  face: { backgroundColor: '#FCEBD5', alignItems: 'center', justifyContent: 'center', zIndex: 1 },
-  eyesRow: { flexDirection: 'row', gap: 18, marginBottom: 4, marginTop: -8 },
-  eye: { width: 16, height: 16, borderRadius: 8, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' },
-  pupil: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#3D2C2C' },
-  nose: { width: 14, height: 10, borderRadius: 7, backgroundColor: '#AB7058', marginBottom: 2 },
-  mouthRow: { flexDirection: 'row', gap: 1 },
-  mouthLeft: { width: 10, height: 6, borderBottomLeftRadius: 8, borderBottomColor: '#AB7058', borderBottomWidth: 2, borderLeftColor: '#AB7058', borderLeftWidth: 2 },
-  mouthRight: { width: 10, height: 6, borderBottomRightRadius: 8, borderBottomColor: '#AB7058', borderBottomWidth: 2, borderRightColor: '#AB7058', borderRightWidth: 2 },
-  cheek: { position: 'absolute', width: 14, height: 10, borderRadius: 7, backgroundColor: '#F5C3A8', bottom: 22 },
-  cheekLeft: { left: 10 },
-  cheekRight: { right: 10 },
-  ear: { position: 'absolute', width: 24, height: 24, borderRadius: 12, backgroundColor: '#D4956E', top: 4, zIndex: 0 },
-  earLeft: { left: 8 },
-  earRight: { right: 8 },
-});
+import LionMascot from '../components/LionMascot';
 
 export default function OnboardingScreen() {
   const { theme } = useTheme();

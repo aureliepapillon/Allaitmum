@@ -7,25 +7,34 @@ import {
   StyleSheet,
   Alert,
   TextInput,
+  Modal,
+  Linking,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
-import { formatTime, formatTimeOfDay, todayString } from '../utils/helpers';
+import { formatTime, formatTimeOfDay, todayString, getBabyAge } from '../utils/helpers';
+import { getTipOfTheWeek } from '../data/tips';
+import { getDevelopmentInfo } from '../data/development';
+import LionMascot from '../components/LionMascot';
 
 export default function DashboardScreen() {
   const { theme } = useTheme();
   const {
-    baby, feedingMethod,
+    baby, babies, activeBabyId, switchBaby, feedingMethod,
     feedingSessions, setFeedingSessions, activeFeeding, startFeeding, stopFeeding, cancelFeeding,
     diaperEntries, setDiaperEntries, addDiaper,
     sleepSessions, setSleepSessions, activeSleep, startSleep, stopSleep, cancelSleep,
   } = useApp();
 
-  const [subTab, setSubTab] = useState('feeding');
+  const [showMenu, setShowMenu] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [sleepElapsed, setSleepElapsed] = useState(0);
   const [pumpVolume, setPumpVolume] = useState('');
+  const [sleepType, setSleepType] = useState(null); // 'sieste' or 'dodo'
+
+  const tip = getTipOfTheWeek();
+  const devInfo = getDevelopmentInfo(baby.birthDate);
 
   // Feeding timer
   useEffect(() => {
@@ -51,54 +60,13 @@ export default function DashboardScreen() {
     }
   }, [activeSleep]);
 
-  const showBreast = ['breast', 'mixed'].includes(feedingMethod);
-  const showPump = ['pump', 'mixed'].includes(feedingMethod);
-  const showBottle = ['bottle-bm', 'bottle-formula', 'mixed', 'transition'].includes(feedingMethod);
+  // Today's entries
+  const todaySessions = feedingSessions.filter((s) => s.startTime?.startsWith(todayString()) && (!s.babyId || s.babyId === activeBabyId));
+  const todayDiapers = diaperEntries.filter((d) => d.timestamp?.startsWith(todayString()) && (!d.babyId || d.babyId === activeBabyId));
+  const todaySleep = sleepSessions.filter((s) => s.startTime?.startsWith(todayString()) && (!s.babyId || s.babyId === activeBabyId));
 
-  const getSessionLabel = (s) => {
-    if (s.type === 'bottle') return 'Biberon';
-    if (s.type === 'pump-double') return 'Tire-lait double';
-    if (s.type === 'pump') return s.side === 'left' ? 'Tire-lait G' : 'Tire-lait D';
-    if (s.type === 'breast') return s.side === 'left' ? 'Sein G' : 'Sein D';
-    return 'Session';
-  };
-
-  const getSessionIcon = (s) => {
-    if (s.type === 'bottle') return 'flask';
-    if (s.type?.startsWith('pump')) return 'water';
-    return 'heart';
-  };
-
-  const todaySessions = feedingSessions.filter(
-    (s) => s.startTime?.startsWith(todayString())
-  );
-  const todayDiapers = diaperEntries.filter(
-    (d) => d.timestamp?.startsWith(todayString())
-  );
-  const todaySleep = sleepSessions.filter(
-    (s) => s.startTime?.startsWith(todayString())
-  );
-
-  const deleteFeeding = (id) => {
-    Alert.alert('Supprimer', 'Supprimer cette session ?', [
-      { text: 'Annuler', style: 'cancel' },
-      { text: 'Supprimer', style: 'destructive', onPress: () => setFeedingSessions((prev) => prev.filter((s) => s.id !== id)) },
-    ]);
-  };
-
-  const deleteDiaper = (id) => {
-    Alert.alert('Supprimer', 'Supprimer ce change ?', [
-      { text: 'Annuler', style: 'cancel' },
-      { text: 'Supprimer', style: 'destructive', onPress: () => setDiaperEntries((prev) => prev.filter((d) => d.id !== id)) },
-    ]);
-  };
-
-  const deleteSleep = (id) => {
-    Alert.alert('Supprimer', 'Supprimer ce dodo ?', [
-      { text: 'Annuler', style: 'cancel' },
-      { text: 'Supprimer', style: 'destructive', onPress: () => setSleepSessions((prev) => prev.filter((s) => s.id !== id)) },
-    ]);
-  };
+  const totalFeedingMins = Math.floor(todaySessions.reduce((acc, s) => acc + (s.duration || 0), 0) / 60);
+  const totalSleepMins = Math.floor(todaySleep.reduce((acc, s) => acc + (s.duration || 0), 0) / 60);
 
   const handleStopFeeding = () => {
     const vol = pumpVolume ? parseInt(pumpVolume, 10) : null;
@@ -106,67 +74,81 @@ export default function DashboardScreen() {
     setPumpVolume('');
   };
 
-  const subTabs = [
-    { id: 'feeding', icon: 'heart', label: 'Tétées' },
-    { id: 'diapers', icon: 'water-outline', label: 'Couches' },
-    { id: 'sleep', icon: 'moon', label: 'Sommeil' },
-  ];
+  const handleStartSleep = (type) => {
+    setSleepType(type);
+    startSleep();
+  };
+
+  const deleteEntry = (type, id) => {
+    Alert.alert('Supprimer', 'Supprimer cet enregistrement ?', [
+      { text: 'Annuler', style: 'cancel' },
+      {
+        text: 'Supprimer',
+        style: 'destructive',
+        onPress: () => {
+          if (type === 'feeding') setFeedingSessions((prev) => prev.filter((s) => s.id !== id));
+          if (type === 'diaper') setDiaperEntries((prev) => prev.filter((d) => d.id !== id));
+          if (type === 'sleep') setSleepSessions((prev) => prev.filter((s) => s.id !== id));
+        },
+      },
+    ]);
+  };
+
+  const getSessionLabel = (s) => {
+    if (s.type === 'bottle') return 'Biberon';
+    if (s.type === 'pump-double') return 'Double pompage';
+    if (s.type === 'pump') return s.side === 'left' ? 'Tire-lait G' : 'Tire-lait D';
+    if (s.type === 'breast') return s.side === 'left' ? 'Sein G' : 'Sein D';
+    return 'Session';
+  };
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: theme.background }]}
-      contentContainerStyle={styles.content}
-      showsVerticalScrollIndicator={false}
-    >
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
-      <Text style={[styles.greeting, { color: theme.primary }]}>Bonjour</Text>
-      <Text style={[styles.subtitle, { color: theme.text }]}>
-        Tu fais du super boulot avec {baby.name}
-      </Text>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.menuButton} onPress={() => setShowMenu(true)}>
+          <Ionicons name="menu" size={28} color={theme.primary} />
+        </TouchableOpacity>
 
-      {/* Sub-tabs */}
-      <View style={styles.subTabRow}>
-        {subTabs.map((t) => (
-          <TouchableOpacity
-            key={t.id}
-            style={[
-              styles.subTab,
-              {
-                backgroundColor: subTab === t.id ? theme.primary : theme.card,
-                borderColor: theme.primary,
-              },
-            ]}
-            onPress={() => setSubTab(t.id)}
-          >
-            <Ionicons
-              name={t.icon}
-              size={16}
-              color={subTab === t.id ? '#fff' : theme.primary}
-            />
-            <Text
-              style={[
-                styles.subTabText,
-                { color: subTab === t.id ? '#fff' : theme.primary },
-              ]}
-            >
-              {t.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
+        <View style={styles.headerCenter}>
+          <LionMascot size={60} />
+          <Text style={[styles.babyName, { color: theme.primary }]}>{baby.name || 'Bébé'}</Text>
+          <Text style={[styles.babyAge, { color: theme.text }]}>{getBabyAge(baby.birthDate)}</Text>
+        </View>
+
+        <View style={{ width: 40 }} />
       </View>
 
-      {/* =================== FEEDING TAB =================== */}
-      {subTab === 'feeding' && (
-        <View>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+
+        {/* ========== TRACKING TOOLS ========== */}
+
+        {/* Active session banner */}
+        {(activeFeeding || activeSleep) && (
+          <View style={[styles.activeBanner, { backgroundColor: theme.primary }]}>
+            <Ionicons name={activeFeeding ? 'heart' : 'moon'} size={20} color="#fff" />
+            <Text style={styles.activeBannerText}>
+              {activeFeeding ? 'Tétée en cours' : (sleepType === 'sieste' ? 'Sieste' : 'Dodo')} — {formatTime(activeFeeding ? elapsed : sleepElapsed)}
+            </Text>
+            <TouchableOpacity onPress={activeFeeding ? handleStopFeeding : stopSleep}>
+              <Ionicons name="stop-circle" size={24} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {/* Alimentation */}
+        <View style={[styles.sectionCard, { backgroundColor: theme.card }]}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="restaurant" size={20} color={theme.primary} />
+            <Text style={[styles.sectionTitle, { color: theme.primary }]}>Alimentation</Text>
+          </View>
+
           {activeFeeding ? (
-            <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.primary + '30' }]}>
-              <Text style={[styles.cardTitle, { color: theme.primary }]}>Session en cours</Text>
+            <View style={styles.activeSession}>
               <Text style={[styles.timer, { color: theme.primary }]}>{formatTime(elapsed)}</Text>
               <Text style={[styles.timerSub, { color: theme.text }]}>
                 Début : {formatTimeOfDay(activeFeeding.startTime)}
               </Text>
-
-              {/* Volume input for pump */}
               {activeFeeding.type?.startsWith('pump') && (
                 <View style={styles.volumeRow}>
                   <Text style={[styles.label, { color: theme.text }]}>Volume (ml) :</Text>
@@ -175,380 +157,392 @@ export default function DashboardScreen() {
                     value={pumpVolume}
                     onChangeText={setPumpVolume}
                     keyboardType="numeric"
-                    placeholder="ex: 120"
+                    placeholder="120"
                     placeholderTextColor={theme.textLight}
                   />
                 </View>
               )}
-
-              <TouchableOpacity
-                style={[styles.mainButton, { backgroundColor: theme.primary }]}
-                onPress={handleStopFeeding}
-              >
-                <Ionicons name="stop-circle" size={20} color="#fff" />
-                <Text style={styles.mainButtonText}>Terminer</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.cancelButton, { borderColor: theme.primary }]}
-                onPress={cancelFeeding}
-              >
-                <Text style={[styles.cancelText, { color: theme.primary }]}>Annuler</Text>
-              </TouchableOpacity>
+              <View style={styles.actionRow}>
+                <TouchableOpacity style={[styles.actionBtn, { backgroundColor: theme.primary }]} onPress={handleStopFeeding}>
+                  <Ionicons name="checkmark" size={20} color="#fff" />
+                  <Text style={styles.actionBtnText}>Terminer</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.actionBtnOutline, { borderColor: theme.textLight }]} onPress={cancelFeeding}>
+                  <Text style={[styles.actionBtnOutlineText, { color: theme.textLight }]}>Annuler</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ) : (
-            <View style={[styles.card, { backgroundColor: theme.card }]}>
-              <Text style={[styles.cardTitle, { color: theme.primary }]}>Nouvelle session</Text>
-
-              {showBreast && (
-                <View style={styles.section}>
-                  <Text style={[styles.sectionLabel, { color: theme.text }]}>Tétée au sein</Text>
-                  <View style={styles.buttonRow}>
-                    <TouchableOpacity
-                      style={[styles.bigButton, { backgroundColor: theme.secondary }]}
-                      onPress={() => startFeeding('left', 'breast')}
-                    >
-                      <Ionicons name="heart" size={32} color={theme.primary} />
-                      <Text style={[styles.bigButtonText, { color: theme.primary }]}>Gauche</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[styles.bigButton, { backgroundColor: theme.secondary }]}
-                      onPress={() => startFeeding('right', 'breast')}
-                    >
-                      <Ionicons name="heart" size={32} color={theme.primary} />
-                      <Text style={[styles.bigButtonText, { color: theme.primary }]}>Droit</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              )}
-
-              {showPump && (
-                <View style={styles.section}>
-                  <Text style={[styles.sectionLabel, { color: theme.text }]}>Tire-lait</Text>
-                  <View style={styles.buttonRow}>
-                    <TouchableOpacity
-                      style={[styles.bigButton, { backgroundColor: theme.secondaryLight }]}
-                      onPress={() => startFeeding('left', 'pump')}
-                    >
-                      <Ionicons name="water" size={32} color={theme.primary} />
-                      <Text style={[styles.bigButtonText, { color: theme.primary }]}>Gauche</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[styles.bigButton, { backgroundColor: theme.secondaryLight }]}
-                      onPress={() => startFeeding('right', 'pump')}
-                    >
-                      <Ionicons name="water" size={32} color={theme.primary} />
-                      <Text style={[styles.bigButtonText, { color: theme.primary }]}>Droit</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <TouchableOpacity
-                    style={[styles.doubleButton, { backgroundColor: theme.primary + '15', borderColor: theme.primary }]}
-                    onPress={() => startFeeding('both', 'pump-double')}
-                  >
-                    <Ionicons name="water" size={24} color={theme.primary} />
-                    <Text style={[styles.doubleButtonText, { color: theme.primary }]}>Double pompage</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-
-              {showBottle && (
-                <View style={styles.section}>
-                  <Text style={[styles.sectionLabel, { color: theme.text }]}>Biberon</Text>
-                  <TouchableOpacity
-                    style={[styles.bigButton, { backgroundColor: theme.secondary, width: '100%' }]}
-                    onPress={() => startFeeding('none', 'bottle')}
-                  >
-                    <Ionicons name="flask" size={32} color={theme.primary} />
-                    <Text style={[styles.bigButtonText, { color: theme.primary }]}>Biberon</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
+            <View style={styles.toolGrid}>
+              <TouchableOpacity style={[styles.toolBtn, { backgroundColor: '#FFEBEE' }]} onPress={() => startFeeding('left', 'breast')}>
+                <Ionicons name="heart" size={28} color="#E57373" />
+                <Text style={[styles.toolLabel, { color: '#E57373' }]}>Sein G</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.toolBtn, { backgroundColor: '#FFEBEE' }]} onPress={() => startFeeding('right', 'breast')}>
+                <Ionicons name="heart" size={28} color="#E57373" />
+                <Text style={[styles.toolLabel, { color: '#E57373' }]}>Sein D</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.toolBtn, { backgroundColor: '#E3F2FD' }]} onPress={() => startFeeding('none', 'bottle')}>
+                <Ionicons name="flask" size={28} color="#42A5F5" />
+                <Text style={[styles.toolLabel, { color: '#42A5F5' }]}>Biberon</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.toolBtn, { backgroundColor: '#E8F5E9' }]} onPress={() => startFeeding('both', 'pump-double')}>
+                <Ionicons name="water" size={28} color="#66BB6A" />
+                <Text style={[styles.toolLabel, { color: '#66BB6A' }]}>Tire-lait</Text>
+              </TouchableOpacity>
             </View>
           )}
-
-          {/* Today's feeding sessions */}
-          <View style={[styles.card, { backgroundColor: theme.card }]}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="time" size={18} color={theme.primary} />
-              <Text style={[styles.cardTitle, { color: theme.primary, marginBottom: 0 }]}>Aujourd'hui</Text>
-              <Text style={[styles.badge, { backgroundColor: theme.primary }]}>{todaySessions.length}</Text>
-            </View>
-            {todaySessions.length === 0 ? (
-              <View style={styles.emptyState}>
-                <Ionicons name="moon" size={40} color={theme.textLight} />
-                <Text style={[styles.emptyText, { color: theme.text }]}>Aucune session aujourd'hui</Text>
-              </View>
-            ) : (
-              todaySessions.slice(0, 8).map((s) => (
-                <View key={s.id} style={[styles.historyItem, { backgroundColor: theme.secondary + '40' }]}>
-                  <Ionicons name={getSessionIcon(s)} size={18} color={theme.primary} />
-                  <View style={styles.historyContent}>
-                    <Text style={[styles.historyTime, { color: theme.primary }]}>
-                      {formatTimeOfDay(s.startTime)}
-                    </Text>
-                    <Text style={[styles.historyLabel, { color: theme.text }]}>
-                      {getSessionLabel(s)} - {Math.floor(s.duration / 60)} min
-                      {s.volumeMl ? ` - ${s.volumeMl} ml` : ''}
-                    </Text>
-                  </View>
-                  <TouchableOpacity onPress={() => deleteFeeding(s.id)}>
-                    <Ionicons name="trash-outline" size={18} color={theme.danger} />
-                  </TouchableOpacity>
-                </View>
-              ))
-            )}
-          </View>
         </View>
-      )}
 
-      {/* =================== DIAPERS TAB =================== */}
-      {subTab === 'diapers' && (
-        <View>
-          <View style={[styles.card, { backgroundColor: theme.card }]}>
-            <Text style={[styles.cardTitle, { color: theme.primary }]}>Nouveau change</Text>
-            <View style={styles.diaperRow}>
-              <TouchableOpacity
-                style={[styles.diaperButton, { backgroundColor: '#E3F2FD' }]}
-                onPress={() => addDiaper('pipi')}
-              >
-                <Ionicons name="water" size={32} color="#42A5F5" />
-                <Text style={[styles.diaperLabel, { color: '#42A5F5' }]}>Pipi</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.diaperButton, { backgroundColor: '#FFF3E0' }]}
-                onPress={() => addDiaper('caca')}
-              >
-                <Ionicons name="ellipse" size={32} color="#FF9800" />
-                <Text style={[styles.diaperLabel, { color: '#FF9800' }]}>Caca</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.diaperButton, { backgroundColor: '#F3E5F5' }]}
-                onPress={() => addDiaper('mixte')}
-              >
-                <Ionicons name="git-merge" size={32} color="#AB47BC" />
-                <Text style={[styles.diaperLabel, { color: '#AB47BC' }]}>Mixte</Text>
-              </TouchableOpacity>
-            </View>
+        {/* Sommeil */}
+        <View style={[styles.sectionCard, { backgroundColor: theme.card }]}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="moon" size={20} color={theme.primary} />
+            <Text style={[styles.sectionTitle, { color: theme.primary }]}>Sommeil</Text>
           </View>
 
-          <View style={[styles.card, { backgroundColor: theme.card }]}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="time" size={18} color={theme.primary} />
-              <Text style={[styles.cardTitle, { color: theme.primary, marginBottom: 0 }]}>Aujourd'hui</Text>
-              <Text style={[styles.badge, { backgroundColor: theme.primary }]}>{todayDiapers.length}</Text>
-            </View>
-            {todayDiapers.length === 0 ? (
-              <View style={styles.emptyState}>
-                <Ionicons name="happy" size={40} color={theme.textLight} />
-                <Text style={[styles.emptyText, { color: theme.text }]}>Aucun change aujourd'hui</Text>
-              </View>
-            ) : (
-              todayDiapers.slice(0, 10).map((d) => (
-                <View key={d.id} style={[styles.historyItem, { backgroundColor: theme.secondary + '40' }]}>
-                  <Ionicons
-                    name={d.type === 'pipi' ? 'water' : d.type === 'caca' ? 'ellipse' : 'git-merge'}
-                    size={18}
-                    color={d.type === 'pipi' ? '#42A5F5' : d.type === 'caca' ? '#FF9800' : '#AB47BC'}
-                  />
-                  <View style={styles.historyContent}>
-                    <Text style={[styles.historyTime, { color: theme.primary }]}>
-                      {formatTimeOfDay(d.timestamp)}
-                    </Text>
-                    <Text style={[styles.historyLabel, { color: theme.text }]}>
-                      {d.type.charAt(0).toUpperCase() + d.type.slice(1)}
-                    </Text>
-                  </View>
-                  <TouchableOpacity onPress={() => deleteDiaper(d.id)}>
-                    <Ionicons name="trash-outline" size={18} color={theme.danger} />
-                  </TouchableOpacity>
-                </View>
-              ))
-            )}
-          </View>
-        </View>
-      )}
-
-      {/* =================== SLEEP TAB =================== */}
-      {subTab === 'sleep' && (
-        <View>
           {activeSleep ? (
-            <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.primary + '30' }]}>
-              <Text style={[styles.cardTitle, { color: theme.primary }]}>Dodo en cours</Text>
-              <Ionicons name="moon" size={40} color={theme.primary} style={{ alignSelf: 'center', marginBottom: 8 }} />
+            <View style={styles.activeSession}>
+              <View style={styles.sleepIconRow}>
+                {sleepType === 'sieste' ? (
+                  <Text style={styles.sleepEmoji}>🌤️</Text>
+                ) : (
+                  <Text style={styles.sleepEmoji}>🌙</Text>
+                )}
+              </View>
               <Text style={[styles.timer, { color: theme.primary }]}>{formatTime(sleepElapsed)}</Text>
               <Text style={[styles.timerSub, { color: theme.text }]}>
-                Endormi(e) à {formatTimeOfDay(activeSleep.startTime)}
+                {sleepType === 'sieste' ? 'Sieste' : 'Dodo'} depuis {formatTimeOfDay(activeSleep.startTime)}
               </Text>
-              <TouchableOpacity
-                style={[styles.mainButton, { backgroundColor: theme.primary }]}
-                onPress={stopSleep}
-              >
-                <Ionicons name="sunny" size={20} color="#fff" />
-                <Text style={styles.mainButtonText}>Réveillé(e) !</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.cancelButton, { borderColor: theme.primary }]}
-                onPress={cancelSleep}
-              >
-                <Text style={[styles.cancelText, { color: theme.primary }]}>Annuler</Text>
-              </TouchableOpacity>
+              <View style={styles.actionRow}>
+                <TouchableOpacity style={[styles.actionBtn, { backgroundColor: theme.primary }]} onPress={stopSleep}>
+                  <Ionicons name="sunny" size={20} color="#fff" />
+                  <Text style={styles.actionBtnText}>Réveillé(e) !</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.actionBtnOutline, { borderColor: theme.textLight }]} onPress={cancelSleep}>
+                  <Text style={[styles.actionBtnOutlineText, { color: theme.textLight }]}>Annuler</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ) : (
-            <View style={[styles.card, { backgroundColor: theme.card }]}>
-              <Text style={[styles.cardTitle, { color: theme.primary }]}>Sommeil</Text>
+            <View style={styles.sleepButtons}>
               <TouchableOpacity
-                style={[styles.bigButton, { backgroundColor: theme.secondary, width: '100%', paddingVertical: 28 }]}
-                onPress={startSleep}
+                style={[styles.sleepBtn, { backgroundColor: '#FFF8E1' }]}
+                onPress={() => handleStartSleep('sieste')}
               >
-                <Ionicons name="moon" size={40} color={theme.primary} />
-                <Text style={[styles.bigButtonText, { color: theme.primary, fontSize: 18 }]}>
-                  {baby.name} s'endort
-                </Text>
+                <Text style={styles.sleepBtnEmoji}>🌤️</Text>
+                <Text style={[styles.sleepBtnLabel, { color: '#FFA000' }]}>Sieste</Text>
+                <Text style={[styles.sleepBtnSub, { color: '#FFA000' }]}>Journée</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.sleepBtn, { backgroundColor: '#E8EAF6' }]}
+                onPress={() => handleStartSleep('dodo')}
+              >
+                <Text style={styles.sleepBtnEmoji}>🌙</Text>
+                <Text style={[styles.sleepBtnLabel, { color: '#5C6BC0' }]}>Dodo</Text>
+                <Text style={[styles.sleepBtnSub, { color: '#5C6BC0' }]}>Nuit</Text>
               </TouchableOpacity>
             </View>
           )}
+        </View>
 
-          <View style={[styles.card, { backgroundColor: theme.card }]}>
-            <View style={styles.cardHeader}>
-              <Ionicons name="time" size={18} color={theme.primary} />
-              <Text style={[styles.cardTitle, { color: theme.primary, marginBottom: 0 }]}>Aujourd'hui</Text>
-              <Text style={[styles.badge, { backgroundColor: theme.primary }]}>{todaySleep.length}</Text>
-            </View>
-            {todaySleep.length === 0 ? (
-              <View style={styles.emptyState}>
-                <Ionicons name="sunny" size={40} color={theme.textLight} />
-                <Text style={[styles.emptyText, { color: theme.text }]}>Aucun dodo enregistré</Text>
-              </View>
-            ) : (
-              todaySleep.slice(0, 8).map((s) => (
-                <View key={s.id} style={[styles.historyItem, { backgroundColor: theme.secondary + '40' }]}>
-                  <Ionicons name="moon" size={18} color={theme.primary} />
-                  <View style={styles.historyContent}>
-                    <Text style={[styles.historyTime, { color: theme.primary }]}>
-                      {formatTimeOfDay(s.startTime)}
-                    </Text>
-                    <Text style={[styles.historyLabel, { color: theme.text }]}>
-                      {Math.floor(s.duration / 3600)}h{Math.floor((s.duration % 3600) / 60).toString().padStart(2, '0')} de dodo
-                    </Text>
-                  </View>
-                  <TouchableOpacity onPress={() => deleteSleep(s.id)}>
-                    <Ionicons name="trash-outline" size={18} color={theme.danger} />
-                  </TouchableOpacity>
-                </View>
-              ))
-            )}
+        {/* Couches */}
+        <View style={[styles.sectionCard, { backgroundColor: theme.card }]}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="layers" size={20} color={theme.primary} />
+            <Text style={[styles.sectionTitle, { color: theme.primary }]}>Couches</Text>
+          </View>
+          <View style={styles.diaperGrid}>
+            <TouchableOpacity style={[styles.diaperBtn, { backgroundColor: '#E3F2FD' }]} onPress={() => addDiaper('pipi')}>
+              <Ionicons name="water" size={28} color="#42A5F5" />
+              <Text style={[styles.diaperLabel, { color: '#42A5F5' }]}>Pipi</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.diaperBtn, { backgroundColor: '#FFF3E0' }]} onPress={() => addDiaper('caca')}>
+              <Text style={styles.diaperEmoji}>💩</Text>
+              <Text style={[styles.diaperLabel, { color: '#FF9800' }]}>Caca</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.diaperBtn, { backgroundColor: '#F3E5F5' }]} onPress={() => addDiaper('mixte')}>
+              <Ionicons name="git-merge" size={28} color="#AB47BC" />
+              <Text style={[styles.diaperLabel, { color: '#AB47BC' }]}>Mixte</Text>
+            </TouchableOpacity>
           </View>
         </View>
-      )}
-    </ScrollView>
+
+        {/* ========== TIP OF THE WEEK ========== */}
+        <View style={[styles.tipCard, { backgroundColor: theme.secondary + '40', borderColor: theme.primary + '30' }]}>
+          <View style={styles.tipHeader}>
+            <Ionicons name="bulb" size={20} color={theme.primary} />
+            <Text style={[styles.tipTitle, { color: theme.primary }]}>Conseil de la semaine</Text>
+          </View>
+          <Text style={[styles.tipText, { color: theme.textDark }]}>{tip.text}</Text>
+          <Text style={[styles.tipSource, { color: theme.textLight }]}>Source : {tip.source}</Text>
+        </View>
+
+        {/* ========== DEVELOPMENT INFO ========== */}
+        <View style={[styles.devCard, { backgroundColor: theme.card }]}>
+          <View style={styles.devHeader}>
+            <Ionicons name={devInfo.icon} size={22} color={theme.primary} />
+            <Text style={[styles.devTitle, { color: theme.primary }]}>{devInfo.title}</Text>
+          </View>
+          <Text style={[styles.devText, { color: theme.text }]}>{devInfo.description}</Text>
+        </View>
+
+        {/* ========== SUMMARY / HISTORY ========== */}
+        <View style={[styles.summaryCard, { backgroundColor: theme.card }]}>
+          <Text style={[styles.summaryTitle, { color: theme.primary }]}>Résumé du jour</Text>
+          <View style={styles.summaryRow}>
+            <View style={styles.summaryItem}>
+              <Ionicons name="heart" size={18} color="#E57373" />
+              <Text style={[styles.summaryValue, { color: theme.textDark }]}>{todaySessions.length}</Text>
+              <Text style={[styles.summaryLabel, { color: theme.textLight }]}>tétées</Text>
+            </View>
+            <View style={styles.summaryItem}>
+              <Ionicons name="moon" size={18} color="#5C6BC0" />
+              <Text style={[styles.summaryValue, { color: theme.textDark }]}>{totalSleepMins} min</Text>
+              <Text style={[styles.summaryLabel, { color: theme.textLight }]}>sommeil</Text>
+            </View>
+            <View style={styles.summaryItem}>
+              <Ionicons name="layers" size={18} color="#AB47BC" />
+              <Text style={[styles.summaryValue, { color: theme.textDark }]}>{todayDiapers.length}</Text>
+              <Text style={[styles.summaryLabel, { color: theme.textLight }]}>couches</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Recent entries */}
+        <View style={[styles.historyCard, { backgroundColor: theme.card }]}>
+          <Text style={[styles.historyTitle, { color: theme.primary }]}>Dernières entrées</Text>
+          {[...todaySessions.slice(0, 3), ...todayDiapers.slice(0, 2), ...todaySleep.slice(0, 2)]
+            .sort((a, b) => new Date(b.startTime || b.timestamp) - new Date(a.startTime || a.timestamp))
+            .slice(0, 5)
+            .map((entry) => {
+              const isFeeding = entry.type && ['breast', 'bottle', 'pump', 'pump-double'].includes(entry.type);
+              const isDiaper = entry.type && ['pipi', 'caca', 'mixte'].includes(entry.type);
+              const isSleep = entry.duration && !isFeeding;
+
+              return (
+                <View key={entry.id} style={[styles.historyItem, { backgroundColor: theme.secondary + '30' }]}>
+                  <Ionicons
+                    name={isFeeding ? 'heart' : isDiaper ? 'layers' : 'moon'}
+                    size={16}
+                    color={isFeeding ? '#E57373' : isDiaper ? '#AB47BC' : '#5C6BC0'}
+                  />
+                  <Text style={[styles.historyTime, { color: theme.primary }]}>
+                    {formatTimeOfDay(entry.startTime || entry.timestamp)}
+                  </Text>
+                  <Text style={[styles.historyLabel, { color: theme.text }]} numberOfLines={1}>
+                    {isFeeding ? getSessionLabel(entry) : isDiaper ? entry.type : `${Math.floor(entry.duration / 60)} min`}
+                    {entry.volumeMl ? ` — ${entry.volumeMl} ml` : ''}
+                    {isFeeding && entry.duration ? ` — ${Math.floor(entry.duration / 60)} min` : ''}
+                  </Text>
+                  <TouchableOpacity onPress={() => deleteEntry(isFeeding ? 'feeding' : isDiaper ? 'diaper' : 'sleep', entry.id)}>
+                    <Ionicons name="close-circle" size={18} color={theme.textLight} />
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+          {todaySessions.length === 0 && todayDiapers.length === 0 && todaySleep.length === 0 && (
+            <Text style={[styles.emptyText, { color: theme.textLight }]}>Aucune entrée aujourd'hui</Text>
+          )}
+        </View>
+
+      </ScrollView>
+
+      {/* ========== MENU DRAWER ========== */}
+      <Modal visible={showMenu} animationType="fade" transparent>
+        <TouchableOpacity style={styles.menuOverlay} activeOpacity={1} onPress={() => setShowMenu(false)}>
+          <View style={[styles.menuDrawer, { backgroundColor: theme.card }]}>
+            <View style={styles.menuHeader}>
+              <LionMascot size={50} />
+              <Text style={[styles.menuTitle, { color: theme.primary }]}>Menu</Text>
+            </View>
+
+            {/* Baby selector */}
+            {babies.length > 1 && (
+              <View style={styles.menuSection}>
+                <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Mes bébés</Text>
+                {babies.map((b) => (
+                  <TouchableOpacity
+                    key={b.id}
+                    style={[styles.menuItem, b.id === activeBabyId && { backgroundColor: theme.primary + '15' }]}
+                    onPress={() => { switchBaby(b.id); setShowMenu(false); }}
+                  >
+                    <Text style={{ fontSize: 18 }}>{b.gender === 'fille' ? '👧' : '👦'}</Text>
+                    <Text style={[styles.menuItemText, { color: theme.textDark }]}>{b.name}</Text>
+                    {b.id === activeBabyId && <Ionicons name="checkmark" size={18} color={theme.primary} />}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+
+            <View style={styles.menuSection}>
+              <TouchableOpacity style={styles.menuItem} onPress={() => setShowMenu(false)}>
+                <Ionicons name="person" size={20} color={theme.primary} />
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Profil bébé</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.menuItem}>
+                <Ionicons name="star" size={20} color="#FFB300" />
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Mon abonnement</Text>
+                <View style={[styles.planBadge, { backgroundColor: theme.secondary }]}>
+                  <Text style={[styles.planBadgeText, { color: theme.primary }]}>Gratuit</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={[styles.upgradeBtn, { backgroundColor: theme.primary }]}>
+                <Ionicons name="rocket" size={18} color="#fff" />
+                <Text style={styles.upgradeBtnText}>Passer à Premium</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.menuSection}>
+              <TouchableOpacity style={styles.menuItem} onPress={() => Linking.openURL('mailto:support@allaitmum.app')}>
+                <Ionicons name="help-buoy" size={20} color={theme.primary} />
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>SAV / Support</Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity style={styles.closeMenuBtn} onPress={() => setShowMenu(false)}>
+              <Ionicons name="close" size={24} color={theme.textLight} />
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 20, paddingBottom: 100 },
-  greeting: { fontSize: 28, fontWeight: '700', marginBottom: 4 },
-  subtitle: { fontSize: 14, marginBottom: 16 },
-  subTabRow: { flexDirection: 'row', gap: 8, marginBottom: 16 },
-  subTab: {
-    flex: 1,
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
-    paddingVertical: 10,
-    borderRadius: 14,
-    borderWidth: 1.5,
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingTop: 50,
+    paddingBottom: 10,
   },
-  subTabText: { fontSize: 13, fontWeight: '600' },
-  card: {
-    borderRadius: 20,
-    padding: 20,
+  menuButton: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
+  headerCenter: { alignItems: 'center', flex: 1 },
+  babyName: { fontSize: 20, fontWeight: '700', marginTop: 4 },
+  babyAge: { fontSize: 13, marginTop: 2 },
+  scrollContent: { padding: 16, paddingBottom: 100 },
+
+  // Active banner
+  activeBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 12,
+    borderRadius: 14,
     marginBottom: 16,
+  },
+  activeBannerText: { color: '#fff', fontSize: 15, fontWeight: '600', flex: 1, marginLeft: 10 },
+
+  // Section cards
+  sectionCard: {
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
-    borderWidth: 1,
-    borderColor: 'transparent',
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+    elevation: 2,
   },
-  cardHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 16 },
-  cardTitle: { fontSize: 20, fontWeight: '600', marginBottom: 12 },
-  badge: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, color: '#fff', fontSize: 12, fontWeight: '700' },
-  timer: { fontSize: 56, fontWeight: '700', textAlign: 'center', marginVertical: 8 },
-  timerSub: { fontSize: 13, textAlign: 'center', marginBottom: 16 },
-  mainButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingVertical: 16,
-    borderRadius: 16,
-    marginTop: 8,
-  },
-  mainButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
-  cancelButton: {
-    paddingVertical: 12,
+  sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
+  sectionTitle: { fontSize: 17, fontWeight: '600' },
+
+  // Tool grid (feeding)
+  toolGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  toolBtn: {
+    width: '48%',
+    paddingVertical: 18,
     borderRadius: 14,
-    borderWidth: 2,
     alignItems: 'center',
-    marginTop: 8,
+    gap: 6,
   },
-  cancelText: { fontSize: 15, fontWeight: '500' },
-  section: { marginBottom: 16 },
-  sectionLabel: { fontSize: 13, fontWeight: '600', marginBottom: 8 },
-  buttonRow: { flexDirection: 'row', gap: 12 },
-  bigButton: {
-    flex: 1,
-    paddingVertical: 24,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
+  toolLabel: { fontSize: 13, fontWeight: '600' },
+
+  // Active session
+  activeSession: { alignItems: 'center', paddingVertical: 8 },
+  timer: { fontSize: 42, fontWeight: '700' },
+  timerSub: { fontSize: 13, marginTop: 4, marginBottom: 12 },
+  volumeRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 },
+  label: { fontSize: 14 },
+  volumeInput: { width: 80, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 10, borderWidth: 1.5, fontSize: 15, textAlign: 'center' },
+  actionRow: { flexDirection: 'row', gap: 10, marginTop: 8 },
+  actionBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 12, paddingHorizontal: 20, borderRadius: 12 },
+  actionBtnText: { color: '#fff', fontSize: 15, fontWeight: '600' },
+  actionBtnOutline: { paddingVertical: 12, paddingHorizontal: 16, borderRadius: 12, borderWidth: 1.5 },
+  actionBtnOutlineText: { fontSize: 14, fontWeight: '500' },
+
+  // Sleep buttons
+  sleepButtons: { flexDirection: 'row', gap: 12 },
+  sleepBtn: { flex: 1, paddingVertical: 20, borderRadius: 16, alignItems: 'center', gap: 4 },
+  sleepBtnEmoji: { fontSize: 32 },
+  sleepBtnLabel: { fontSize: 16, fontWeight: '700' },
+  sleepBtnSub: { fontSize: 12 },
+  sleepIconRow: { marginBottom: 8 },
+  sleepEmoji: { fontSize: 48 },
+
+  // Diapers
+  diaperGrid: { flexDirection: 'row', gap: 10 },
+  diaperBtn: { flex: 1, paddingVertical: 18, borderRadius: 14, alignItems: 'center', gap: 6 },
+  diaperLabel: { fontSize: 13, fontWeight: '600' },
+  diaperEmoji: { fontSize: 28 },
+
+  // Tip card
+  tipCard: { borderRadius: 16, padding: 16, marginBottom: 12, borderWidth: 1 },
+  tipHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
+  tipTitle: { fontSize: 15, fontWeight: '600' },
+  tipText: { fontSize: 14, lineHeight: 20 },
+  tipSource: { fontSize: 11, marginTop: 8 },
+
+  // Development card
+  devCard: { borderRadius: 16, padding: 16, marginBottom: 12 },
+  devHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
+  devTitle: { fontSize: 15, fontWeight: '600' },
+  devText: { fontSize: 13, lineHeight: 20 },
+
+  // Summary
+  summaryCard: { borderRadius: 16, padding: 16, marginBottom: 12 },
+  summaryTitle: { fontSize: 15, fontWeight: '600', marginBottom: 12 },
+  summaryRow: { flexDirection: 'row', justifyContent: 'space-around' },
+  summaryItem: { alignItems: 'center', gap: 4 },
+  summaryValue: { fontSize: 18, fontWeight: '700' },
+  summaryLabel: { fontSize: 11 },
+
+  // History
+  historyCard: { borderRadius: 16, padding: 16, marginBottom: 12 },
+  historyTitle: { fontSize: 15, fontWeight: '600', marginBottom: 12 },
+  historyItem: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 10, borderRadius: 10, marginBottom: 6 },
+  historyTime: { fontSize: 13, fontWeight: '600', width: 50 },
+  historyLabel: { flex: 1, fontSize: 13 },
+  emptyText: { fontSize: 13, textAlign: 'center', paddingVertical: 12 },
+
+  // Menu drawer
+  menuOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-start' },
+  menuDrawer: {
+    width: '75%',
+    height: '100%',
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 4, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 10,
   },
-  bigButtonText: { fontSize: 15, fontWeight: '600' },
-  doubleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingVertical: 14,
-    borderRadius: 14,
-    borderWidth: 1.5,
-    marginTop: 8,
-  },
-  doubleButtonText: { fontSize: 14, fontWeight: '600' },
-  volumeRow: { flexDirection: 'row', alignItems: 'center', gap: 12, marginVertical: 12 },
-  label: { fontSize: 14, fontWeight: '500' },
-  volumeInput: {
-    flex: 1,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 10,
-    borderWidth: 1.5,
-    fontSize: 15,
-  },
-  emptyState: { alignItems: 'center', paddingVertical: 24, gap: 8 },
-  emptyText: { fontSize: 14 },
-  historyItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    padding: 12,
-    borderRadius: 12,
-    marginBottom: 6,
-  },
-  historyContent: { flex: 1 },
-  historyTime: { fontSize: 14, fontWeight: '600' },
-  historyLabel: { fontSize: 12, marginTop: 2 },
-  diaperRow: { flexDirection: 'row', gap: 12 },
-  diaperButton: {
-    flex: 1,
-    paddingVertical: 24,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-  },
-  diaperLabel: { fontSize: 14, fontWeight: '600' },
+  menuHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 24 },
+  menuTitle: { fontSize: 22, fontWeight: '700' },
+  menuSection: { marginBottom: 20 },
+  menuSectionTitle: { fontSize: 12, fontWeight: '600', marginBottom: 8, textTransform: 'uppercase' },
+  menuItem: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, paddingHorizontal: 8, borderRadius: 10 },
+  menuItemText: { flex: 1, fontSize: 16, fontWeight: '500' },
+  planBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
+  planBadgeText: { fontSize: 12, fontWeight: '600' },
+  upgradeBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 14, borderRadius: 12, marginTop: 8 },
+  upgradeBtnText: { color: '#fff', fontSize: 15, fontWeight: '600' },
+  closeMenuBtn: { position: 'absolute', top: 50, right: 16 },
 });
