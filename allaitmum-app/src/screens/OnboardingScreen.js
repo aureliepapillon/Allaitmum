@@ -101,7 +101,7 @@ export default function OnboardingScreen() {
                 placeholderTextColor={theme.textLight}
               />
 
-              <Text style={[styles.label, { color: theme.text }]}>Date de naissance (AAAA-MM-JJ)</Text>
+              <Text style={[styles.label, { color: theme.text }]}>Date de naissance (JJ/MM/AAAA)</Text>
               <TextInput
                 style={[
                   styles.input,
@@ -109,7 +109,7 @@ export default function OnboardingScreen() {
                 ]}
                 value={birthDate}
                 onChangeText={setBirthDate}
-                placeholder="2025-01-15"
+                placeholder="15/01/2025"
                 placeholderTextColor={theme.textLight}
                 keyboardType="numbers-and-punctuation"
               />
@@ -142,7 +142,7 @@ export default function OnboardingScreen() {
 
               <View style={styles.measureRow}>
                 <View style={{ flex: 1 }}>
-                  <Text style={[styles.label, { color: theme.text }]}>Poids de naissance (kg)</Text>
+                  <Text style={[styles.label, { color: theme.text }]}>Poids bébé (kg)</Text>
                   <TextInput
                     style={[
                       styles.input,
@@ -156,7 +156,7 @@ export default function OnboardingScreen() {
                   />
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={[styles.label, { color: theme.text }]}>Taille (cm)</Text>
+                  <Text style={[styles.label, { color: theme.text }]}>Taille bébé (cm)</Text>
                   <TextInput
                     style={[
                       styles.input,

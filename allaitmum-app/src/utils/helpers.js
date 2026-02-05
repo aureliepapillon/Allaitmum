@@ -4,6 +4,18 @@ export const formatTime = (seconds) => {
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
+// Parse date from DD/MM/YYYY or YYYY-MM-DD format
+export const parseBirthDate = (dateString) => {
+  if (!dateString) return null;
+  // Check if DD/MM/YYYY format
+  if (dateString.includes('/')) {
+    const [day, month, year] = dateString.split('/');
+    return new Date(year, month - 1, day);
+  }
+  // Fallback to YYYY-MM-DD format
+  return new Date(dateString);
+};
+
 export const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('fr-FR', {
     weekday: 'long',
@@ -21,7 +33,8 @@ export const formatTimeOfDay = (dateString) => {
 
 export const getBabyAge = (birthDate) => {
   if (!birthDate) return 'Date non renseignée';
-  const days = Math.floor((new Date() - new Date(birthDate)) / (1000 * 60 * 60 * 24));
+  const parsedDate = parseBirthDate(birthDate);
+  const days = Math.floor((new Date() - parsedDate) / (1000 * 60 * 60 * 24));
   const years = Math.floor(days / 365);
   const months = Math.floor((days % 365) / 30);
   const remainingDays = days % 30;
@@ -36,7 +49,8 @@ export const getBabyAge = (birthDate) => {
 
 export const getBabyAgeInMonths = (birthDate) => {
   if (!birthDate) return 0;
-  const days = Math.floor((new Date() - new Date(birthDate)) / (1000 * 60 * 60 * 24));
+  const parsedDate = parseBirthDate(birthDate);
+  const days = Math.floor((new Date() - parsedDate) / (1000 * 60 * 60 * 24));
   return Math.floor(days / 30.44);
 };
 
