@@ -9,6 +9,7 @@ import {
   TextInput,
   Modal,
   Linking,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -17,6 +18,8 @@ import { formatTime, formatTimeOfDay, todayString, getBabyAge } from '../utils/h
 import { getTipOfTheWeek } from '../data/tips';
 import { getDevelopmentInfo } from '../data/development';
 import LionMascot from '../components/LionMascot';
+
+const dashboardMascot = require('../../assets/dashboard-mascot.png');
 
 export default function DashboardScreen() {
   const { theme } = useTheme();
@@ -120,6 +123,11 @@ export default function DashboardScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+
+        {/* Dashboard mascot - aligned left */}
+        <View style={styles.mascotContainer}>
+          <Image source={dashboardMascot} style={styles.dashboardMascot} resizeMode="contain" />
+        </View>
 
         {/* ========== TRACKING TOOLS ========== */}
 
@@ -427,6 +435,18 @@ const styles = StyleSheet.create({
   babyName: { fontSize: 20, fontWeight: '700', marginTop: 4 },
   babyAge: { fontSize: 13, marginTop: 2 },
   scrollContent: { padding: 16, paddingBottom: 100 },
+
+  // Dashboard mascot
+  mascotContainer: {
+    alignItems: 'flex-start',
+    marginBottom: 16,
+    marginLeft: -8,
+  },
+  dashboardMascot: {
+    width: 200,
+    height: 80,
+    borderRadius: 12,
+  },
 
   // Active banner
   activeBanner: {

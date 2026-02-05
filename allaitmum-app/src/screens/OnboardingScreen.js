@@ -8,11 +8,13 @@ import {
   StyleSheet,
   Platform,
   KeyboardAvoidingView,
+  Image,
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 import { Ionicons } from '@expo/vector-icons';
-import LionMascot from '../components/LionMascot';
+
+const logoImage = require('../../assets/logo-allaitmum.png');
 
 export default function OnboardingScreen() {
   const { theme } = useTheme();
@@ -53,7 +55,7 @@ export default function OnboardingScreen() {
         {/* Step 1: Welcome */}
         {step === 1 && (
           <View style={styles.stepContainer}>
-            <LionMascot size={120} gender={gender} />
+            <Image source={logoImage} style={styles.logo} resizeMode="contain" />
             <Text style={[styles.title, { color: theme.primary }]}>Allait'mum</Text>
 
             <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
@@ -259,6 +261,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
+  logo: { width: 150, height: 150, marginBottom: 16, borderRadius: 20 },
   title: { fontSize: 42, fontWeight: '600', marginBottom: 24 },
   card: {
     width: '100%',
