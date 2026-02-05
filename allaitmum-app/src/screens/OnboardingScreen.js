@@ -30,12 +30,9 @@ export default function OnboardingScreen() {
   const [method, setMethod] = useState(null);
 
   const methods = [
-    { id: 'breast', icon: 'heart', label: 'Allaitement au sein', desc: 'Tétées directes' },
+    { id: 'breast', icon: 'heart', label: 'Allaitement', desc: 'Tétées au sein' },
     { id: 'pump', icon: 'water', label: 'Tire-allaitement', desc: 'Tire-lait + biberon' },
-    { id: 'mixed', icon: 'git-merge', label: 'Mixte', desc: 'Combinaison sein/biberon' },
-    { id: 'bottle-bm', icon: 'flask', label: 'Biberon lait maternel', desc: 'Exclusivement' },
-    { id: 'bottle-formula', icon: 'flask-outline', label: 'Biberon formule', desc: 'Lait infantile' },
-    { id: 'transition', icon: 'swap-horizontal', label: 'En transition', desc: 'Ça évolue' },
+    { id: 'mixed', icon: 'git-merge', label: 'Mixte', desc: 'Combinaison des deux' },
   ];
 
   const handleComplete = (selectedMethod) => {
@@ -82,15 +79,12 @@ export default function OnboardingScreen() {
         {/* Step 2: Baby info */}
         {step === 2 && (
           <View style={styles.stepContainer}>
-            <View style={styles.mascotRow}>
-              <Image source={dashboardMascot} style={styles.stepMascot} resizeMode="contain" />
-            </View>
             <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
               <Text style={[styles.cardTitle, { color: theme.primary }]}>
                 Trop contente de te voir ici !
               </Text>
 
-              <Text style={[styles.label, { color: theme.text }]}>Ton prénom (à toi maman)</Text>
+              <Text style={[styles.label, { color: theme.text }]}>Ton prénom</Text>
               <TextInput
                 style={[
                   styles.input,
@@ -114,7 +108,7 @@ export default function OnboardingScreen() {
                 placeholderTextColor={theme.textLight}
               />
 
-              <Text style={[styles.label, { color: theme.text }]}>Date de naissance (JJ/MM/AAAA)</Text>
+              <Text style={[styles.label, { color: theme.text }]}>Sa date de naissance (JJ/MM/AAAA)</Text>
               <TextInput
                 style={[
                   styles.input,
@@ -202,8 +196,11 @@ export default function OnboardingScreen() {
 
         {/* Step 3: Feeding method */}
         {step === 3 && (
-          <View style={styles.stepContainer}>
-            <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
+          <View style={styles.step3Container}>
+            {/* Mascot peek-a-boo on left */}
+            <Image source={dashboardMascot} style={styles.peekMascot} resizeMode="cover" />
+
+            <View style={[styles.card, styles.step3Card, { backgroundColor: theme.cardTransparent }]}>
               <Text style={[styles.cardTitle, { color: theme.primary }]}>
                 Comment nourris-tu {name} aujourd'hui ?
               </Text>
@@ -327,6 +324,24 @@ const styles = StyleSheet.create({
   methodDesc: { fontSize: 13 },
   stepIcon: { alignSelf: 'center', marginBottom: 16 },
   measureRow: { flexDirection: 'row', gap: 12 },
-  mascotRow: { alignItems: 'flex-start', width: '100%', marginBottom: 12 },
-  stepMascot: { width: 180, height: 70, borderRadius: 12 },
+  step3Container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+  },
+  peekMascot: {
+    width: 40,
+    height: '33%',
+    minHeight: 200,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    position: 'absolute',
+    left: -24,
+    top: '50%',
+    transform: [{ translateY: -100 }],
+  },
+  step3Card: {
+    marginLeft: 20,
+    flex: 1,
+  },
 });
