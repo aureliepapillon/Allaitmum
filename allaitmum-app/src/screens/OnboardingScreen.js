@@ -53,7 +53,7 @@ export default function OnboardingScreen() {
         {/* Step 1: Welcome */}
         {step === 1 && (
           <View style={styles.stepContainer}>
-            <LionMascot size={120} />
+            <LionMascot size={120} gender={gender} />
             <Text style={[styles.title, { color: theme.primary }]}>Allait'mum</Text>
 
             <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>

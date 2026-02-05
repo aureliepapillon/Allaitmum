@@ -111,7 +111,7 @@ export default function DashboardScreen() {
         </TouchableOpacity>
 
         <View style={styles.headerCenter}>
-          <LionMascot size={60} />
+          <LionMascot size={60} gender={baby.gender} />
           <Text style={[styles.babyName, { color: theme.primary }]}>{baby.name || 'Bébé'}</Text>
           <Text style={[styles.babyAge, { color: theme.text }]}>{getBabyAge(baby.birthDate)}</Text>
         </View>
@@ -353,7 +353,7 @@ export default function DashboardScreen() {
         <TouchableOpacity style={styles.menuOverlay} activeOpacity={1} onPress={() => setShowMenu(false)}>
           <View style={[styles.menuDrawer, { backgroundColor: theme.card }]}>
             <View style={styles.menuHeader}>
-              <LionMascot size={50} />
+              <LionMascot size={50} gender={baby.gender} />
               <Text style={[styles.menuTitle, { color: theme.primary }]}>Menu</Text>
             </View>
 
