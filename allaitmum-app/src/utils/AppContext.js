@@ -34,7 +34,7 @@ export const AppProvider = ({ children }) => {
 
   // Computed: active baby (backward-compatible "baby" object)
   const baby = useMemo(() => {
-    if (!babies.length) return { name: '', birthDate: '', gender: 'fille', birthWeight: null, birthHeight: null };
+    if (!babies.length) return { name: '', birthDate: '', gender: 'fille', birthWeight: null, birthHeight: null, momName: '' };
     return babies.find((b) => b.id === activeBabyId) || babies[0];
   }, [babies, activeBabyId]);
 

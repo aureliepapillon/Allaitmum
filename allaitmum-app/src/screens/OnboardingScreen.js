@@ -15,11 +15,13 @@ import { useApp } from '../utils/AppContext';
 import { Ionicons } from '@expo/vector-icons';
 
 const logoImage = require('../../assets/logo-allaitmum.png');
+const dashboardMascot = require('../../assets/dashboard-mascot.png');
 
 export default function OnboardingScreen() {
   const { theme } = useTheme();
   const { completeOnboarding } = useApp();
   const [step, setStep] = useState(1);
+  const [momName, setMomName] = useState('');
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [gender, setGender] = useState('fille');
@@ -38,7 +40,7 @@ export default function OnboardingScreen() {
 
   const handleComplete = (selectedMethod) => {
     completeOnboarding(
-      { name, birthDate, gender, birthWeight: birthWeight ? parseFloat(birthWeight) : null, birthHeight: birthHeight ? parseFloat(birthHeight) : null },
+      { name, birthDate, gender, birthWeight: birthWeight ? parseFloat(birthWeight) : null, birthHeight: birthHeight ? parseFloat(birthHeight) : null, momName },
       selectedMethod
     );
   };
@@ -80,18 +82,27 @@ export default function OnboardingScreen() {
         {/* Step 2: Baby info */}
         {step === 2 && (
           <View style={styles.stepContainer}>
+            <View style={styles.mascotRow}>
+              <Image source={dashboardMascot} style={styles.stepMascot} resizeMode="contain" />
+            </View>
             <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
-              <Ionicons
-                name="happy"
-                size={50}
-                color={theme.primary}
-                style={styles.stepIcon}
-              />
               <Text style={[styles.cardTitle, { color: theme.primary }]}>
-                Parle-moi de ton bébé
+                Trop contente de te voir ici !
               </Text>
 
-              <Text style={[styles.label, { color: theme.text }]}>Prénom</Text>
+              <Text style={[styles.label, { color: theme.text }]}>Ton prénom (à toi maman)</Text>
+              <TextInput
+                style={[
+                  styles.input,
+                  { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark },
+                ]}
+                value={momName}
+                onChangeText={setMomName}
+                placeholder="Comment tu t'appelles ?"
+                placeholderTextColor={theme.textLight}
+              />
+
+              <Text style={[styles.label, { color: theme.text }]}>Prénom de ton bébé</Text>
               <TextInput
                 style={[
                   styles.input,
@@ -99,7 +110,7 @@ export default function OnboardingScreen() {
                 ]}
                 value={name}
                 onChangeText={setName}
-                placeholder="Le prénom de ton bébé"
+                placeholder="Comment s'appelle ton bout'chou ?"
                 placeholderTextColor={theme.textLight}
               />
 
@@ -316,4 +327,6 @@ const styles = StyleSheet.create({
   methodDesc: { fontSize: 13 },
   stepIcon: { alignSelf: 'center', marginBottom: 16 },
   measureRow: { flexDirection: 'row', gap: 12 },
+  mascotRow: { alignItems: 'flex-start', width: '100%', marginBottom: 12 },
+  stepMascot: { width: 180, height: 70, borderRadius: 12 },
 });
