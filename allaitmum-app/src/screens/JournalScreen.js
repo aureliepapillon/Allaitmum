@@ -10,49 +10,12 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
-import { useApp } from '../utils/AppContext';
 import { postpartumArticles, friendlyPlaces, appointmentLinks, supportLines } from '../data/postpartum';
-
-const moods = [
-  { value: 1, emoji: '😢', label: 'Difficile' },
-  { value: 2, emoji: '😔', label: 'Bof' },
-  { value: 3, emoji: '😐', label: 'Ça va' },
-  { value: 4, emoji: '🙂', label: 'Bien' },
-  { value: 5, emoji: '😊', label: 'Super' },
-];
-
-const getSupportMessage = (mood) => {
-  if (mood <= 2) {
-    return {
-      text: "Les jours difficiles font partie du parcours. Tu n'es pas seule. N'hésite pas à en parler.",
-      showHelp: true,
-    };
-  }
-  if (mood === 3) {
-    return { text: "Parfois, 'ça va' c'est déjà beaucoup. Tu gères.", showHelp: false };
-  }
-  return { text: "Profite de ce moment de bien-être. Tu le mérites !", showHelp: false };
-};
 
 export default function JournalScreen() {
   const { theme } = useTheme();
-  const { moodEntries, setMoodEntries } = useApp();
-  const [selectedMood, setSelectedMood] = useState(null);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [showHelpModal, setShowHelpModal] = useState(false);
-
-  const todayStr = new Date().toISOString().split('T')[0];
-  const todayEntry = moodEntries.find((e) => e.date === todayStr);
-
-  const handleMoodSelect = (mood) => {
-    setSelectedMood(mood);
-    const newEntries = moodEntries.filter((e) => e.date !== todayStr);
-    newEntries.push({ date: todayStr, mood, timestamp: new Date().toISOString() });
-    setMoodEntries(newEntries);
-  };
-
-  const currentMood = selectedMood || todayEntry?.mood;
-  const support = currentMood ? getSupportMessage(currentMood) : null;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -65,44 +28,6 @@ export default function JournalScreen() {
         <Text style={[styles.subtitle, { color: theme.text }]}>
           Ton espace ressources et soutien post-partum
         </Text>
-
-        {/* Quick mood check */}
-        <View style={[styles.card, { backgroundColor: theme.card }]}>
-          <Text style={[styles.cardTitle, { color: theme.primary }]}>
-            Comment tu te sens aujourd'hui ?
-          </Text>
-          <View style={styles.moodRow}>
-            {moods.map((m) => (
-              <TouchableOpacity
-                key={m.value}
-                style={[
-                  styles.moodBtn,
-                  {
-                    backgroundColor: currentMood === m.value ? theme.primary + '20' : 'transparent',
-                    borderColor: currentMood === m.value ? theme.primary : theme.border,
-                  },
-                ]}
-                onPress={() => handleMoodSelect(m.value)}
-              >
-                <Text style={styles.moodEmoji}>{m.emoji}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-          {support && (
-            <View style={[styles.supportBox, { backgroundColor: theme.secondary + '40' }]}>
-              <Text style={[styles.supportText, { color: theme.textDark }]}>{support.text}</Text>
-              {support.showHelp && (
-                <TouchableOpacity
-                  style={[styles.helpBtn, { backgroundColor: theme.primary }]}
-                  onPress={() => setShowHelpModal(true)}
-                >
-                  <Ionicons name="call" size={16} color="#fff" />
-                  <Text style={styles.helpBtnText}>Lignes d'écoute</Text>
-                </TouchableOpacity>
-              )}
-            </View>
-          )}
-        </View>
 
         {/* Articles post-partum */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
@@ -272,29 +197,6 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   cardTitle: { fontSize: 16, fontWeight: '600', marginBottom: 14 },
-
-  // Mood
-  moodRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
-  moodBtn: {
-    flex: 1,
-    paddingVertical: 12,
-    borderRadius: 14,
-    alignItems: 'center',
-    borderWidth: 2,
-  },
-  moodEmoji: { fontSize: 24 },
-  supportBox: { marginTop: 14, padding: 14, borderRadius: 14 },
-  supportText: { fontSize: 14, lineHeight: 20 },
-  helpBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
-    marginTop: 12,
-    paddingVertical: 10,
-    borderRadius: 10,
-  },
-  helpBtnText: { color: '#fff', fontSize: 14, fontWeight: '600' },
 
   // Section
   sectionTitle: { fontSize: 18, fontWeight: '600', marginBottom: 12, marginTop: 8 },
