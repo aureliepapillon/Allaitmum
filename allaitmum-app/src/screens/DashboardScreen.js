@@ -121,7 +121,7 @@ export default function DashboardScreen() {
         </TouchableOpacity>
 
         <View style={styles.headerCenter}>
-          <LionMascot size={80} gender={baby.gender} />
+          <LionMascot size={90} gender={baby.gender} />
           <Text style={[styles.babyName, { color: theme.primary }]}>{baby.name || 'Bébé'}</Text>
           <Text style={[styles.babyAge, { color: theme.text }]}>{getBabyAge(baby.birthDate)}</Text>
         </View>
@@ -148,10 +148,7 @@ export default function DashboardScreen() {
 
         {/* Alimentation */}
         <View style={[styles.sectionCard, { backgroundColor: theme.card }]}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name="restaurant" size={20} color={theme.primary} />
-            <Text style={[styles.sectionTitle, { color: theme.primary }]}>Alimentation</Text>
-          </View>
+          <Text style={[styles.sectionTitle, { color: theme.primary }]}>Alimentation</Text>
 
           {activeFeeding ? (
             <View style={styles.activeSession}>
@@ -206,10 +203,7 @@ export default function DashboardScreen() {
 
         {/* Sommeil */}
         <View style={[styles.sectionCard, { backgroundColor: theme.card }]}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name="moon" size={20} color={theme.primary} />
-            <Text style={[styles.sectionTitle, { color: theme.primary }]}>Sommeil</Text>
-          </View>
+          <Text style={[styles.sectionTitle, { color: theme.primary }]}>Sommeil</Text>
 
           {activeSleep ? (
             <View style={styles.activeSession}>
@@ -236,17 +230,15 @@ export default function DashboardScreen() {
                 style={[styles.sleepBtn, { backgroundColor: '#FFF8E1' }]}
                 onPress={() => handleStartSleep('sieste')}
               >
-                <Image source={iconSieste} style={styles.sleepIcon} resizeMode="contain" />
+                <Image source={iconSieste} style={styles.sleepIconLarge} resizeMode="contain" />
                 <Text style={[styles.sleepBtnLabel, { color: '#FFA000' }]}>Sieste</Text>
-                <Text style={[styles.sleepBtnSub, { color: '#FFA000' }]}>Journée</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.sleepBtn, { backgroundColor: '#E8EAF6' }]}
                 onPress={() => handleStartSleep('dodo')}
               >
-                <Image source={iconDodo} style={styles.sleepIcon} resizeMode="contain" />
+                <Image source={iconDodo} style={styles.sleepIconLarge} resizeMode="contain" />
                 <Text style={[styles.sleepBtnLabel, { color: '#5C6BC0' }]}>Dodo</Text>
-                <Text style={[styles.sleepBtnSub, { color: '#5C6BC0' }]}>Nuit</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -254,18 +246,13 @@ export default function DashboardScreen() {
 
         {/* Couches */}
         <View style={[styles.sectionCard, { backgroundColor: theme.card }]}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name="layers" size={20} color={theme.primary} />
-            <Text style={[styles.sectionTitle, { color: theme.primary }]}>Couches</Text>
-          </View>
+          <Text style={[styles.sectionTitle, { color: theme.primary }]}>Couches</Text>
           <View style={styles.diaperGrid}>
             <TouchableOpacity style={[styles.diaperBtn, { backgroundColor: '#E3F2FD' }]} onPress={() => addDiaper('pipi')}>
-              <Image source={iconPipi} style={styles.diaperIcon} resizeMode="contain" />
-              <Text style={[styles.diaperLabel, { color: '#42A5F5' }]}>Pipi</Text>
+              <Image source={iconPipi} style={styles.diaperIconLarge} resizeMode="contain" />
             </TouchableOpacity>
             <TouchableOpacity style={[styles.diaperBtn, { backgroundColor: '#FFF3E0' }]} onPress={() => addDiaper('caca')}>
-              <Image source={iconCaca} style={styles.diaperIcon} resizeMode="contain" />
-              <Text style={[styles.diaperLabel, { color: '#FF9800' }]}>Caca</Text>
+              <Image source={iconCaca} style={styles.diaperIconLarge} resizeMode="contain" />
             </TouchableOpacity>
           </View>
         </View>
@@ -452,8 +439,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 2,
   },
-  sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
-  sectionTitle: { fontSize: 17, fontWeight: '600' },
+  sectionTitle: { fontSize: 17, fontWeight: '600', marginBottom: 12 },
 
   // Tool grid (feeding)
   toolGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
@@ -483,18 +469,18 @@ const styles = StyleSheet.create({
 
   // Sleep buttons
   sleepButtons: { flexDirection: 'row', gap: 12 },
-  sleepBtn: { flex: 1, paddingVertical: 20, borderRadius: 16, alignItems: 'center', gap: 4 },
+  sleepBtn: { flex: 1, paddingVertical: 20, borderRadius: 16, alignItems: 'center', gap: 8 },
   sleepIcon: { width: 40, height: 40 },
+  sleepIconLarge: { width: 55, height: 55 },
   sleepBtnLabel: { fontSize: 16, fontWeight: '700' },
-  sleepBtnSub: { fontSize: 12 },
   sleepIconRow: { marginBottom: 8 },
   activeSleepIcon: { width: 60, height: 60 },
 
   // Diapers
   diaperGrid: { flexDirection: 'row', gap: 10 },
-  diaperBtn: { flex: 1, paddingVertical: 18, borderRadius: 14, alignItems: 'center', gap: 6 },
+  diaperBtn: { flex: 1, paddingVertical: 18, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   diaperIcon: { width: 36, height: 36 },
-  diaperLabel: { fontSize: 13, fontWeight: '600' },
+  diaperIconLarge: { width: 55, height: 55 },
 
   // Tip card
   tipCard: { borderRadius: 16, padding: 16, marginBottom: 12, borderWidth: 1 },
