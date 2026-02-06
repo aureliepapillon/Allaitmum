@@ -111,7 +111,7 @@ export default function DashboardScreen() {
         </TouchableOpacity>
 
         <View style={styles.headerCenter}>
-          <LionMascot size={60} gender={baby.gender} />
+          <LionMascot size={80} gender={baby.gender} />
           <Text style={[styles.babyName, { color: theme.primary }]}>{baby.name || 'Bébé'}</Text>
           <Text style={[styles.babyAge, { color: theme.text }]}>{getBabyAge(baby.birthDate)}</Text>
         </View>

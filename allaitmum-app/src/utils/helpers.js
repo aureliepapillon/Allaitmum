@@ -34,7 +34,11 @@ export const formatTimeOfDay = (dateString) => {
 export const getBabyAge = (birthDate) => {
   if (!birthDate) return 'Date non renseignée';
   const parsedDate = parseBirthDate(birthDate);
+  if (!parsedDate || isNaN(parsedDate.getTime())) return 'Date non renseignée';
+
   const days = Math.floor((new Date() - parsedDate) / (1000 * 60 * 60 * 24));
+  if (isNaN(days) || days < 0) return 'Date non renseignée';
+
   const years = Math.floor(days / 365);
   const months = Math.floor((days % 365) / 30);
   const remainingDays = days % 30;
