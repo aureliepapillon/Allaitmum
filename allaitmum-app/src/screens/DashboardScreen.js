@@ -9,6 +9,7 @@ import {
   TextInput,
   Modal,
   Linking,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -17,6 +18,15 @@ import { formatTime, formatTimeOfDay, todayString, getBabyAge } from '../utils/h
 import { getTipOfTheWeek } from '../data/tips';
 import { getDevelopmentInfo } from '../data/development';
 import LionMascot from '../components/LionMascot';
+
+// Custom icons
+const iconSein = require('../../assets/icon-sein.png');
+const iconBiberon = require('../../assets/icon-biberon.png');
+const iconTirelait = require('../../assets/icon-tirelait.png');
+const iconSieste = require('../../assets/icon-sieste.png');
+const iconDodo = require('../../assets/icon-dodo.png');
+const iconPipi = require('../../assets/icon-pipi.png');
+const iconCaca = require('../../assets/icon-caca.png');
 
 export default function DashboardScreen() {
   const { theme } = useTheme();
@@ -175,19 +185,19 @@ export default function DashboardScreen() {
           ) : (
             <View style={styles.toolGrid}>
               <TouchableOpacity style={[styles.toolBtn, { backgroundColor: '#FFEBEE' }]} onPress={() => startFeeding('left', 'breast')}>
-                <Ionicons name="heart" size={28} color="#E57373" />
+                <Image source={iconSein} style={styles.toolIcon} resizeMode="contain" />
                 <Text style={[styles.toolLabel, { color: '#E57373' }]}>Sein G</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.toolBtn, { backgroundColor: '#FFEBEE' }]} onPress={() => startFeeding('right', 'breast')}>
-                <Ionicons name="heart" size={28} color="#E57373" />
+                <Image source={iconSein} style={styles.toolIcon} resizeMode="contain" />
                 <Text style={[styles.toolLabel, { color: '#E57373' }]}>Sein D</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.toolBtn, { backgroundColor: '#E3F2FD' }]} onPress={() => startFeeding('none', 'bottle')}>
-                <Text style={styles.toolEmoji}>🍼</Text>
+                <Image source={iconBiberon} style={styles.toolIcon} resizeMode="contain" />
                 <Text style={[styles.toolLabel, { color: '#42A5F5' }]}>Biberon</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.toolBtn, { backgroundColor: '#E8F5E9' }]} onPress={() => startFeeding('both', 'pump-double')}>
-                <Ionicons name="water" size={28} color="#66BB6A" />
+                <Image source={iconTirelait} style={styles.toolIcon} resizeMode="contain" />
                 <Text style={[styles.toolLabel, { color: '#66BB6A' }]}>Tire-lait</Text>
               </TouchableOpacity>
             </View>
@@ -204,11 +214,7 @@ export default function DashboardScreen() {
           {activeSleep ? (
             <View style={styles.activeSession}>
               <View style={styles.sleepIconRow}>
-                {sleepType === 'sieste' ? (
-                  <Text style={styles.sleepEmoji}>🌤️</Text>
-                ) : (
-                  <Text style={styles.sleepEmoji}>🌙</Text>
-                )}
+                <Image source={sleepType === 'sieste' ? iconSieste : iconDodo} style={styles.activeSleepIcon} resizeMode="contain" />
               </View>
               <Text style={[styles.timer, { color: theme.primary }]}>{formatTime(sleepElapsed)}</Text>
               <Text style={[styles.timerSub, { color: theme.text }]}>
@@ -230,7 +236,7 @@ export default function DashboardScreen() {
                 style={[styles.sleepBtn, { backgroundColor: '#FFF8E1' }]}
                 onPress={() => handleStartSleep('sieste')}
               >
-                <Text style={styles.sleepBtnEmoji}>🌤️</Text>
+                <Image source={iconSieste} style={styles.sleepIcon} resizeMode="contain" />
                 <Text style={[styles.sleepBtnLabel, { color: '#FFA000' }]}>Sieste</Text>
                 <Text style={[styles.sleepBtnSub, { color: '#FFA000' }]}>Journée</Text>
               </TouchableOpacity>
@@ -238,7 +244,7 @@ export default function DashboardScreen() {
                 style={[styles.sleepBtn, { backgroundColor: '#E8EAF6' }]}
                 onPress={() => handleStartSleep('dodo')}
               >
-                <Text style={styles.sleepBtnEmoji}>🌙</Text>
+                <Image source={iconDodo} style={styles.sleepIcon} resizeMode="contain" />
                 <Text style={[styles.sleepBtnLabel, { color: '#5C6BC0' }]}>Dodo</Text>
                 <Text style={[styles.sleepBtnSub, { color: '#5C6BC0' }]}>Nuit</Text>
               </TouchableOpacity>
@@ -254,16 +260,12 @@ export default function DashboardScreen() {
           </View>
           <View style={styles.diaperGrid}>
             <TouchableOpacity style={[styles.diaperBtn, { backgroundColor: '#E3F2FD' }]} onPress={() => addDiaper('pipi')}>
-              <Ionicons name="water" size={28} color="#42A5F5" />
+              <Image source={iconPipi} style={styles.diaperIcon} resizeMode="contain" />
               <Text style={[styles.diaperLabel, { color: '#42A5F5' }]}>Pipi</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.diaperBtn, { backgroundColor: '#FFF3E0' }]} onPress={() => addDiaper('caca')}>
-              <Text style={styles.diaperEmoji}>💩</Text>
+              <Image source={iconCaca} style={styles.diaperIcon} resizeMode="contain" />
               <Text style={[styles.diaperLabel, { color: '#FF9800' }]}>Caca</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.diaperBtn, { backgroundColor: '#F3E5F5' }]} onPress={() => addDiaper('mixte')}>
-              <Ionicons name="git-merge" size={28} color="#AB47BC" />
-              <Text style={[styles.diaperLabel, { color: '#AB47BC' }]}>Mixte</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -463,6 +465,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   toolLabel: { fontSize: 13, fontWeight: '600' },
+  toolIcon: { width: 36, height: 36 },
   toolEmoji: { fontSize: 26 },
 
   // Active session
@@ -481,17 +484,17 @@ const styles = StyleSheet.create({
   // Sleep buttons
   sleepButtons: { flexDirection: 'row', gap: 12 },
   sleepBtn: { flex: 1, paddingVertical: 20, borderRadius: 16, alignItems: 'center', gap: 4 },
-  sleepBtnEmoji: { fontSize: 32 },
+  sleepIcon: { width: 40, height: 40 },
   sleepBtnLabel: { fontSize: 16, fontWeight: '700' },
   sleepBtnSub: { fontSize: 12 },
   sleepIconRow: { marginBottom: 8 },
-  sleepEmoji: { fontSize: 48 },
+  activeSleepIcon: { width: 60, height: 60 },
 
   // Diapers
   diaperGrid: { flexDirection: 'row', gap: 10 },
   diaperBtn: { flex: 1, paddingVertical: 18, borderRadius: 14, alignItems: 'center', gap: 6 },
+  diaperIcon: { width: 36, height: 36 },
   diaperLabel: { fontSize: 13, fontWeight: '600' },
-  diaperEmoji: { fontSize: 28 },
 
   // Tip card
   tipCard: { borderRadius: 16, padding: 16, marginBottom: 12, borderWidth: 1 },
