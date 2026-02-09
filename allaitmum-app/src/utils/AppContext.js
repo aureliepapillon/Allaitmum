@@ -32,6 +32,12 @@ export const AppProvider = ({ children }) => {
   // Growth
   const [growthEntries, setGrowthEntries] = useState([]);
 
+  // Souvenirs / Bébé Book
+  const [souvenirs, setSouvenirs] = useState([]);
+
+  // Dents / Teeth
+  const [teeth, setTeeth] = useState([]);
+
   // Computed: active baby (backward-compatible "baby" object)
   const baby = useMemo(() => {
     if (!babies.length) return { name: '', birthDate: '', gender: 'fille', birthWeight: null, birthHeight: null, momName: '' };
@@ -50,6 +56,8 @@ export const AppProvider = ({ children }) => {
       const savedMoods = await storage.get('moodEntries', []);
       const savedVaccines = await storage.get('vaccinesDone', []);
       const savedGrowth = await storage.get('growthEntries', []);
+      const savedSouvenirs = await storage.get('souvenirs', []);
+      const savedTeeth = await storage.get('teeth', []);
 
       if (savedBabies && savedBabies.length > 0 && savedMethod) {
         // New format: multi-baby
@@ -94,6 +102,8 @@ export const AppProvider = ({ children }) => {
       setMoodEntries(savedMoods);
       setVaccinesDone(savedVaccines);
       setGrowthEntries(savedGrowth);
+      setSouvenirs(savedSouvenirs);
+      setTeeth(savedTeeth);
       setIsLoading(false);
     };
     loadAll();
@@ -123,6 +133,14 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     if (!isLoading) storage.set('growthEntries', growthEntries);
   }, [growthEntries]);
+
+  useEffect(() => {
+    if (!isLoading) storage.set('souvenirs', souvenirs);
+  }, [souvenirs]);
+
+  useEffect(() => {
+    if (!isLoading) storage.set('teeth', teeth);
+  }, [teeth]);
 
   useEffect(() => {
     if (!isLoading && babies.length > 0) storage.set('babies', babies);
@@ -177,6 +195,8 @@ export const AppProvider = ({ children }) => {
     setMoodEntries([]);
     setVaccinesDone([]);
     setGrowthEntries([]);
+    setSouvenirs([]);
+    setTeeth([]);
     setIsOnboarded(false);
   };
 
@@ -242,6 +262,40 @@ export const AppProvider = ({ children }) => {
     );
   };
 
+  // Souvenir actions
+  const addSouvenir = (type, title, description = '', date = null) => {
+    const entry = {
+      id: Date.now(),
+      babyId: activeBabyId,
+      type, // 'premier_mot', 'premiere_fois', 'expression', 'moment'
+      title,
+      description,
+      date: date || new Date().toISOString().split('T')[0],
+      createdAt: new Date().toISOString(),
+    };
+    setSouvenirs((prev) => [entry, ...prev]);
+  };
+
+  const deleteSouvenir = (id) => {
+    setSouvenirs((prev) => prev.filter((s) => s.id !== id));
+  };
+
+  // Teeth actions
+  const toggleTooth = (toothId, date = null) => {
+    setTeeth((prev) => {
+      const existing = prev.find((t) => t.toothId === toothId && t.babyId === activeBabyId);
+      if (existing) {
+        return prev.filter((t) => !(t.toothId === toothId && t.babyId === activeBabyId));
+      }
+      return [...prev, {
+        id: Date.now(),
+        babyId: activeBabyId,
+        toothId,
+        date: date || new Date().toISOString().split('T')[0],
+      }];
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -282,6 +336,13 @@ export const AppProvider = ({ children }) => {
         // Growth
         growthEntries,
         setGrowthEntries,
+        // Souvenirs
+        souvenirs,
+        addSouvenir,
+        deleteSouvenir,
+        // Teeth
+        teeth,
+        toggleTooth,
       }}
     >
       {children}

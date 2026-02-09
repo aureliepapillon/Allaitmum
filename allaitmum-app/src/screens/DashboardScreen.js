@@ -18,6 +18,8 @@ import { formatTime, formatTimeOfDay, todayString, getBabyAge } from '../utils/h
 import { getTipOfTheWeek } from '../data/tips';
 import { getDevelopmentInfo } from '../data/development';
 import LionMascot from '../components/LionMascot';
+import SouvenirsScreen from './SouvenirsScreen';
+import TeethScreen from './TeethScreen';
 
 // Custom icons
 const iconSein = require('../../assets/icon-sein.png');
@@ -38,6 +40,7 @@ export default function DashboardScreen() {
   } = useApp();
 
   const [showMenu, setShowMenu] = useState(false);
+  const [activeScreen, setActiveScreen] = useState(null); // 'souvenirs', 'teeth', null
   const [elapsed, setElapsed] = useState(0);
   const [sleepElapsed, setSleepElapsed] = useState(0);
   const [pumpVolume, setPumpVolume] = useState('');
@@ -364,6 +367,25 @@ export default function DashboardScreen() {
               </View>
             )}
 
+            {/* Bébé Book section */}
+            <View style={styles.menuSection}>
+              <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Bébé Book</Text>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('souvenirs'); }}
+              >
+                <Text style={{ fontSize: 18 }}>📖</Text>
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Souvenirs</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('teeth'); }}
+              >
+                <Text style={{ fontSize: 18 }}>🦷</Text>
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Dents</Text>
+              </TouchableOpacity>
+            </View>
+
             <View style={styles.menuSection}>
               <TouchableOpacity style={styles.menuItem} onPress={() => setShowMenu(false)}>
                 <Ionicons name="person" size={20} color={theme.primary} />
@@ -396,6 +418,15 @@ export default function DashboardScreen() {
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
+      </Modal>
+
+      {/* Bébé Book Screens */}
+      <Modal visible={activeScreen === 'souvenirs'} animationType="slide">
+        <SouvenirsScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'teeth'} animationType="slide">
+        <TeethScreen onClose={() => setActiveScreen(null)} />
       </Modal>
     </View>
   );
