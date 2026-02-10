@@ -38,6 +38,13 @@ export const AppProvider = ({ children }) => {
   // Dents / Teeth
   const [teeth, setTeeth] = useState([]);
 
+  // Médicaments & Allergies
+  const [medications, setMedications] = useState([]);
+  const [allergies, setAllergies] = useState([]);
+
+  // Étapes motrices
+  const [milestones, setMilestones] = useState([]);
+
   // Computed: active baby (backward-compatible "baby" object)
   const baby = useMemo(() => {
     if (!babies.length) return { name: '', birthDate: '', gender: 'fille', birthWeight: null, birthHeight: null, momName: '' };
@@ -58,6 +65,9 @@ export const AppProvider = ({ children }) => {
       const savedGrowth = await storage.get('growthEntries', []);
       const savedSouvenirs = await storage.get('souvenirs', []);
       const savedTeeth = await storage.get('teeth', []);
+      const savedMedications = await storage.get('medications', []);
+      const savedAllergies = await storage.get('allergies', []);
+      const savedMilestones = await storage.get('milestones', []);
 
       if (savedBabies && savedBabies.length > 0 && savedMethod) {
         // New format: multi-baby
@@ -104,6 +114,9 @@ export const AppProvider = ({ children }) => {
       setGrowthEntries(savedGrowth);
       setSouvenirs(savedSouvenirs);
       setTeeth(savedTeeth);
+      setMedications(savedMedications);
+      setAllergies(savedAllergies);
+      setMilestones(savedMilestones);
       setIsLoading(false);
     };
     loadAll();
@@ -141,6 +154,18 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     if (!isLoading) storage.set('teeth', teeth);
   }, [teeth]);
+
+  useEffect(() => {
+    if (!isLoading) storage.set('medications', medications);
+  }, [medications]);
+
+  useEffect(() => {
+    if (!isLoading) storage.set('allergies', allergies);
+  }, [allergies]);
+
+  useEffect(() => {
+    if (!isLoading) storage.set('milestones', milestones);
+  }, [milestones]);
 
   useEffect(() => {
     if (!isLoading && babies.length > 0) storage.set('babies', babies);
@@ -197,6 +222,9 @@ export const AppProvider = ({ children }) => {
     setGrowthEntries([]);
     setSouvenirs([]);
     setTeeth([]);
+    setMedications([]);
+    setAllergies([]);
+    setMilestones([]);
     setIsOnboarded(false);
   };
 
@@ -296,6 +324,67 @@ export const AppProvider = ({ children }) => {
     });
   };
 
+  // Medication actions
+  const addMedication = (name, dosage, frequency, startDate, endDate = null, notes = '') => {
+    const entry = {
+      id: Date.now(),
+      babyId: activeBabyId,
+      name,
+      dosage,
+      frequency,
+      startDate: startDate || new Date().toISOString().split('T')[0],
+      endDate,
+      notes,
+      active: true,
+      createdAt: new Date().toISOString(),
+    };
+    setMedications((prev) => [entry, ...prev]);
+  };
+
+  const updateMedication = (id, updates) => {
+    setMedications((prev) =>
+      prev.map((m) => (m.id === id ? { ...m, ...updates } : m))
+    );
+  };
+
+  const deleteMedication = (id) => {
+    setMedications((prev) => prev.filter((m) => m.id !== id));
+  };
+
+  // Allergy actions
+  const addAllergy = (name, severity, reaction = '', discoveredDate = null) => {
+    const entry = {
+      id: Date.now(),
+      babyId: activeBabyId,
+      name,
+      severity, // 'légère', 'modérée', 'sévère'
+      reaction,
+      discoveredDate: discoveredDate || new Date().toISOString().split('T')[0],
+      createdAt: new Date().toISOString(),
+    };
+    setAllergies((prev) => [entry, ...prev]);
+  };
+
+  const deleteAllergy = (id) => {
+    setAllergies((prev) => prev.filter((a) => a.id !== id));
+  };
+
+  // Milestone actions
+  const toggleMilestone = (milestoneId, date = null) => {
+    setMilestones((prev) => {
+      const existing = prev.find((m) => m.milestoneId === milestoneId && m.babyId === activeBabyId);
+      if (existing) {
+        return prev.filter((m) => !(m.milestoneId === milestoneId && m.babyId === activeBabyId));
+      }
+      return [...prev, {
+        id: Date.now(),
+        babyId: activeBabyId,
+        milestoneId,
+        date: date || new Date().toISOString().split('T')[0],
+      }];
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -343,6 +432,18 @@ export const AppProvider = ({ children }) => {
         // Teeth
         teeth,
         toggleTooth,
+        // Medications
+        medications,
+        addMedication,
+        updateMedication,
+        deleteMedication,
+        // Allergies
+        allergies,
+        addAllergy,
+        deleteAllergy,
+        // Milestones
+        milestones,
+        toggleMilestone,
       }}
     >
       {children}

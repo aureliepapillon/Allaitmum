@@ -20,6 +20,11 @@ import { getDevelopmentInfo } from '../data/development';
 import LionMascot from '../components/LionMascot';
 import SouvenirsScreen from './SouvenirsScreen';
 import TeethScreen from './TeethScreen';
+import MedicamentsScreen from './MedicamentsScreen';
+import CroissanceScreen from './CroissanceScreen';
+import EtapesMotricesScreen from './EtapesMotricesScreen';
+import PortageScreen from './PortageScreen';
+import CododoScreen from './CododoScreen';
 
 // Custom icons
 const iconSein = require('../../assets/icon-sein.png');
@@ -384,6 +389,51 @@ export default function DashboardScreen() {
                 <Text style={{ fontSize: 18 }}>🦷</Text>
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Dents</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('milestones'); }}
+              >
+                <Text style={{ fontSize: 18 }}>🏃</Text>
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Étapes motrices</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('growth'); }}
+              >
+                <Text style={{ fontSize: 18 }}>📏</Text>
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Croissance</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Santé section */}
+            <View style={styles.menuSection}>
+              <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Santé</Text>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('medications'); }}
+              >
+                <Text style={{ fontSize: 18 }}>💊</Text>
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Médicaments & Allergies</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Conseils section */}
+            <View style={styles.menuSection}>
+              <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Conseils</Text>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('portage'); }}
+              >
+                <Text style={{ fontSize: 18 }}>🧣</Text>
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Portage</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('cododo'); }}
+              >
+                <Text style={{ fontSize: 18 }}>🌙</Text>
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Cododo</Text>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.menuSection}>
@@ -427,6 +477,26 @@ export default function DashboardScreen() {
 
       <Modal visible={activeScreen === 'teeth'} animationType="slide">
         <TeethScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'milestones'} animationType="slide">
+        <EtapesMotricesScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'growth'} animationType="slide">
+        <CroissanceScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'medications'} animationType="slide">
+        <MedicamentsScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'portage'} animationType="slide">
+        <PortageScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'cododo'} animationType="slide">
+        <CododoScreen onClose={() => setActiveScreen(null)} />
       </Modal>
     </View>
   );
