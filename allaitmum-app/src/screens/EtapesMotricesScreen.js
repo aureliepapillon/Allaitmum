@@ -20,44 +20,44 @@ const headerImage = require('../../assets/Motricite.png');
 
 const MILESTONES = [
   // 0-3 mois
-  { id: 'head_control', label: 'Tient sa tête', emoji: '🙂', category: '0-3 mois', ageRange: '1-3 mois' },
-  { id: 'first_smile', label: 'Premier sourire', emoji: '😊', category: '0-3 mois', ageRange: '1-2 mois' },
-  { id: 'follows_eyes', label: 'Suit des yeux', emoji: '👀', category: '0-3 mois', ageRange: '1-2 mois' },
-  { id: 'coos', label: 'Premiers gazouillis', emoji: '🗣️', category: '0-3 mois', ageRange: '2-3 mois' },
+  { id: 'head_control', label: 'Tient sa tête', category: '0-3 mois', ageRange: '1-3 mois' },
+  { id: 'first_smile', label: 'Premier sourire', category: '0-3 mois', ageRange: '1-2 mois' },
+  { id: 'follows_eyes', label: 'Suit des yeux', category: '0-3 mois', ageRange: '1-2 mois' },
+  { id: 'coos', label: 'Premiers gazouillis', category: '0-3 mois', ageRange: '2-3 mois' },
 
   // 3-6 mois
-  { id: 'laughs', label: 'Premiers éclats de rire', emoji: '😂', category: '3-6 mois', ageRange: '3-4 mois' },
-  { id: 'grabs_objects', label: 'Attrape les objets', emoji: '✋', category: '3-6 mois', ageRange: '3-4 mois' },
-  { id: 'rolls_tummy_back', label: 'Se retourne ventre → dos', emoji: '🔄', category: '3-6 mois', ageRange: '4-5 mois' },
-  { id: 'rolls_back_tummy', label: 'Se retourne dos → ventre', emoji: '🔁', category: '3-6 mois', ageRange: '5-6 mois' },
+  { id: 'laughs', label: 'Premiers éclats de rire', category: '3-6 mois', ageRange: '3-4 mois' },
+  { id: 'grabs_objects', label: 'Attrape les objets', category: '3-6 mois', ageRange: '3-4 mois' },
+  { id: 'rolls_tummy_back', label: 'Se retourne ventre → dos', category: '3-6 mois', ageRange: '4-5 mois' },
+  { id: 'rolls_back_tummy', label: 'Se retourne dos → ventre', category: '3-6 mois', ageRange: '5-6 mois' },
 
   // 6-9 mois
-  { id: 'sits_supported', label: 'S\'assoit avec appui', emoji: '🪑', category: '6-9 mois', ageRange: '5-6 mois' },
-  { id: 'sits_alone', label: 'S\'assoit seul(e)', emoji: '🧘', category: '6-9 mois', ageRange: '6-8 mois' },
-  { id: 'babbles', label: 'Babille (ba-ba, ma-ma)', emoji: '👶', category: '6-9 mois', ageRange: '6-8 mois' },
-  { id: 'stranger_anxiety', label: 'Peur des inconnus', emoji: '😰', category: '6-9 mois', ageRange: '7-9 mois' },
+  { id: 'sits_supported', label: 'S\'assoit avec appui', category: '6-9 mois', ageRange: '5-6 mois' },
+  { id: 'sits_alone', label: 'S\'assoit seul(e)', category: '6-9 mois', ageRange: '6-8 mois' },
+  { id: 'babbles', label: 'Babille (ba-ba, ma-ma)', category: '6-9 mois', ageRange: '6-8 mois' },
+  { id: 'stranger_anxiety', label: 'Peur des inconnus', category: '6-9 mois', ageRange: '7-9 mois' },
 
   // 9-12 mois
-  { id: 'crawls', label: 'Rampe / 4 pattes', emoji: '🐛', category: '9-12 mois', ageRange: '7-10 mois' },
-  { id: 'pulls_to_stand', label: 'Se met debout (appui)', emoji: '🧍', category: '9-12 mois', ageRange: '8-10 mois' },
-  { id: 'cruises', label: 'Marche le long des meubles', emoji: '🚶', category: '9-12 mois', ageRange: '9-11 mois' },
-  { id: 'pincer_grasp', label: 'Pince pouce-index', emoji: '🤏', category: '9-12 mois', ageRange: '9-10 mois' },
-  { id: 'waves_bye', label: 'Fait "au revoir"', emoji: '👋', category: '9-12 mois', ageRange: '9-12 mois' },
-  { id: 'first_word', label: 'Premier mot', emoji: '💬', category: '9-12 mois', ageRange: '10-12 mois' },
+  { id: 'crawls', label: 'Rampe / 4 pattes', category: '9-12 mois', ageRange: '7-10 mois' },
+  { id: 'pulls_to_stand', label: 'Se met debout (appui)', category: '9-12 mois', ageRange: '8-10 mois' },
+  { id: 'cruises', label: 'Marche le long des meubles', category: '9-12 mois', ageRange: '9-11 mois' },
+  { id: 'pincer_grasp', label: 'Pince pouce-index', category: '9-12 mois', ageRange: '9-10 mois' },
+  { id: 'waves_bye', label: 'Fait "au revoir"', category: '9-12 mois', ageRange: '9-12 mois' },
+  { id: 'first_word', label: 'Premier mot', category: '9-12 mois', ageRange: '10-12 mois' },
 
   // 12-18 mois
-  { id: 'first_steps', label: 'Premiers pas', emoji: '🚶‍♂️', category: '12-18 mois', ageRange: '10-14 mois' },
-  { id: 'walks_alone', label: 'Marche seul(e)', emoji: '🏃', category: '12-18 mois', ageRange: '12-15 mois' },
-  { id: 'drinks_cup', label: 'Boit au verre', emoji: '🥤', category: '12-18 mois', ageRange: '12-15 mois' },
-  { id: 'stacks_blocks', label: 'Empile des cubes', emoji: '🧱', category: '12-18 mois', ageRange: '12-18 mois' },
-  { id: 'points', label: 'Montre du doigt', emoji: '👆', category: '12-18 mois', ageRange: '12-14 mois' },
+  { id: 'first_steps', label: 'Premiers pas', category: '12-18 mois', ageRange: '10-14 mois' },
+  { id: 'walks_alone', label: 'Marche seul(e)', category: '12-18 mois', ageRange: '12-15 mois' },
+  { id: 'drinks_cup', label: 'Boit au verre', category: '12-18 mois', ageRange: '12-15 mois' },
+  { id: 'stacks_blocks', label: 'Empile des cubes', category: '12-18 mois', ageRange: '12-18 mois' },
+  { id: 'points', label: 'Montre du doigt', category: '12-18 mois', ageRange: '12-14 mois' },
 
   // 18-24 mois
-  { id: 'runs', label: 'Court', emoji: '🏃‍♀️', category: '18-24 mois', ageRange: '16-20 mois' },
-  { id: 'climbs', label: 'Monte les escaliers', emoji: '🪜', category: '18-24 mois', ageRange: '18-24 mois' },
-  { id: 'kicks_ball', label: 'Tape dans un ballon', emoji: '⚽', category: '18-24 mois', ageRange: '18-24 mois' },
-  { id: 'two_word_phrases', label: 'Phrases de 2 mots', emoji: '📝', category: '18-24 mois', ageRange: '18-24 mois' },
-  { id: 'spoon_alone', label: 'Mange seul(e) à la cuillère', emoji: '🥄', category: '18-24 mois', ageRange: '18-24 mois' },
+  { id: 'runs', label: 'Court', category: '18-24 mois', ageRange: '16-20 mois' },
+  { id: 'climbs', label: 'Monte les escaliers', category: '18-24 mois', ageRange: '18-24 mois' },
+  { id: 'kicks_ball', label: 'Tape dans un ballon', category: '18-24 mois', ageRange: '18-24 mois' },
+  { id: 'two_word_phrases', label: 'Phrases de 2 mots', category: '18-24 mois', ageRange: '18-24 mois' },
+  { id: 'spoon_alone', label: 'Mange seul(e) à la cuillère', category: '18-24 mois', ageRange: '18-24 mois' },
 ];
 
 const CATEGORIES = ['0-3 mois', '3-6 mois', '6-9 mois', '9-12 mois', '12-18 mois', '18-24 mois'];
@@ -72,11 +72,9 @@ export default function EtapesMotricesScreen({ onClose }) {
 
   const birthDate = parseBirthDate(baby.birthDate);
 
-  // Get achieved milestones for this baby
   const achievedMilestones = milestones.filter((m) => m.babyId === activeBabyId);
   const achievedIds = achievedMilestones.map((m) => m.milestoneId);
 
-  // Calculate baby age in months
   const getBabyAgeMonths = () => {
     if (!birthDate) return 0;
     const now = new Date();
@@ -86,7 +84,6 @@ export default function EtapesMotricesScreen({ onClose }) {
 
   const babyAgeMonths = getBabyAgeMonths();
 
-  // Determine current category based on age
   const getCurrentCategory = () => {
     if (babyAgeMonths < 3) return '0-3 mois';
     if (babyAgeMonths < 6) return '3-6 mois';
@@ -100,10 +97,8 @@ export default function EtapesMotricesScreen({ onClose }) {
 
   const handleMilestonePress = (milestone) => {
     if (achievedIds.includes(milestone.id)) {
-      // Already achieved, toggle off
       toggleMilestone(milestone.id);
     } else {
-      // Show date picker
       setSelectedMilestone(milestone);
       setDateInput('');
       setShowDateModal(true);
@@ -136,7 +131,6 @@ export default function EtapesMotricesScreen({ onClose }) {
     return achieved ? formatDate(achieved.date) : null;
   };
 
-  // Count achieved per category
   const countByCategory = (category) => {
     const categoryMilestones = MILESTONES.filter((m) => m.category === category);
     const achieved = categoryMilestones.filter((m) => achievedIds.includes(m.id));
@@ -161,9 +155,14 @@ export default function EtapesMotricesScreen({ onClose }) {
 
       {/* Progress summary */}
       <View style={[styles.progressCard, { backgroundColor: theme.card }]}>
-        <Text style={[styles.progressTitle, { color: theme.textDark }]}>
-          Progression de {baby.name}
-        </Text>
+        <View style={styles.progressHeader}>
+          <Text style={[styles.progressTitle, { color: theme.textDark }]}>
+            Progression de {baby.name}
+          </Text>
+          <Text style={[styles.progressCount, { color: theme.primary }]}>
+            {achievedIds.length}/{MILESTONES.length}
+          </Text>
+        </View>
         <View style={styles.progressBar}>
           <View
             style={[
@@ -175,9 +174,6 @@ export default function EtapesMotricesScreen({ onClose }) {
             ]}
           />
         </View>
-        <Text style={[styles.progressText, { color: theme.textLight }]}>
-          {achievedIds.length} / {MILESTONES.length} étapes franchies
-        </Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -188,7 +184,7 @@ export default function EtapesMotricesScreen({ onClose }) {
 
           return (
             <View key={category} style={styles.categorySection}>
-              <View style={styles.categoryHeader}>
+              <View style={[styles.categoryHeader, isCurrentCategory && { backgroundColor: theme.primary + '10' }]}>
                 <Text
                   style={[
                     styles.categoryTitle,
@@ -196,45 +192,55 @@ export default function EtapesMotricesScreen({ onClose }) {
                   ]}
                 >
                   {category}
-                  {isCurrentCategory && ' ← maintenant'}
+                  {isCurrentCategory && '  ← actuellement'}
                 </Text>
-                <Text style={[styles.categoryCount, { color: theme.textLight }]}>
+                <Text style={[styles.categoryCount, { color: counts.achieved === counts.total ? '#4CAF50' : theme.textLight }]}>
                   {counts.achieved}/{counts.total}
                 </Text>
               </View>
 
-              <View style={[styles.milestonesGrid, { backgroundColor: theme.card }]}>
-                {categoryMilestones.map((milestone) => {
+              <View style={[styles.milestonesCard, { backgroundColor: theme.card }]}>
+                {categoryMilestones.map((milestone, index) => {
                   const isAchieved = achievedIds.includes(milestone.id);
                   const date = getMilestoneDate(milestone.id);
+                  const isLast = index === categoryMilestones.length - 1;
 
                   return (
                     <TouchableOpacity
                       key={milestone.id}
                       style={[
-                        styles.milestoneCard,
-                        isAchieved && { backgroundColor: theme.primary + '15' },
+                        styles.milestoneRow,
+                        !isLast && { borderBottomWidth: 1, borderBottomColor: theme.border },
                       ]}
                       onPress={() => handleMilestonePress(milestone)}
                     >
-                      <View style={styles.milestoneTop}>
-                        <Text style={styles.milestoneEmoji}>{milestone.emoji}</Text>
-                        {isAchieved && (
-                          <Ionicons name="checkmark-circle" size={20} color={theme.primary} />
+                      <View style={styles.milestoneInfo}>
+                        <Text
+                          style={[
+                            styles.milestoneLabel,
+                            { color: isAchieved ? theme.primary : theme.textDark },
+                            isAchieved && styles.milestoneLabelAchieved,
+                          ]}
+                        >
+                          {milestone.label}
+                        </Text>
+                        <Text style={[styles.milestoneAge, { color: theme.textLight }]}>
+                          {isAchieved ? date : `Attendu : ${milestone.ageRange}`}
+                        </Text>
+                      </View>
+                      <View style={[
+                        styles.checkCircle,
+                        {
+                          backgroundColor: isAchieved ? theme.primary : 'transparent',
+                          borderColor: isAchieved ? theme.primary : theme.border,
+                        }
+                      ]}>
+                        {isAchieved ? (
+                          <Ionicons name="checkmark" size={16} color="#fff" />
+                        ) : (
+                          <View style={styles.emptyCircle} />
                         )}
                       </View>
-                      <Text
-                        style={[
-                          styles.milestoneLabel,
-                          { color: isAchieved ? theme.primary : theme.textDark },
-                        ]}
-                        numberOfLines={2}
-                      >
-                        {milestone.label}
-                      </Text>
-                      <Text style={[styles.milestoneAge, { color: theme.textLight }]}>
-                        {isAchieved ? date : milestone.ageRange}
-                      </Text>
                     </TouchableOpacity>
                   );
                 })}
@@ -254,11 +260,11 @@ export default function EtapesMotricesScreen({ onClose }) {
       </ScrollView>
 
       {/* Date Modal */}
-      <Modal visible={showDateModal} animationType="slide" transparent>
+      <Modal visible={showDateModal} animationType="fade" transparent>
         <View style={styles.modalOverlay}>
           <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
             <Text style={[styles.modalTitle, { color: theme.primary }]}>
-              {selectedMilestone?.emoji} {selectedMilestone?.label}
+              {selectedMilestone?.label}
             </Text>
             <Text style={[styles.modalSubtitle, { color: theme.textLight }]}>
               Quand est-ce arrivé ?
@@ -321,11 +327,18 @@ const styles = StyleSheet.create({
 
   progressCard: {
     margin: 16,
-    marginBottom: 0,
+    marginBottom: 8,
     borderRadius: 16,
     padding: 16,
   },
-  progressTitle: { fontSize: 15, fontWeight: '600', marginBottom: 10 },
+  progressHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  progressTitle: { fontSize: 15, fontWeight: '600' },
+  progressCount: { fontSize: 15, fontWeight: '700' },
   progressBar: {
     height: 8,
     backgroundColor: '#E0E0E0',
@@ -333,47 +346,56 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   progressFill: { height: '100%', borderRadius: 4 },
-  progressText: { fontSize: 13, marginTop: 8, textAlign: 'center' },
 
-  scrollContent: { padding: 16, paddingBottom: 40 },
+  scrollContent: { padding: 16, paddingTop: 8, paddingBottom: 40 },
 
-  categorySection: { marginBottom: 20 },
+  categorySection: { marginBottom: 16 },
   categoryHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    marginBottom: 8,
   },
-  categoryTitle: { fontSize: 16, fontWeight: '600' },
-  categoryCount: { fontSize: 13 },
+  categoryTitle: { fontSize: 14, fontWeight: '600' },
+  categoryCount: { fontSize: 13, fontWeight: '600' },
 
-  milestonesGrid: {
-    borderRadius: 16,
-    padding: 12,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
+  milestonesCard: {
+    borderRadius: 14,
+    overflow: 'hidden',
   },
-  milestoneCard: {
-    width: '31%',
-    padding: 10,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  milestoneTop: {
+  milestoneRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    marginBottom: 6,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
   },
-  milestoneEmoji: { fontSize: 24 },
+  milestoneInfo: { flex: 1 },
   milestoneLabel: {
-    fontSize: 11,
+    fontSize: 15,
     fontWeight: '500',
-    textAlign: 'center',
-    marginBottom: 4,
   },
-  milestoneAge: { fontSize: 9, textAlign: 'center' },
+  milestoneLabelAchieved: {
+    fontWeight: '600',
+  },
+  milestoneAge: {
+    fontSize: 12,
+    marginTop: 3,
+  },
+  checkCircle: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyCircle: {
+    width: 10,
+    height: 10,
+  },
 
   infoCard: {
     flexDirection: 'row',
@@ -395,7 +417,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 24,
   },
-  modalTitle: { fontSize: 20, fontWeight: '700', textAlign: 'center' },
+  modalTitle: { fontSize: 18, fontWeight: '700', textAlign: 'center' },
   modalSubtitle: { fontSize: 14, textAlign: 'center', marginTop: 8, marginBottom: 20 },
   input: {
     borderWidth: 1.5,
