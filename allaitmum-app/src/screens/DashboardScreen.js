@@ -25,6 +25,8 @@ import CroissanceScreen from './CroissanceScreen';
 import EtapesMotricesScreen from './EtapesMotricesScreen';
 import PortageScreen from './PortageScreen';
 import CododoScreen from './CododoScreen';
+import BabyProfileScreen from './BabyProfileScreen';
+import SubscriptionScreen from './SubscriptionScreen';
 
 // Custom icons
 const iconSein = require('../../assets/icon-sein.png');
@@ -447,12 +449,18 @@ export default function DashboardScreen() {
             </View>
 
             <View style={styles.menuSection}>
-              <TouchableOpacity style={styles.menuItem} onPress={() => setShowMenu(false)}>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('profile'); }}
+              >
                 <Ionicons name="person" size={20} color={theme.primary} />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Profil bébé</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.menuItem}>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('subscription'); }}
+              >
                 <Ionicons name="star" size={20} color="#FFB300" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Mon abonnement</Text>
                 <View style={[styles.planBadge, { backgroundColor: theme.secondary }]}>
@@ -460,7 +468,10 @@ export default function DashboardScreen() {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style={[styles.upgradeBtn, { backgroundColor: theme.primary }]}>
+              <TouchableOpacity
+                style={[styles.upgradeBtn, { backgroundColor: theme.primary }]}
+                onPress={() => { setShowMenu(false); setActiveScreen('subscription'); }}
+              >
                 <Ionicons name="rocket" size={18} color="#fff" />
                 <Text style={styles.upgradeBtnText}>Passer à Premium</Text>
               </TouchableOpacity>
@@ -507,6 +518,14 @@ export default function DashboardScreen() {
 
       <Modal visible={activeScreen === 'cododo'} animationType="slide">
         <CododoScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'profile'} animationType="slide">
+        <BabyProfileScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'subscription'} animationType="slide">
+        <SubscriptionScreen onClose={() => setActiveScreen(null)} />
       </Modal>
     </View>
   );

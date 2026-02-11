@@ -10,16 +10,19 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 
+const headerImage = require('../../assets/book-view.png');
+
 const SOUVENIR_TYPES = [
-  { id: 'premier_mot', label: 'Premier mot', icon: 'chatbubble', emoji: '💬' },
-  { id: 'expression', label: 'Expression', icon: 'happy', emoji: '😄' },
-  { id: 'premiere_fois', label: 'Première fois', icon: 'star', emoji: '⭐' },
-  { id: 'moment', label: 'Moment précieux', icon: 'heart', emoji: '💕' },
+  { id: 'premier_mot', label: 'Premier mot', icon: 'chatbubble-outline', color: '#E91E63' },
+  { id: 'expression', label: 'Expression', icon: 'happy-outline', color: '#FF9800' },
+  { id: 'premiere_fois', label: 'Première fois', icon: 'star-outline', color: '#9C27B0' },
+  { id: 'moment', label: 'Moment précieux', icon: 'heart-outline', color: '#F44336' },
 ];
 
 const PREMIERES_FOIS = [
@@ -73,84 +76,132 @@ export default function SouvenirsScreen({ onClose }) {
 
   const getTypeInfo = (typeId) => SOUVENIR_TYPES.find((t) => t.id === typeId) || SOUVENIR_TYPES[3];
 
+  const formatDisplayDate = (dateStr) => {
+    if (!dateStr) return '';
+    // If already in DD/MM/YYYY format
+    if (dateStr.includes('/')) return dateStr;
+    // If in YYYY-MM-DD format
+    const [year, month, day] = dateStr.split('-');
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       {/* Header */}
-      <View style={[styles.header, { borderBottomColor: theme.border }]}>
-        <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+      <View style={[styles.header, { backgroundColor: theme.card }]}>
+        <TouchableOpacity onPress={onClose} style={styles.backBtn}>
           <Ionicons name="arrow-back" size={24} color={theme.primary} />
         </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.primary }]}>
-          📖 Bébé Book
-        </Text>
-        <View style={{ width: 40 }} />
+        <Text style={[styles.headerTitle, { color: theme.primary }]}>Souvenirs</Text>
+        <TouchableOpacity onPress={() => setShowAddModal(true)} style={styles.addHeaderBtn}>
+          <Ionicons name="add" size={24} color={theme.primary} />
+        </TouchableOpacity>
       </View>
 
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={[styles.subtitle, { color: theme.text }]}>
-          Les souvenirs précieux de {baby.name || 'bébé'}
-        </Text>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        {/* Header image */}
+        <View style={[styles.imageCard, { backgroundColor: theme.card }]}>
+          <Image source={headerImage} style={styles.headerImage} resizeMode="contain" />
+        </View>
+
+        {/* Stats card */}
+        <View style={[styles.statsCard, { backgroundColor: theme.card }]}>
+          <Text style={[styles.statsTitle, { color: theme.textDark }]}>
+            Les souvenirs de {baby.name || 'bébé'}
+          </Text>
+          <Text style={[styles.statsCount, { color: theme.primary }]}>
+            {babySouvenirs.length} souvenir{babySouvenirs.length !== 1 ? 's' : ''} enregistré{babySouvenirs.length !== 1 ? 's' : ''}
+          </Text>
+        </View>
 
         {/* Quick add buttons */}
-        <View style={styles.quickAddRow}>
-          {SOUVENIR_TYPES.map((type) => (
-            <TouchableOpacity
-              key={type.id}
-              style={[styles.quickAddBtn, { backgroundColor: theme.card }]}
-              onPress={() => {
-                setSelectedType(type.id);
-                setShowAddModal(true);
-              }}
-            >
-              <Text style={styles.quickAddEmoji}>{type.emoji}</Text>
-              <Text style={[styles.quickAddLabel, { color: theme.textDark }]} numberOfLines={1}>
-                {type.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
+        <View style={styles.quickAddSection}>
+          <Text style={[styles.sectionTitle, { color: theme.textDark }]}>Ajouter un souvenir</Text>
+          <View style={styles.quickAddGrid}>
+            {SOUVENIR_TYPES.map((type) => (
+              <TouchableOpacity
+                key={type.id}
+                style={[styles.quickAddBtn, { backgroundColor: theme.card }]}
+                onPress={() => {
+                  setSelectedType(type.id);
+                  setShowAddModal(true);
+                }}
+              >
+                <View style={[styles.quickAddIconCircle, { backgroundColor: type.color + '15' }]}>
+                  <Ionicons name={type.icon} size={22} color={type.color} />
+                </View>
+                <Text style={[styles.quickAddLabel, { color: theme.textDark }]} numberOfLines={1}>
+                  {type.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
 
         {/* Souvenirs list */}
-        {babySouvenirs.length === 0 ? (
-          <View style={[styles.emptyCard, { backgroundColor: theme.card }]}>
-            <Ionicons name="book-outline" size={48} color={theme.textLight} />
-            <Text style={[styles.emptyText, { color: theme.textLight }]}>
-              Aucun souvenir pour l'instant
-            </Text>
-            <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
-              Capture les premiers mots, les expressions rigolotes, les grandes premières...
-            </Text>
-          </View>
-        ) : (
-          <View style={styles.souvenirsList}>
-            {babySouvenirs.map((souvenir) => {
-              const typeInfo = getTypeInfo(souvenir.type);
-              return (
-                <View key={souvenir.id} style={[styles.souvenirCard, { backgroundColor: theme.card }]}>
-                  <View style={styles.souvenirHeader}>
-                    <Text style={styles.souvenirEmoji}>{typeInfo.emoji}</Text>
-                    <View style={styles.souvenirInfo}>
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.textDark }]}>Historique</Text>
+
+          {babySouvenirs.length === 0 ? (
+            <View style={[styles.emptyCard, { backgroundColor: theme.card }]}>
+              <Ionicons name="book-outline" size={48} color={theme.textLight} />
+              <Text style={[styles.emptyText, { color: theme.textLight }]}>
+                Aucun souvenir pour l'instant
+              </Text>
+              <Text style={[styles.emptySubtext, { color: theme.textLight }]}>
+                Capture les premiers mots, les expressions rigolotes, les grandes premières...
+              </Text>
+            </View>
+          ) : (
+            <View style={[styles.souvenirsList, { backgroundColor: theme.card }]}>
+              {babySouvenirs.map((souvenir, index) => {
+                const typeInfo = getTypeInfo(souvenir.type);
+                const isLast = index === babySouvenirs.length - 1;
+                return (
+                  <View
+                    key={souvenir.id}
+                    style={[
+                      styles.souvenirRow,
+                      !isLast && { borderBottomWidth: 1, borderBottomColor: theme.border },
+                    ]}
+                  >
+                    <View style={[styles.souvenirIcon, { backgroundColor: typeInfo.color + '15' }]}>
+                      <Ionicons name={typeInfo.icon} size={20} color={typeInfo.color} />
+                    </View>
+                    <View style={styles.souvenirContent}>
                       <Text style={[styles.souvenirTitle, { color: theme.textDark }]}>
                         {souvenir.title}
                       </Text>
+                      {souvenir.description ? (
+                        <Text style={[styles.souvenirDesc, { color: theme.text }]} numberOfLines={2}>
+                          {souvenir.description}
+                        </Text>
+                      ) : null}
                       <Text style={[styles.souvenirDate, { color: theme.textLight }]}>
-                        {souvenir.date}
+                        {formatDisplayDate(souvenir.date)}
                       </Text>
                     </View>
-                    <TouchableOpacity onPress={() => handleDelete(souvenir.id)}>
-                      <Ionicons name="trash-outline" size={20} color={theme.textLight} />
+                    <TouchableOpacity
+                      style={styles.deleteBtn}
+                      onPress={() => handleDelete(souvenir.id)}
+                    >
+                      <Ionicons name="trash-outline" size={18} color={theme.textLight} />
                     </TouchableOpacity>
                   </View>
-                  {souvenir.description ? (
-                    <Text style={[styles.souvenirDesc, { color: theme.text }]}>
-                      {souvenir.description}
-                    </Text>
-                  ) : null}
-                </View>
-              );
-            })}
-          </View>
-        )}
+                );
+              })}
+            </View>
+          )}
+        </View>
+
+        {/* Tips */}
+        <View style={[styles.tipCard, { backgroundColor: theme.secondary + '40' }]}>
+          <Ionicons name="bulb-outline" size={20} color={theme.primary} />
+          <Text style={[styles.tipText, { color: theme.textDark }]}>
+            Notez les petits moments du quotidien : un mot rigolo, une expression adorable,
+            une grande première... Ce sont des trésors à relire plus tard !
+          </Text>
+        </View>
       </ScrollView>
 
       {/* Add Modal */}
@@ -159,19 +210,22 @@ export default function SouvenirsScreen({ onClose }) {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.modalOverlay}
         >
-          <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
-            <View style={styles.modalHeader}>
-              <Text style={[styles.modalTitle, { color: theme.primary }]}>
-                {selectedType ? getTypeInfo(selectedType).emoji : '✨'} Nouveau souvenir
-              </Text>
-              <TouchableOpacity onPress={() => setShowAddModal(false)}>
-                <Ionicons name="close" size={24} color={theme.textLight} />
-              </TouchableOpacity>
-            </View>
+          <ScrollView
+            contentContainerStyle={styles.modalScrollContent}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
+              <View style={styles.modalHeader}>
+                <Text style={[styles.modalTitle, { color: theme.primary }]}>
+                  Nouveau souvenir
+                </Text>
+                <TouchableOpacity onPress={() => setShowAddModal(false)}>
+                  <Ionicons name="close" size={24} color={theme.textLight} />
+                </TouchableOpacity>
+              </View>
 
-            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
               {/* Type selector */}
-              <Text style={[styles.label, { color: theme.text }]}>Type</Text>
+              <Text style={[styles.label, { color: theme.textDark }]}>Type de souvenir</Text>
               <View style={styles.typeRow}>
                 {SOUVENIR_TYPES.map((type) => (
                   <TouchableOpacity
@@ -179,13 +233,17 @@ export default function SouvenirsScreen({ onClose }) {
                     style={[
                       styles.typeBtn,
                       {
-                        backgroundColor: selectedType === type.id ? theme.primary + '20' : theme.background,
-                        borderColor: selectedType === type.id ? theme.primary : theme.border,
+                        backgroundColor: selectedType === type.id ? type.color + '15' : theme.background,
+                        borderColor: selectedType === type.id ? type.color : theme.border,
                       },
                     ]}
                     onPress={() => setSelectedType(type.id)}
                   >
-                    <Text style={styles.typeEmoji}>{type.emoji}</Text>
+                    <Ionicons
+                      name={type.icon}
+                      size={20}
+                      color={selectedType === type.id ? type.color : theme.textLight}
+                    />
                   </TouchableOpacity>
                 ))}
               </View>
@@ -205,7 +263,7 @@ export default function SouvenirsScreen({ onClose }) {
                 </ScrollView>
               )}
 
-              <Text style={[styles.label, { color: theme.text }]}>Titre</Text>
+              <Text style={[styles.label, { color: theme.textDark }]}>Titre</Text>
               <TextInput
                 style={[styles.input, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
                 value={title}
@@ -214,7 +272,7 @@ export default function SouvenirsScreen({ onClose }) {
                 placeholderTextColor={theme.textLight}
               />
 
-              <Text style={[styles.label, { color: theme.text }]}>Description (optionnel)</Text>
+              <Text style={[styles.label, { color: theme.textDark }]}>Description (optionnel)</Text>
               <TextInput
                 style={[styles.input, styles.textArea, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
                 value={description}
@@ -225,7 +283,7 @@ export default function SouvenirsScreen({ onClose }) {
                 numberOfLines={3}
               />
 
-              <Text style={[styles.label, { color: theme.text }]}>Date (JJ/MM/AAAA)</Text>
+              <Text style={[styles.label, { color: theme.textDark }]}>Date (JJ/MM/AAAA)</Text>
               <TextInput
                 style={[styles.input, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
                 value={date}
@@ -235,15 +293,22 @@ export default function SouvenirsScreen({ onClose }) {
                 keyboardType="numbers-and-punctuation"
               />
 
-              <TouchableOpacity
-                style={[styles.addBtn, { backgroundColor: theme.primary }]}
-                onPress={handleAdd}
-              >
-                <Ionicons name="add" size={20} color="#fff" />
-                <Text style={styles.addBtnText}>Ajouter ce souvenir</Text>
-              </TouchableOpacity>
-            </ScrollView>
-          </View>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={[styles.modalBtn, { backgroundColor: theme.background }]}
+                  onPress={() => setShowAddModal(false)}
+                >
+                  <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalBtn, { backgroundColor: theme.primary }]}
+                  onPress={handleAdd}
+                >
+                  <Text style={[styles.modalBtnText, { color: '#fff' }]}>Enregistrer</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
         </KeyboardAvoidingView>
       </Modal>
     </View>
@@ -257,61 +322,109 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: 50,
-    paddingBottom: 16,
+    paddingBottom: 15,
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
   },
-  closeBtn: { width: 40, height: 40, justifyContent: 'center' },
+  backBtn: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
   headerTitle: { fontSize: 20, fontWeight: '700' },
-  content: { padding: 20, paddingBottom: 40 },
-  subtitle: { fontSize: 14, marginBottom: 20, textAlign: 'center' },
+  addHeaderBtn: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
 
-  // Quick add
-  quickAddRow: { flexDirection: 'row', gap: 10, marginBottom: 24 },
+  scrollContent: { padding: 16, paddingBottom: 40 },
+
+  imageCard: {
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  headerImage: {
+    width: 200,
+    height: 100,
+  },
+
+  statsCard: {
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  statsTitle: { fontSize: 15, fontWeight: '500' },
+  statsCount: { fontSize: 24, fontWeight: '700', marginTop: 4 },
+
+  quickAddSection: { marginBottom: 24 },
+  sectionTitle: { fontSize: 15, fontWeight: '600', marginBottom: 12 },
+  quickAddGrid: { flexDirection: 'row', gap: 10 },
   quickAddBtn: {
     flex: 1,
-    paddingVertical: 16,
+    paddingVertical: 14,
     borderRadius: 14,
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
   },
-  quickAddEmoji: { fontSize: 24 },
+  quickAddIconCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   quickAddLabel: { fontSize: 11, fontWeight: '600' },
 
-  // Empty state
+  section: { marginBottom: 20 },
+
   emptyCard: {
     padding: 32,
-    borderRadius: 20,
+    borderRadius: 16,
     alignItems: 'center',
     gap: 12,
   },
   emptyText: { fontSize: 16, fontWeight: '600' },
   emptySubtext: { fontSize: 13, textAlign: 'center', lineHeight: 20 },
 
-  // Souvenirs list
-  souvenirsList: { gap: 12 },
-  souvenirCard: {
-    padding: 16,
-    borderRadius: 16,
+  souvenirsList: {
+    borderRadius: 14,
+    overflow: 'hidden',
   },
-  souvenirHeader: {
+  souvenirRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 14,
     gap: 12,
   },
-  souvenirEmoji: { fontSize: 28 },
-  souvenirInfo: { flex: 1 },
-  souvenirTitle: { fontSize: 16, fontWeight: '600' },
-  souvenirDate: { fontSize: 12, marginTop: 2 },
-  souvenirDesc: { fontSize: 14, marginTop: 10, lineHeight: 20 },
+  souvenirIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  souvenirContent: { flex: 1 },
+  souvenirTitle: { fontSize: 15, fontWeight: '600' },
+  souvenirDesc: { fontSize: 13, marginTop: 2, lineHeight: 18 },
+  souvenirDate: { fontSize: 12, marginTop: 4 },
+  deleteBtn: { padding: 8 },
 
-  // Modal
-  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+  tipCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    padding: 14,
+    borderRadius: 12,
+  },
+  tipText: { flex: 1, fontSize: 13, lineHeight: 18 },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalScrollContent: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+  },
   modalContent: {
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 24,
-    maxHeight: '90%',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -321,12 +434,12 @@ const styles = StyleSheet.create({
   },
   modalTitle: { fontSize: 20, fontWeight: '700' },
 
-  label: { fontSize: 13, fontWeight: '500', marginBottom: 6, marginTop: 12 },
+  label: { fontSize: 14, fontWeight: '500', marginBottom: 8, marginTop: 16 },
   input: {
     paddingHorizontal: 16,
     paddingVertical: 14,
     borderRadius: 12,
-    borderWidth: 2,
+    borderWidth: 1.5,
     fontSize: 15,
   },
   textArea: { height: 80, textAlignVertical: 'top' },
@@ -334,12 +447,11 @@ const styles = StyleSheet.create({
   typeRow: { flexDirection: 'row', gap: 10 },
   typeBtn: {
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: 14,
     borderRadius: 12,
     borderWidth: 2,
     alignItems: 'center',
   },
-  typeEmoji: { fontSize: 24 },
 
   suggestionsRow: { marginTop: 12, marginBottom: 4 },
   suggestionChip: {
@@ -350,14 +462,16 @@ const styles = StyleSheet.create({
   },
   suggestionText: { fontSize: 13, fontWeight: '500' },
 
-  addBtn: {
+  modalButtons: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingVertical: 16,
-    borderRadius: 14,
-    marginTop: 20,
+    gap: 12,
+    marginTop: 24,
   },
-  addBtnText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  modalBtn: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  modalBtnText: { fontSize: 16, fontWeight: '600' },
 });

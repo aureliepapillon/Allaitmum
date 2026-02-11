@@ -207,6 +207,23 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const updateBaby = async (babyId, updates) => {
+    const updated = babies.map((b) => (b.id === babyId ? { ...b, ...updates } : b));
+    setBabies(updated);
+    await storage.set('babies', updated);
+  };
+
+  const deleteBaby = async (babyId) => {
+    if (babies.length <= 1) return; // Cannot delete the last baby
+    const updated = babies.filter((b) => b.id !== babyId);
+    setBabies(updated);
+    if (activeBabyId === babyId) {
+      setActiveBabyId(updated[0].id);
+      await storage.set('activeBabyId', updated[0].id);
+    }
+    await storage.set('babies', updated);
+  };
+
   const resetApp = async () => {
     await storage.clear();
     setBabies([]);
@@ -397,6 +414,8 @@ export const AppProvider = ({ children }) => {
         completeOnboarding,
         addBaby,
         switchBaby,
+        updateBaby,
+        deleteBaby,
         resetApp,
         // Feeding
         feedingSessions,

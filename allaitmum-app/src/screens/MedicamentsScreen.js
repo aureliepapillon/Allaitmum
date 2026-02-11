@@ -10,6 +10,8 @@ import {
   Alert,
   Image,
   Dimensions,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -325,147 +327,163 @@ export default function MedicamentsScreen({ onClose }) {
 
       {/* Add Medication Modal */}
       <Modal visible={showAddMed} animationType="slide" transparent>
-        <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
-            <Text style={[styles.modalTitle, { color: theme.primary }]}>
-              Nouveau médicament
-            </Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.modalOverlay}
+        >
+          <ScrollView
+            contentContainerStyle={styles.modalScrollContent}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
+              <Text style={[styles.modalTitle, { color: theme.primary }]}>
+                Nouveau médicament
+              </Text>
 
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Nom *</Text>
-            <TextInput
-              style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
-              value={medName}
-              onChangeText={setMedName}
-              placeholder="Ex: Doliprane"
-              placeholderTextColor={theme.textLight}
-            />
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Nom *</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+                value={medName}
+                onChangeText={setMedName}
+                placeholder="Ex: Doliprane"
+                placeholderTextColor={theme.textLight}
+              />
 
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Dosage</Text>
-            <TextInput
-              style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
-              value={medDosage}
-              onChangeText={setMedDosage}
-              placeholder="Ex: 2.5ml"
-              placeholderTextColor={theme.textLight}
-            />
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Dosage</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+                value={medDosage}
+                onChangeText={setMedDosage}
+                placeholder="Ex: 2.5ml"
+                placeholderTextColor={theme.textLight}
+              />
 
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Fréquence</Text>
-            <View style={styles.frequencyGrid}>
-              {FREQUENCIES.map((freq) => (
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Fréquence</Text>
+              <View style={styles.frequencyGrid}>
+                {FREQUENCIES.map((freq) => (
+                  <TouchableOpacity
+                    key={freq.id}
+                    style={[
+                      styles.frequencyBtn,
+                      { borderColor: theme.border },
+                      medFrequency === freq.id && { backgroundColor: theme.primary, borderColor: theme.primary },
+                    ]}
+                    onPress={() => setMedFrequency(freq.id)}
+                  >
+                    <Text style={[
+                      styles.frequencyText,
+                      { color: theme.textDark },
+                      medFrequency === freq.id && { color: '#fff' },
+                    ]}>
+                      {freq.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Notes</Text>
+              <TextInput
+                style={[styles.input, styles.textArea, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+                value={medNotes}
+                onChangeText={setMedNotes}
+                placeholder="Ex: Après les repas, pendant 5 jours..."
+                placeholderTextColor={theme.textLight}
+                multiline
+              />
+
+              <View style={styles.modalButtons}>
                 <TouchableOpacity
-                  key={freq.id}
-                  style={[
-                    styles.frequencyBtn,
-                    { borderColor: theme.border },
-                    medFrequency === freq.id && { backgroundColor: theme.primary, borderColor: theme.primary },
-                  ]}
-                  onPress={() => setMedFrequency(freq.id)}
+                  style={[styles.modalBtn, { backgroundColor: theme.background }]}
+                  onPress={() => setShowAddMed(false)}
                 >
-                  <Text style={[
-                    styles.frequencyText,
-                    { color: theme.textDark },
-                    medFrequency === freq.id && { color: '#fff' },
-                  ]}>
-                    {freq.label}
-                  </Text>
+                  <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
                 </TouchableOpacity>
-              ))}
+                <TouchableOpacity
+                  style={[styles.modalBtn, { backgroundColor: theme.primary }]}
+                  onPress={handleAddMedication}
+                >
+                  <Text style={[styles.modalBtnText, { color: '#fff' }]}>Ajouter</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Notes</Text>
-            <TextInput
-              style={[styles.input, styles.textArea, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
-              value={medNotes}
-              onChangeText={setMedNotes}
-              placeholder="Ex: Après les repas, pendant 5 jours..."
-              placeholderTextColor={theme.textLight}
-              multiline
-            />
-
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={[styles.modalBtn, { backgroundColor: theme.background }]}
-                onPress={() => setShowAddMed(false)}
-              >
-                <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalBtn, { backgroundColor: theme.primary }]}
-                onPress={handleAddMedication}
-              >
-                <Text style={[styles.modalBtnText, { color: '#fff' }]}>Ajouter</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Modal>
 
       {/* Add Allergy Modal */}
       <Modal visible={showAddAllergy} animationType="slide" transparent>
-        <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
-            <Text style={[styles.modalTitle, { color: theme.primary }]}>
-              Nouvelle allergie
-            </Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.modalOverlay}
+        >
+          <ScrollView
+            contentContainerStyle={styles.modalScrollContent}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
+              <Text style={[styles.modalTitle, { color: theme.primary }]}>
+                Nouvelle allergie
+              </Text>
 
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Allergène *</Text>
-            <TextInput
-              style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
-              value={allergyName}
-              onChangeText={setAllergyName}
-              placeholder="Ex: Arachides, Lait, Pénicilline..."
-              placeholderTextColor={theme.textLight}
-            />
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Allergène *</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+                value={allergyName}
+                onChangeText={setAllergyName}
+                placeholder="Ex: Arachides, Lait, Pénicilline..."
+                placeholderTextColor={theme.textLight}
+              />
 
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Sévérité *</Text>
-            <View style={styles.severityGrid}>
-              {SEVERITIES.map((sev) => (
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Sévérité *</Text>
+              <View style={styles.severityGrid}>
+                {SEVERITIES.map((sev) => (
+                  <TouchableOpacity
+                    key={sev.id}
+                    style={[
+                      styles.severityBtn,
+                      { borderColor: sev.color },
+                      allergySeverity === sev.id && { backgroundColor: sev.color },
+                    ]}
+                    onPress={() => setAllergySeverity(sev.id)}
+                  >
+                    <Text style={[
+                      styles.severityBtnText,
+                      { color: sev.color },
+                      allergySeverity === sev.id && { color: '#fff' },
+                    ]}>
+                      {sev.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Type de réaction</Text>
+              <TextInput
+                style={[styles.input, styles.textArea, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+                value={allergyReaction}
+                onChangeText={setAllergyReaction}
+                placeholder="Ex: Urticaire, gonflement, difficultés respiratoires..."
+                placeholderTextColor={theme.textLight}
+                multiline
+              />
+
+              <View style={styles.modalButtons}>
                 <TouchableOpacity
-                  key={sev.id}
-                  style={[
-                    styles.severityBtn,
-                    { borderColor: sev.color },
-                    allergySeverity === sev.id && { backgroundColor: sev.color },
-                  ]}
-                  onPress={() => setAllergySeverity(sev.id)}
+                  style={[styles.modalBtn, { backgroundColor: theme.background }]}
+                  onPress={() => setShowAddAllergy(false)}
                 >
-                  <Text style={[
-                    styles.severityBtnText,
-                    { color: sev.color },
-                    allergySeverity === sev.id && { color: '#fff' },
-                  ]}>
-                    {sev.label}
-                  </Text>
+                  <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
                 </TouchableOpacity>
-              ))}
+                <TouchableOpacity
+                  style={[styles.modalBtn, { backgroundColor: theme.primary }]}
+                  onPress={handleAddAllergy}
+                >
+                  <Text style={[styles.modalBtnText, { color: '#fff' }]}>Ajouter</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Type de réaction</Text>
-            <TextInput
-              style={[styles.input, styles.textArea, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
-              value={allergyReaction}
-              onChangeText={setAllergyReaction}
-              placeholder="Ex: Urticaire, gonflement, difficultés respiratoires..."
-              placeholderTextColor={theme.textLight}
-              multiline
-            />
-
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={[styles.modalBtn, { backgroundColor: theme.background }]}
-                onPress={() => setShowAddAllergy(false)}
-              >
-                <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalBtn, { backgroundColor: theme.primary }]}
-                onPress={handleAddAllergy}
-              >
-                <Text style={[styles.modalBtnText, { color: '#fff' }]}>Ajouter</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );
@@ -588,6 +606,9 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalScrollContent: {
+    flexGrow: 1,
     justifyContent: 'flex-end',
   },
   modalContent: {
