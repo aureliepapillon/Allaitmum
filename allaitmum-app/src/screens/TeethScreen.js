@@ -17,7 +17,7 @@ import { useApp } from '../utils/AppContext';
 const { width } = Dimensions.get('window');
 
 // Image du diagramme des dents
-const teethChartImage = require('../../assets/teeth-chart.png');
+const teethChartImage = require('../../assets/teeth.chart.png');
 
 // Dents organisées par type avec âges correspondants à l'image
 const TEETH_BY_TYPE = [

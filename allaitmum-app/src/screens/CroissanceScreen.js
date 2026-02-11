@@ -17,6 +17,9 @@ import { parseBirthDate } from '../utils/helpers';
 
 const { width } = Dimensions.get('window');
 
+// Image de la courbe
+const courbeImage = require('../../assets/Courbe-taille.png');
+
 export default function CroissanceScreen({ onClose }) {
   const { theme } = useTheme();
   const { baby, activeBabyId, growthEntries, setGrowthEntries } = useApp();
@@ -246,6 +249,11 @@ export default function CroissanceScreen({ onClose }) {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Header image */}
+        <View style={[styles.imageCard, { backgroundColor: theme.card }]}>
+          <Image source={courbeImage} style={styles.headerImage} resizeMode="contain" />
+        </View>
+
         {/* Stats cards */}
         <View style={styles.statsRow}>
           <View style={[styles.statCard, { backgroundColor: theme.card }]}>
@@ -438,6 +446,17 @@ const styles = StyleSheet.create({
   addHeaderBtn: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
 
   scrollContent: { padding: 16, paddingBottom: 40 },
+
+  imageCard: {
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  headerImage: {
+    width: width - 64,
+    height: 120,
+  },
 
   statsRow: { flexDirection: 'row', gap: 12, marginBottom: 20 },
   statCard: {

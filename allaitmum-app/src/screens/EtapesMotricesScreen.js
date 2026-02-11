@@ -7,11 +7,16 @@ import {
   StyleSheet,
   Modal,
   TextInput,
+  Image,
+  Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 import { parseBirthDate } from '../utils/helpers';
+
+const { width } = Dimensions.get('window');
+const headerImage = require('../../assets/Motricité.png');
 
 const MILESTONES = [
   // 0-3 mois
@@ -147,6 +152,11 @@ export default function EtapesMotricesScreen({ onClose }) {
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.primary }]}>Étapes motrices</Text>
         <View style={{ width: 40 }} />
+      </View>
+
+      {/* Header image */}
+      <View style={[styles.imageCard, { backgroundColor: theme.card }]}>
+        <Image source={headerImage} style={styles.headerImage} resizeMode="contain" />
       </View>
 
       {/* Progress summary */}
@@ -296,6 +306,18 @@ const styles = StyleSheet.create({
   },
   backBtn: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
   headerTitle: { fontSize: 20, fontWeight: '700' },
+
+  imageCard: {
+    marginHorizontal: 16,
+    marginTop: 16,
+    borderRadius: 16,
+    padding: 16,
+    alignItems: 'center',
+  },
+  headerImage: {
+    width: width - 64,
+    height: 100,
+  },
 
   progressCard: {
     margin: 16,

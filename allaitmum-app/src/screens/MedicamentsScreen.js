@@ -8,10 +8,15 @@ import {
   Modal,
   TextInput,
   Alert,
+  Image,
+  Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
+
+const { width } = Dimensions.get('window');
+const headerImage = require('../../assets/medicament-allergie.png');
 
 const FREQUENCIES = [
   { id: '1x', label: '1x/jour' },
@@ -161,6 +166,11 @@ export default function MedicamentsScreen({ onClose }) {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Header image */}
+        <View style={[styles.imageCard, { backgroundColor: theme.card }]}>
+          <Image source={headerImage} style={styles.headerImage} resizeMode="contain" />
+        </View>
+
         {activeTab === 'meds' ? (
           <>
             {/* Active medications */}
@@ -486,6 +496,17 @@ const styles = StyleSheet.create({
   tabText: { fontSize: 15, fontWeight: '600' },
 
   scrollContent: { padding: 16, paddingBottom: 40 },
+
+  imageCard: {
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  headerImage: {
+    width: width - 64,
+    height: 100,
+  },
 
   section: { marginBottom: 24 },
   sectionHeader: {

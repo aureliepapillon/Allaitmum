@@ -35,6 +35,13 @@ const iconDodo = require('../../assets/icon-dodo.png');
 const iconPipi = require('../../assets/icon-pipi.png');
 const iconCaca = require('../../assets/icon-caca.png');
 
+// Menu icons
+const iconBebeBook = require('../../assets/book-view.png');
+const iconDents = require('../../assets/Dents-menu.png');
+const iconCroissance = require('../../assets/Courbe-taille.png');
+const iconMotricite = require('../../assets/Motricité.png');
+const iconMedicaments = require('../../assets/medicament-allergie.png');
+
 export default function DashboardScreen() {
   const { theme } = useTheme();
   const {
@@ -374,7 +381,10 @@ export default function DashboardScreen() {
 
             {/* Bébé Book section */}
             <View style={styles.menuSection}>
-              <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Bébé Book</Text>
+              <View style={styles.menuSectionHeader}>
+                <Image source={iconBebeBook} style={styles.menuSectionIcon} resizeMode="contain" />
+                <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Bébé Book</Text>
+              </View>
               <TouchableOpacity
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('souvenirs'); }}
@@ -386,21 +396,21 @@ export default function DashboardScreen() {
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('teeth'); }}
               >
-                <Text style={{ fontSize: 18 }}>🦷</Text>
+                <Image source={iconDents} style={styles.menuIcon} resizeMode="contain" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Dents</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('milestones'); }}
               >
-                <Text style={{ fontSize: 18 }}>🏃</Text>
+                <Image source={iconMotricite} style={styles.menuIcon} resizeMode="contain" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Étapes motrices</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('growth'); }}
               >
-                <Text style={{ fontSize: 18 }}>📏</Text>
+                <Image source={iconCroissance} style={styles.menuIcon} resizeMode="contain" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Croissance</Text>
               </TouchableOpacity>
             </View>
@@ -412,7 +422,7 @@ export default function DashboardScreen() {
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('medications'); }}
               >
-                <Text style={{ fontSize: 18 }}>💊</Text>
+                <Image source={iconMedicaments} style={styles.menuIcon} resizeMode="contain" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Médicaments & Allergies</Text>
               </TouchableOpacity>
             </View>
@@ -628,9 +638,12 @@ const styles = StyleSheet.create({
   menuHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 24 },
   menuTitle: { fontSize: 22, fontWeight: '700' },
   menuSection: { marginBottom: 20 },
-  menuSectionTitle: { fontSize: 12, fontWeight: '600', marginBottom: 8, textTransform: 'uppercase' },
+  menuSectionHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
+  menuSectionIcon: { width: 24, height: 24 },
+  menuSectionTitle: { fontSize: 12, fontWeight: '600', textTransform: 'uppercase' },
   menuItem: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, paddingHorizontal: 8, borderRadius: 10 },
   menuItemText: { flex: 1, fontSize: 16, fontWeight: '500' },
+  menuIcon: { width: 24, height: 24 },
   planBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
   planBadgeText: { fontSize: 12, fontWeight: '600' },
   upgradeBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 14, borderRadius: 12, marginTop: 8 },
