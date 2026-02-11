@@ -22,6 +22,7 @@ export default function OnboardingScreen() {
   const { completeOnboarding } = useApp();
   const [step, setStep] = useState(1);
   const [momName, setMomName] = useState('');
+  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [gender, setGender] = useState('fille');
@@ -38,7 +39,8 @@ export default function OnboardingScreen() {
   const handleComplete = (selectedMethod) => {
     completeOnboarding(
       { name, birthDate, gender, birthWeight: birthWeight ? parseFloat(birthWeight) : null, birthHeight: birthHeight ? parseFloat(birthHeight) : null, momName },
-      selectedMethod
+      selectedMethod,
+      email.trim() || null
     );
   };
 
@@ -94,6 +96,21 @@ export default function OnboardingScreen() {
                 onChangeText={setMomName}
                 placeholder="Comment tu t'appelles ?"
                 placeholderTextColor={theme.textLight}
+              />
+
+              <Text style={[styles.label, { color: theme.text }]}>Ton email (optionnel)</Text>
+              <TextInput
+                style={[
+                  styles.input,
+                  { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark },
+                ]}
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Pour recevoir les conseils et actus"
+                placeholderTextColor={theme.textLight}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
               />
 
               <Text style={[styles.label, { color: theme.text }]}>Prénom de ton bébé</Text>

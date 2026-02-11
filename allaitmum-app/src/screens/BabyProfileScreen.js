@@ -19,7 +19,7 @@ import LionMascot from '../components/LionMascot';
 
 export default function BabyProfileScreen({ onClose }) {
   const { theme } = useTheme();
-  const { baby, activeBabyId, updateBaby, babies, deleteBaby, feedingMethod } = useApp();
+  const { baby, activeBabyId, updateBaby, babies, deleteBaby, feedingMethod, userEmail, updateUserEmail } = useApp();
 
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(baby.name || '');
@@ -28,6 +28,7 @@ export default function BabyProfileScreen({ onClose }) {
   const [birthWeight, setBirthWeight] = useState(baby.birthWeight?.toString() || '');
   const [birthHeight, setBirthHeight] = useState(baby.birthHeight?.toString() || '');
   const [momName, setMomName] = useState(baby.momName || '');
+  const [email, setEmail] = useState(userEmail || '');
 
   const handleSave = async () => {
     if (!name.trim()) {
@@ -44,6 +45,11 @@ export default function BabyProfileScreen({ onClose }) {
       momName: momName.trim(),
     });
 
+    // Update email separately (global, not per baby)
+    if (email.trim() !== (userEmail || '')) {
+      await updateUserEmail(email.trim() || null);
+    }
+
     setIsEditing(false);
     Alert.alert('Succès', 'Profil mis à jour !');
   };
@@ -55,6 +61,7 @@ export default function BabyProfileScreen({ onClose }) {
     setBirthWeight(baby.birthWeight?.toString() || '');
     setBirthHeight(baby.birthHeight?.toString() || '');
     setMomName(baby.momName || '');
+    setEmail(userEmail || '');
     setIsEditing(false);
   };
 
@@ -226,6 +233,18 @@ Envoyé depuis l'app Allaitmum`;
                 placeholderTextColor={theme.textLight}
               />
 
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Email</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Ton email (optionnel)"
+                placeholderTextColor={theme.textLight}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+
               <View style={styles.formButtons}>
                 <TouchableOpacity
                   style={[styles.formBtn, { backgroundColor: theme.background }]}
@@ -283,7 +302,7 @@ Envoyé depuis l'app Allaitmum`;
                   </View>
                 </View>
 
-                <View style={[styles.infoRow, { borderBottomWidth: 0 }]}>
+                <View style={styles.infoRow}>
                   <View style={[styles.infoIcon, { backgroundColor: theme.secondary }]}>
                     <Ionicons name="nutrition-outline" size={18} color={theme.primary} />
                   </View>
@@ -291,6 +310,18 @@ Envoyé depuis l'app Allaitmum`;
                     <Text style={[styles.infoLabel, { color: theme.textLight }]}>Mode d'alimentation</Text>
                     <Text style={[styles.infoValue, { color: theme.textDark }]}>
                       {feedingMethod === 'breast' ? 'Allaitement' : feedingMethod === 'bottle' ? 'Biberon' : feedingMethod === 'mixed' ? 'Mixte' : feedingMethod || '-'}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={[styles.infoRow, { borderBottomWidth: 0 }]}>
+                  <View style={[styles.infoIcon, { backgroundColor: theme.secondary }]}>
+                    <Ionicons name="mail-outline" size={18} color={theme.primary} />
+                  </View>
+                  <View style={styles.infoContent}>
+                    <Text style={[styles.infoLabel, { color: theme.textLight }]}>Email</Text>
+                    <Text style={[styles.infoValue, { color: theme.textDark }]}>
+                      {userEmail || 'Non renseigné'}
                     </Text>
                   </View>
                 </View>

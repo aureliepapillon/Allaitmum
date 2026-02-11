@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,13 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
+import { useApp } from '../utils/AppContext';
 
 const FREE_FEATURES = [
   { label: 'Suivi tétées & biberons', included: true },
@@ -35,8 +39,34 @@ const PREMIUM_FEATURES = [
 
 export default function SubscriptionScreen({ onClose }) {
   const { theme } = useTheme();
+  const { userEmail, updateUserEmail } = useApp();
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [emailInput, setEmailInput] = useState('');
+
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   const handleSubscribe = () => {
+    if (!userEmail) {
+      setShowEmailForm(true);
+      return;
+    }
+    Alert.alert(
+      'Bientôt disponible',
+      'L\'abonnement Premium sera disponible très prochainement ! Merci de ton intérêt.',
+      [{ text: 'OK' }]
+    );
+  };
+
+  const handleEmailSubmit = async () => {
+    if (!isValidEmail(emailInput)) {
+      Alert.alert('Email invalide', 'Merci de saisir un email valide.');
+      return;
+    }
+    await updateUserEmail(emailInput.trim());
+    setShowEmailForm(false);
+    setEmailInput('');
     Alert.alert(
       'Bientôt disponible',
       'L\'abonnement Premium sera disponible très prochainement ! Merci de ton intérêt.',
@@ -63,7 +93,11 @@ export default function SubscriptionScreen({ onClose }) {
         <View style={{ width: 40 }} />
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+      >
+      <ScrollView contentContainerStyle={styles.scrollContent} keyboardShouldPersistTaps="handled">
         {/* Current plan */}
         <View style={[styles.currentPlan, { backgroundColor: theme.card }]}>
           <View style={[styles.planBadge, { backgroundColor: theme.secondary }]}>
@@ -125,13 +159,46 @@ export default function SubscriptionScreen({ onClose }) {
             ))}
           </View>
 
-          <TouchableOpacity
-            style={styles.subscribeBtn}
-            onPress={handleSubscribe}
-          >
-            <Ionicons name="rocket" size={20} color="#fff" />
-            <Text style={styles.subscribeBtnText}>Passer à Premium</Text>
-          </TouchableOpacity>
+          {showEmailForm ? (
+            <View style={styles.emailForm}>
+              <Text style={styles.emailFormTitle}>
+                Pour t'abonner, on a besoin de ton email
+              </Text>
+              <TextInput
+                style={styles.emailInput}
+                value={emailInput}
+                onChangeText={setEmailInput}
+                placeholder="ton@email.com"
+                placeholderTextColor="#999"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+              <View style={styles.emailFormButtons}>
+                <TouchableOpacity
+                  style={styles.emailCancelBtn}
+                  onPress={() => { setShowEmailForm(false); setEmailInput(''); }}
+                >
+                  <Text style={styles.emailCancelText}>Annuler</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.emailSubmitBtn, !isValidEmail(emailInput) && { opacity: 0.5 }]}
+                  onPress={handleEmailSubmit}
+                  disabled={!isValidEmail(emailInput)}
+                >
+                  <Text style={styles.emailSubmitText}>Valider</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={styles.subscribeBtn}
+              onPress={handleSubscribe}
+            >
+              <Ionicons name="rocket" size={20} color="#fff" />
+              <Text style={styles.subscribeBtnText}>Passer à Premium</Text>
+            </TouchableOpacity>
+          )}
 
           <Text style={styles.disclaimer}>
             Annulable à tout moment. Renouvellement automatique.
@@ -154,6 +221,7 @@ export default function SubscriptionScreen({ onClose }) {
           </Text>
         </View>
       </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -282,4 +350,52 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   infoText: { flex: 1, fontSize: 13, lineHeight: 18 },
+
+  emailForm: {
+    marginBottom: 12,
+  },
+  emailFormTitle: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  emailInput: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 16,
+    borderWidth: 2,
+    borderColor: '#FFB300',
+    marginBottom: 12,
+  },
+  emailFormButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  emailCancelBtn: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    backgroundColor: '#F5F5F5',
+  },
+  emailCancelText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#666',
+  },
+  emailSubmitBtn: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    backgroundColor: '#FFB300',
+  },
+  emailSubmitText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#fff',
+  },
 });

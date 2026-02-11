@@ -7,6 +7,9 @@ export const AppProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isOnboarded, setIsOnboarded] = useState(false);
 
+  // User email (global, not per baby)
+  const [userEmail, setUserEmail] = useState(null);
+
   // Multi-baby support
   const [babies, setBabies] = useState([]);
   const [activeBabyId, setActiveBabyId] = useState(null);
@@ -57,6 +60,7 @@ export const AppProvider = ({ children }) => {
       const savedBabies = await storage.get('babies');
       const savedActiveBabyId = await storage.get('activeBabyId');
       const savedMethod = await storage.get('feedingMethod');
+      const savedEmail = await storage.get('userEmail');
       const savedFeedings = await storage.get('feedingSessions', []);
       const savedDiapers = await storage.get('diaperEntries', []);
       const savedSleep = await storage.get('sleepSessions', []);
@@ -74,6 +78,7 @@ export const AppProvider = ({ children }) => {
         setBabies(savedBabies);
         setActiveBabyId(savedActiveBabyId || savedBabies[0].id);
         setFeedingMethod(savedMethod);
+        setUserEmail(savedEmail);
         setIsOnboarded(true);
       } else {
         // Migration from old single-baby format
@@ -175,15 +180,17 @@ export const AppProvider = ({ children }) => {
     if (!isLoading && activeBabyId) storage.set('activeBabyId', activeBabyId);
   }, [activeBabyId]);
 
-  const completeOnboarding = async (babyData, method) => {
+  const completeOnboarding = async (babyData, method, email = null) => {
     const newBaby = { ...babyData, id: Date.now(), feedingMethod: method };
     const newBabies = [newBaby];
     setBabies(newBabies);
     setActiveBabyId(newBaby.id);
     setFeedingMethod(method);
+    setUserEmail(email);
     await storage.set('babies', newBabies);
     await storage.set('activeBabyId', newBaby.id);
     await storage.set('feedingMethod', method);
+    if (email) await storage.set('userEmail', email);
     setIsOnboarded(true);
   };
 
@@ -222,6 +229,11 @@ export const AppProvider = ({ children }) => {
       await storage.set('activeBabyId', updated[0].id);
     }
     await storage.set('babies', updated);
+  };
+
+  const updateUserEmail = async (email) => {
+    setUserEmail(email);
+    await storage.set('userEmail', email);
   };
 
   const resetApp = async () => {
@@ -411,11 +423,13 @@ export const AppProvider = ({ children }) => {
         babies,
         activeBabyId,
         feedingMethod,
+        userEmail,
         completeOnboarding,
         addBaby,
         switchBaby,
         updateBaby,
         deleteBaby,
+        updateUserEmail,
         resetApp,
         // Feeding
         feedingSessions,
