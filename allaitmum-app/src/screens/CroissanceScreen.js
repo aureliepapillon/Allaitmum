@@ -10,6 +10,8 @@ import {
   Alert,
   Dimensions,
   Image,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -375,58 +377,66 @@ export default function CroissanceScreen({ onClose }) {
 
       {/* Add Entry Modal */}
       <Modal visible={showAddEntry} animationType="slide" transparent>
-        <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
-            <Text style={[styles.modalTitle, { color: theme.primary }]}>
-              Nouvelle mesure
-            </Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.modalOverlay}
+        >
+          <ScrollView
+            contentContainerStyle={styles.modalScrollContent}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
+              <Text style={[styles.modalTitle, { color: theme.primary }]}>
+                Nouvelle mesure
+              </Text>
 
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Date (JJ/MM/AAAA)</Text>
-            <TextInput
-              style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
-              value={entryDate}
-              onChangeText={setEntryDate}
-              placeholder="Aujourd'hui"
-              placeholderTextColor={theme.textLight}
-              keyboardType="numbers-and-punctuation"
-            />
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Date (JJ/MM/AAAA)</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+                value={entryDate}
+                onChangeText={setEntryDate}
+                placeholder="Aujourd'hui"
+                placeholderTextColor={theme.textLight}
+                keyboardType="numbers-and-punctuation"
+              />
 
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Poids (kg)</Text>
-            <TextInput
-              style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
-              value={entryWeight}
-              onChangeText={setEntryWeight}
-              placeholder="Ex: 5.2"
-              placeholderTextColor={theme.textLight}
-              keyboardType="decimal-pad"
-            />
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Poids (kg)</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+                value={entryWeight}
+                onChangeText={setEntryWeight}
+                placeholder="Ex: 5.2"
+                placeholderTextColor={theme.textLight}
+                keyboardType="decimal-pad"
+              />
 
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Taille (cm)</Text>
-            <TextInput
-              style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
-              value={entryHeight}
-              onChangeText={setEntryHeight}
-              placeholder="Ex: 58"
-              placeholderTextColor={theme.textLight}
-              keyboardType="decimal-pad"
-            />
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Taille (cm)</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+                value={entryHeight}
+                onChangeText={setEntryHeight}
+                placeholder="Ex: 58"
+                placeholderTextColor={theme.textLight}
+                keyboardType="decimal-pad"
+              />
 
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={[styles.modalBtn, { backgroundColor: theme.background }]}
-                onPress={() => setShowAddEntry(false)}
-              >
-                <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalBtn, { backgroundColor: theme.primary }]}
-                onPress={handleAddEntry}
-              >
-                <Text style={[styles.modalBtnText, { color: '#fff' }]}>Enregistrer</Text>
-              </TouchableOpacity>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={[styles.modalBtn, { backgroundColor: theme.background }]}
+                  onPress={() => setShowAddEntry(false)}
+                >
+                  <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalBtn, { backgroundColor: theme.primary }]}
+                  onPress={handleAddEntry}
+                >
+                  <Text style={[styles.modalBtnText, { color: '#fff' }]}>Enregistrer</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );
@@ -551,6 +561,9 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalScrollContent: {
+    flexGrow: 1,
     justifyContent: 'flex-end',
   },
   modalContent: {
