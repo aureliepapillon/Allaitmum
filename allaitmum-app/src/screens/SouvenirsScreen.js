@@ -8,6 +8,8 @@ import {
   Modal,
   TextInput,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -153,7 +155,10 @@ export default function SouvenirsScreen({ onClose }) {
 
       {/* Add Modal */}
       <Modal visible={showAddModal} animationType="slide" transparent>
-        <View style={styles.modalOverlay}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.modalOverlay}
+        >
           <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
             <View style={styles.modalHeader}>
               <Text style={[styles.modalTitle, { color: theme.primary }]}>
@@ -164,80 +169,82 @@ export default function SouvenirsScreen({ onClose }) {
               </TouchableOpacity>
             </View>
 
-            {/* Type selector */}
-            <Text style={[styles.label, { color: theme.text }]}>Type</Text>
-            <View style={styles.typeRow}>
-              {SOUVENIR_TYPES.map((type) => (
-                <TouchableOpacity
-                  key={type.id}
-                  style={[
-                    styles.typeBtn,
-                    {
-                      backgroundColor: selectedType === type.id ? theme.primary + '20' : theme.background,
-                      borderColor: selectedType === type.id ? theme.primary : theme.border,
-                    },
-                  ]}
-                  onPress={() => setSelectedType(type.id)}
-                >
-                  <Text style={styles.typeEmoji}>{type.emoji}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            {/* Quick suggestions for première fois */}
-            {selectedType === 'premiere_fois' && (
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.suggestionsRow}>
-                {PREMIERES_FOIS.map((suggestion) => (
+            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+              {/* Type selector */}
+              <Text style={[styles.label, { color: theme.text }]}>Type</Text>
+              <View style={styles.typeRow}>
+                {SOUVENIR_TYPES.map((type) => (
                   <TouchableOpacity
-                    key={suggestion}
-                    style={[styles.suggestionChip, { backgroundColor: theme.secondary }]}
-                    onPress={() => setTitle(suggestion === 'Autre...' ? '' : suggestion)}
+                    key={type.id}
+                    style={[
+                      styles.typeBtn,
+                      {
+                        backgroundColor: selectedType === type.id ? theme.primary + '20' : theme.background,
+                        borderColor: selectedType === type.id ? theme.primary : theme.border,
+                      },
+                    ]}
+                    onPress={() => setSelectedType(type.id)}
                   >
-                    <Text style={[styles.suggestionText, { color: theme.primary }]}>{suggestion}</Text>
+                    <Text style={styles.typeEmoji}>{type.emoji}</Text>
                   </TouchableOpacity>
                 ))}
-              </ScrollView>
-            )}
+              </View>
 
-            <Text style={[styles.label, { color: theme.text }]}>Titre</Text>
-            <TextInput
-              style={[styles.input, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
-              value={title}
-              onChangeText={setTitle}
-              placeholder={selectedType === 'premier_mot' ? 'Ex: Maman !' : 'Ex: Premier sourire'}
-              placeholderTextColor={theme.textLight}
-            />
+              {/* Quick suggestions for première fois */}
+              {selectedType === 'premiere_fois' && (
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.suggestionsRow}>
+                  {PREMIERES_FOIS.map((suggestion) => (
+                    <TouchableOpacity
+                      key={suggestion}
+                      style={[styles.suggestionChip, { backgroundColor: theme.secondary }]}
+                      onPress={() => setTitle(suggestion === 'Autre...' ? '' : suggestion)}
+                    >
+                      <Text style={[styles.suggestionText, { color: theme.primary }]}>{suggestion}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              )}
 
-            <Text style={[styles.label, { color: theme.text }]}>Description (optionnel)</Text>
-            <TextInput
-              style={[styles.input, styles.textArea, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
-              value={description}
-              onChangeText={setDescription}
-              placeholder="Raconte ce moment..."
-              placeholderTextColor={theme.textLight}
-              multiline
-              numberOfLines={3}
-            />
+              <Text style={[styles.label, { color: theme.text }]}>Titre</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
+                value={title}
+                onChangeText={setTitle}
+                placeholder={selectedType === 'premier_mot' ? 'Ex: Maman !' : 'Ex: Premier sourire'}
+                placeholderTextColor={theme.textLight}
+              />
 
-            <Text style={[styles.label, { color: theme.text }]}>Date (JJ/MM/AAAA)</Text>
-            <TextInput
-              style={[styles.input, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
-              value={date}
-              onChangeText={setDate}
-              placeholder="Aujourd'hui si vide"
-              placeholderTextColor={theme.textLight}
-              keyboardType="numbers-and-punctuation"
-            />
+              <Text style={[styles.label, { color: theme.text }]}>Description (optionnel)</Text>
+              <TextInput
+                style={[styles.input, styles.textArea, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
+                value={description}
+                onChangeText={setDescription}
+                placeholder="Raconte ce moment..."
+                placeholderTextColor={theme.textLight}
+                multiline
+                numberOfLines={3}
+              />
 
-            <TouchableOpacity
-              style={[styles.addBtn, { backgroundColor: theme.primary }]}
-              onPress={handleAdd}
-            >
-              <Ionicons name="add" size={20} color="#fff" />
-              <Text style={styles.addBtnText}>Ajouter ce souvenir</Text>
-            </TouchableOpacity>
+              <Text style={[styles.label, { color: theme.text }]}>Date (JJ/MM/AAAA)</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, backgroundColor: theme.inputBg, color: theme.textDark }]}
+                value={date}
+                onChangeText={setDate}
+                placeholder="Aujourd'hui si vide"
+                placeholderTextColor={theme.textLight}
+                keyboardType="numbers-and-punctuation"
+              />
+
+              <TouchableOpacity
+                style={[styles.addBtn, { backgroundColor: theme.primary }]}
+                onPress={handleAdd}
+              >
+                <Ionicons name="add" size={20} color="#fff" />
+                <Text style={styles.addBtnText}>Ajouter ce souvenir</Text>
+              </TouchableOpacity>
+            </ScrollView>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );
