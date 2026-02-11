@@ -16,7 +16,7 @@ import { useApp } from '../utils/AppContext';
 import { parseBirthDate } from '../utils/helpers';
 
 const { width } = Dimensions.get('window');
-const headerImage = require('../../assets/Motricité.png');
+const headerImage = require('../../assets/Motricite.png');
 
 const MILESTONES = [
   // 0-3 mois

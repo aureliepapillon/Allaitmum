@@ -39,7 +39,7 @@ const iconCaca = require('../../assets/icon-caca.png');
 const iconBebeBook = require('../../assets/book-view.png');
 const iconDents = require('../../assets/Dents-menu.png');
 const iconCroissance = require('../../assets/Courbe-taille.png');
-const iconMotricite = require('../../assets/Motricité.png');
+const iconMotricite = require('../../assets/Motricite.png');
 const iconMedicaments = require('../../assets/medicament-allergie.png');
 
 export default function DashboardScreen() {
