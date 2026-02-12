@@ -27,6 +27,7 @@ import PortageScreen from './PortageScreen';
 import CododoScreen from './CododoScreen';
 import BabyProfileScreen from './BabyProfileScreen';
 import SubscriptionScreen from './SubscriptionScreen';
+import RappelsScreen from './RappelsScreen';
 
 // Custom icons
 const iconSein = require('../../assets/icon-sein.png');
@@ -451,6 +452,14 @@ export default function DashboardScreen() {
             <View style={styles.menuSection}>
               <TouchableOpacity
                 style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('reminders'); }}
+              >
+                <Ionicons name="notifications" size={20} color="#FF9800" />
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Rappels</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('profile'); }}
               >
                 <Ionicons name="person" size={20} color={theme.primary} />
@@ -526,6 +535,10 @@ export default function DashboardScreen() {
 
       <Modal visible={activeScreen === 'subscription'} animationType="slide">
         <SubscriptionScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'reminders'} animationType="slide">
+        <RappelsScreen onClose={() => setActiveScreen(null)} />
       </Modal>
     </View>
   );

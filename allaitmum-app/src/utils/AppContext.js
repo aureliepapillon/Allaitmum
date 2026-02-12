@@ -48,6 +48,9 @@ export const AppProvider = ({ children }) => {
   // Étapes motrices
   const [milestones, setMilestones] = useState([]);
 
+  // Reminders (notifications)
+  const [reminders, setReminders] = useState({ vitaminD: null, medications: [] });
+
   // Computed: active baby (backward-compatible "baby" object)
   const baby = useMemo(() => {
     if (!babies.length) return { name: '', birthDate: '', gender: 'fille', birthWeight: null, birthHeight: null, momName: '' };
@@ -72,6 +75,7 @@ export const AppProvider = ({ children }) => {
       const savedMedications = await storage.get('medications', []);
       const savedAllergies = await storage.get('allergies', []);
       const savedMilestones = await storage.get('milestones', []);
+      const savedReminders = await storage.get('reminders', { vitaminD: null, medications: [] });
 
       if (savedBabies && savedBabies.length > 0 && savedMethod) {
         // New format: multi-baby
@@ -122,6 +126,7 @@ export const AppProvider = ({ children }) => {
       setMedications(savedMedications);
       setAllergies(savedAllergies);
       setMilestones(savedMilestones);
+      setReminders(savedReminders);
       setIsLoading(false);
     };
     loadAll();
@@ -171,6 +176,10 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     if (!isLoading) storage.set('milestones', milestones);
   }, [milestones]);
+
+  useEffect(() => {
+    if (!isLoading) storage.set('reminders', reminders);
+  }, [reminders]);
 
   useEffect(() => {
     if (!isLoading && babies.length > 0) storage.set('babies', babies);
@@ -254,6 +263,7 @@ export const AppProvider = ({ children }) => {
     setMedications([]);
     setAllergies([]);
     setMilestones([]);
+    setReminders({ vitaminD: null, medications: [] });
     setIsOnboarded(false);
   };
 
@@ -398,6 +408,11 @@ export const AppProvider = ({ children }) => {
     setAllergies((prev) => prev.filter((a) => a.id !== id));
   };
 
+  // Reminder actions
+  const updateReminders = (newReminders) => {
+    setReminders(newReminders);
+  };
+
   // Milestone actions
   const toggleMilestone = (milestoneId, date = null) => {
     setMilestones((prev) => {
@@ -477,6 +492,9 @@ export const AppProvider = ({ children }) => {
         // Milestones
         milestones,
         toggleMilestone,
+        // Reminders
+        reminders,
+        updateReminders,
       }}
     >
       {children}
