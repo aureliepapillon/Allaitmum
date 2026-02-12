@@ -39,12 +39,6 @@ const iconDodo = require('../../assets/icon-dodo.png');
 const iconPipi = require('../../assets/icon-pipi.png');
 const iconCaca = require('../../assets/icon-caca.png');
 
-// Menu icons
-const iconBebeBook = require('../../assets/book-view.png');
-const iconDents = require('../../assets/Dents-menu.png');
-const iconCroissance = require('../../assets/Courbe-taille.png');
-const iconMotricite = require('../../assets/Motricite.png');
-const iconMedicaments = require('../../assets/medicament-allergie.png');
 
 export default function DashboardScreen() {
   const { theme } = useTheme();
@@ -375,9 +369,8 @@ export default function DashboardScreen() {
                     style={[styles.menuItem, b.id === activeBabyId && { backgroundColor: theme.primary + '15' }]}
                     onPress={() => { switchBaby(b.id); setShowMenu(false); }}
                   >
-                    <Ionicons name={b.gender === 'fille' ? 'flower' : 'planet'} size={20} color={theme.primary} />
                     <Text style={[styles.menuItemText, { color: theme.textDark }]}>{b.name}</Text>
-                    {b.id === activeBabyId && <Ionicons name="checkmark" size={18} color={theme.primary} />}
+                    {b.id === activeBabyId && <Text style={[styles.checkmark, { color: theme.primary }]}>✓</Text>}
                   </TouchableOpacity>
                 ))}
               </View>
@@ -385,36 +378,29 @@ export default function DashboardScreen() {
 
             {/* Bébé Book section */}
             <View style={styles.menuSection}>
-              <View style={styles.menuSectionHeader}>
-                <Image source={iconBebeBook} style={styles.menuSectionIcon} resizeMode="contain" />
-                <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Bébé Book</Text>
-              </View>
+              <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Bébé Book</Text>
               <TouchableOpacity
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('souvenirs'); }}
               >
-                <Ionicons name="book-outline" size={20} color={theme.primary} />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Souvenirs</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('teeth'); }}
               >
-                <Image source={iconDents} style={styles.menuIcon} resizeMode="contain" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Dents</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('milestones'); }}
               >
-                <Image source={iconMotricite} style={styles.menuIcon} resizeMode="contain" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Étapes motrices</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('growth'); }}
               >
-                <Image source={iconCroissance} style={styles.menuIcon} resizeMode="contain" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Croissance</Text>
               </TouchableOpacity>
             </View>
@@ -426,7 +412,6 @@ export default function DashboardScreen() {
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('medications'); }}
               >
-                <Image source={iconMedicaments} style={styles.menuIcon} resizeMode="contain" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Médicaments & Allergies</Text>
               </TouchableOpacity>
             </View>
@@ -438,14 +423,12 @@ export default function DashboardScreen() {
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('portage'); }}
               >
-                <Ionicons name="body-outline" size={20} color={theme.primary} />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Portage</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('cododo'); }}
               >
-                <Ionicons name="moon-outline" size={20} color={theme.primary} />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Cododo</Text>
               </TouchableOpacity>
             </View>
@@ -455,7 +438,6 @@ export default function DashboardScreen() {
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('reminders'); }}
               >
-                <Ionicons name="notifications" size={20} color="#FF9800" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Rappels</Text>
               </TouchableOpacity>
 
@@ -463,7 +445,6 @@ export default function DashboardScreen() {
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('export'); }}
               >
-                <Ionicons name="document-text" size={20} color="#4CAF50" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Exporter en PDF</Text>
               </TouchableOpacity>
 
@@ -471,7 +452,6 @@ export default function DashboardScreen() {
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('profile'); }}
               >
-                <Ionicons name="person" size={20} color={theme.primary} />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Profil bébé</Text>
               </TouchableOpacity>
 
@@ -479,7 +459,6 @@ export default function DashboardScreen() {
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('subscription'); }}
               >
-                <Ionicons name="star" size={20} color="#FFB300" />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Mon abonnement</Text>
                 <View style={[styles.planBadge, { backgroundColor: theme.secondary }]}>
                   <Text style={[styles.planBadgeText, { color: theme.primary }]}>Gratuit</Text>
@@ -490,14 +469,12 @@ export default function DashboardScreen() {
                 style={[styles.upgradeBtn, { backgroundColor: theme.primary }]}
                 onPress={() => { setShowMenu(false); setActiveScreen('subscription'); }}
               >
-                <Ionicons name="rocket" size={18} color="#fff" />
                 <Text style={styles.upgradeBtnText}>Passer à Premium</Text>
               </TouchableOpacity>
             </View>
 
             <View style={styles.menuSection}>
               <TouchableOpacity style={styles.menuItem} onPress={() => Linking.openURL('mailto:support@allaitmum.app')}>
-                <Ionicons name="help-buoy" size={20} color={theme.primary} />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>SAV / Support</Text>
               </TouchableOpacity>
             </View>
@@ -683,12 +660,10 @@ const styles = StyleSheet.create({
   menuHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 24 },
   menuTitle: { fontSize: 22, fontWeight: '700' },
   menuSection: { marginBottom: 20 },
-  menuSectionHeader: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10 },
-  menuSectionIcon: { width: 40, height: 40 },
-  menuSectionTitle: { fontSize: 16, fontWeight: '700', textTransform: 'uppercase' },
-  menuItem: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, paddingHorizontal: 8, borderRadius: 10 },
+  menuSectionTitle: { fontSize: 14, fontWeight: '600', textTransform: 'uppercase', marginBottom: 8 },
+  menuItem: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12, paddingHorizontal: 8, borderRadius: 10 },
   menuItemText: { flex: 1, fontSize: 16, fontWeight: '500' },
-  menuIcon: { width: 32, height: 32 },
+  checkmark: { fontSize: 16, fontWeight: '700' },
   planBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
   planBadgeText: { fontSize: 12, fontWeight: '600' },
   upgradeBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 14, borderRadius: 12, marginTop: 8 },

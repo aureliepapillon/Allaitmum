@@ -9,6 +9,8 @@ import {
   Switch,
   TextInput,
   Modal,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -294,11 +296,15 @@ export default function RappelsScreen({ onClose }) {
 
       {/* Time Picker Modal */}
       <Modal visible={showTimePicker !== null} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
-            <Text style={[styles.modalTitle, { color: theme.primary }]}>Choisir l'heure</Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.modalOverlay}
+        >
+          <ScrollView contentContainerStyle={styles.modalScrollContent} keyboardShouldPersistTaps="handled">
+            <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
+              <Text style={[styles.modalTitle, { color: theme.primary }]}>Choisir l'heure</Text>
 
-            <View style={styles.pickerRow}>
+              <View style={styles.pickerRow}>
               <ScrollView style={styles.pickerColumn} showsVerticalScrollIndicator={false}>
                 {HOURS.map((h) => (
                   <TouchableOpacity
@@ -348,77 +354,83 @@ export default function RappelsScreen({ onClose }) {
               </ScrollView>
             </View>
 
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={[styles.modalBtn, { backgroundColor: theme.background }]}
-                onPress={() => setShowTimePicker(null)}
-              >
-                <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalBtn, { backgroundColor: theme.primary }]}
-                onPress={saveVitaminDTime}
-              >
-                <Text style={[styles.modalBtnText, { color: '#fff' }]}>Confirmer</Text>
-              </TouchableOpacity>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={[styles.modalBtn, { backgroundColor: theme.background }]}
+                  onPress={() => setShowTimePicker(null)}
+                >
+                  <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalBtn, { backgroundColor: theme.primary }]}
+                  onPress={saveVitaminDTime}
+                >
+                  <Text style={[styles.modalBtnText, { color: '#fff' }]}>Confirmer</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Modal>
 
       {/* Add Medication Modal */}
       <Modal visible={showMedForm} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
-            <Text style={[styles.modalTitle, { color: theme.primary }]}>Nouveau rappel</Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.modalOverlay}
+        >
+          <ScrollView contentContainerStyle={styles.modalScrollContent} keyboardShouldPersistTaps="handled">
+            <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
+              <Text style={[styles.modalTitle, { color: theme.primary }]}>Nouveau rappel</Text>
 
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Nom du médicament</Text>
-            <TextInput
-              style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
-              value={medName}
-              onChangeText={setMedName}
-              placeholder="Ex: Vitamine K, Doliprane..."
-              placeholderTextColor={theme.textLight}
-            />
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Nom du médicament</Text>
+              <TextInput
+                style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+                value={medName}
+                onChangeText={setMedName}
+                placeholder="Ex: Vitamine K, Doliprane..."
+                placeholderTextColor={theme.textLight}
+              />
 
-            <Text style={[styles.inputLabel, { color: theme.textDark }]}>Heure du rappel</Text>
-            <View style={styles.timeSelectRow}>
-              <TouchableOpacity
-                style={[styles.timeSelect, { borderColor: theme.border, backgroundColor: theme.inputBg }]}
-                onPress={() => setMedHour((h) => (h > 0 ? h - 1 : 23))}
-              >
-                <Ionicons name="remove" size={20} color={theme.textDark} />
-              </TouchableOpacity>
-              <Text style={[styles.timeSelectValue, { color: theme.textDark }]}>
-                {formatTime(medHour, medMinute)}
-              </Text>
-              <TouchableOpacity
-                style={[styles.timeSelect, { borderColor: theme.border, backgroundColor: theme.inputBg }]}
-                onPress={() => setMedHour((h) => (h < 23 ? h + 1 : 0))}
-              >
-                <Ionicons name="add" size={20} color={theme.textDark} />
-              </TouchableOpacity>
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Heure du rappel</Text>
+              <View style={styles.timeSelectRow}>
+                <TouchableOpacity
+                  style={[styles.timeSelect, { borderColor: theme.border, backgroundColor: theme.inputBg }]}
+                  onPress={() => setMedHour((h) => (h > 0 ? h - 1 : 23))}
+                >
+                  <Ionicons name="remove" size={20} color={theme.textDark} />
+                </TouchableOpacity>
+                <Text style={[styles.timeSelectValue, { color: theme.textDark }]}>
+                  {formatTime(medHour, medMinute)}
+                </Text>
+                <TouchableOpacity
+                  style={[styles.timeSelect, { borderColor: theme.border, backgroundColor: theme.inputBg }]}
+                  onPress={() => setMedHour((h) => (h < 23 ? h + 1 : 0))}
+                >
+                  <Ionicons name="add" size={20} color={theme.textDark} />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={[styles.modalBtn, { backgroundColor: theme.background }]}
+                  onPress={() => {
+                    setShowMedForm(false);
+                    setMedName('');
+                  }}
+                >
+                  <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalBtn, { backgroundColor: theme.primary }]}
+                  onPress={addMedicationReminder}
+                >
+                  <Text style={[styles.modalBtnText, { color: '#fff' }]}>Ajouter</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={[styles.modalBtn, { backgroundColor: theme.background }]}
-                onPress={() => {
-                  setShowMedForm(false);
-                  setMedName('');
-                }}
-              >
-                <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalBtn, { backgroundColor: theme.primary }]}
-                onPress={addMedicationReminder}
-              >
-                <Text style={[styles.modalBtnText, { color: '#fff' }]}>Ajouter</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );
@@ -536,8 +548,10 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalScrollContent: {
+    flexGrow: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     padding: 24,
   },
   modalContent: {
