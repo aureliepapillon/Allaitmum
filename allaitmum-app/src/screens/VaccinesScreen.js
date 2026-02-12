@@ -5,6 +5,10 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Modal,
+  TextInput,
+  Alert,
+  SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -12,29 +16,89 @@ import { useApp } from '../utils/AppContext';
 import { getVaccinesByAge, getUpcomingVaccines } from '../data/vaccines';
 import { getBabyAgeInMonths } from '../utils/helpers';
 
-export default function VaccinesScreen() {
+export default function VaccinesScreen({ onClose }) {
   const { theme } = useTheme();
-  const { baby, vaccinesDone, toggleVaccine } = useApp();
+  const { baby, vaccinesDone, toggleVaccine, isVaccineDone, getVaccineDate } = useApp();
   const [expandedGroup, setExpandedGroup] = useState(null);
+  const [selectedVaccine, setSelectedVaccine] = useState(null);
+  const [vaccineDate, setVaccineDate] = useState('');
 
   const groups = getVaccinesByAge();
-  const upcoming = getUpcomingVaccines(baby.birthDate, vaccinesDone);
   const babyAgeMonths = getBabyAgeInMonths(baby.birthDate);
 
+  // Calcul du nombre de vaccins effectués (compatibilité avec ancien et nouveau format)
+  const getDoneCount = () => {
+    let count = 0;
+    groups.forEach(g => {
+      g.vaccines.forEach(v => {
+        if (isVaccineDone(v.id)) count++;
+      });
+    });
+    return count;
+  };
+
   const totalVaccines = groups.reduce((acc, g) => acc + g.vaccines.length, 0);
-  const doneCount = vaccinesDone.length;
+  const doneCount = getDoneCount();
   const progress = totalVaccines > 0 ? Math.round((doneCount / totalVaccines) * 100) : 0;
 
+  // Vaccins à venir (non faits et selon l'âge)
+  const upcoming = groups
+    .flatMap(g => g.vaccines)
+    .filter(v => !isVaccineDone(v.id) && v.ageMonths <= babyAgeMonths + 2 && v.ageMonths >= babyAgeMonths - 1)
+    .slice(0, 5);
+
+  const handleVaccinePress = (vaccine) => {
+    if (isVaccineDone(vaccine.id)) {
+      // Si déjà fait, demander confirmation pour retirer
+      Alert.alert(
+        'Retirer ce vaccin ?',
+        `Voulez-vous retirer "${vaccine.name}" des vaccins effectués ?`,
+        [
+          { text: 'Annuler', style: 'cancel' },
+          { text: 'Retirer', style: 'destructive', onPress: () => toggleVaccine(vaccine.id) },
+        ]
+      );
+    } else {
+      // Ouvrir le modal pour saisir la date
+      setSelectedVaccine(vaccine);
+      setVaccineDate(new Date().toISOString().split('T')[0]);
+    }
+  };
+
+  const confirmVaccine = () => {
+    if (!vaccineDate) {
+      Alert.alert('Erreur', 'Veuillez saisir une date');
+      return;
+    }
+    toggleVaccine(selectedVaccine.id, vaccineDate);
+    setSelectedVaccine(null);
+    setVaccineDate('');
+  };
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+  };
+
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: theme.background }]}
-      contentContainerStyle={styles.content}
-      showsVerticalScrollIndicator={false}
-    >
-      <Text style={[styles.title, { color: theme.primary }]}>Vaccins</Text>
-      <Text style={[styles.subtitle, { color: theme.text }]}>
-        Calendrier vaccinal de {baby.name}
-      </Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={onClose} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color={theme.primary} />
+        </TouchableOpacity>
+        <Text style={[styles.headerTitle, { color: theme.primary }]}>Calendrier vaccinal</Text>
+        <View style={{ width: 40 }} />
+      </View>
+
+      <ScrollView
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
+        <Text style={[styles.subtitle, { color: theme.text }]}>
+          Suivi vaccinal de {baby.name}
+        </Text>
 
       {/* Progress card */}
       <View style={[styles.card, { backgroundColor: theme.card }]}>
@@ -81,7 +145,7 @@ export default function VaccinesScreen() {
       {/* Vaccine groups by age */}
       {groups.map((group) => {
         const isExpanded = expandedGroup === group.age;
-        const groupDone = group.vaccines.filter((v) => vaccinesDone.includes(v.id)).length;
+        const groupDone = group.vaccines.filter((v) => isVaccineDone(v.id)).length;
         const allDone = groupDone === group.vaccines.length;
         const isPast = group.ageMonths < babyAgeMonths;
         const isCurrent = Math.abs(group.ageMonths - babyAgeMonths) <= 1;
@@ -101,9 +165,9 @@ export default function VaccinesScreen() {
             >
               <View style={styles.groupLeft}>
                 <Ionicons
-                  name={allDone ? 'checkmark-circle' : isPast ? 'alert-circle' : 'time'}
+                  name={allDone ? 'checkmark-circle' : isPast && groupDone < group.vaccines.length ? 'alert-circle' : 'time'}
                   size={22}
-                  color={allDone ? theme.success : isPast ? theme.danger : theme.primary}
+                  color={allDone ? theme.success : isPast && groupDone < group.vaccines.length ? theme.danger : theme.primary}
                 />
                 <View>
                   <Text style={[styles.groupAge, { color: theme.primary }]}>{group.age}</Text>
@@ -122,12 +186,13 @@ export default function VaccinesScreen() {
             {isExpanded && (
               <View style={[styles.groupContent, { backgroundColor: theme.card }]}>
                 {group.vaccines.map((v) => {
-                  const isDone = vaccinesDone.includes(v.id);
+                  const isDone = isVaccineDone(v.id);
+                  const doneDate = getVaccineDate(v.id);
                   return (
                     <TouchableOpacity
                       key={v.id}
                       style={[styles.vaccineItem, { backgroundColor: isDone ? theme.success + '10' : 'transparent' }]}
-                      onPress={() => toggleVaccine(v.id)}
+                      onPress={() => handleVaccinePress(v)}
                     >
                       <Ionicons
                         name={isDone ? 'checkbox' : 'square-outline'}
@@ -149,6 +214,11 @@ export default function VaccinesScreen() {
                         <Text style={[styles.vaccineDisease, { color: theme.text }]}>
                           {v.disease}
                         </Text>
+                        {isDone && doneDate && (
+                          <Text style={[styles.vaccineDate, { color: theme.success }]}>
+                            Fait le {formatDate(doneDate)}
+                          </Text>
+                        )}
                         <View style={styles.vaccineTagRow}>
                           <View style={[styles.tag, { backgroundColor: v.mandatory ? theme.primary + '20' : theme.secondary }]}>
                             <Text style={[styles.tagText, { color: v.mandatory ? theme.primary : theme.text }]}>
@@ -171,22 +241,73 @@ export default function VaccinesScreen() {
         );
       })}
 
-      {/* Source */}
-      <View style={[styles.sourceBox, { backgroundColor: theme.secondary + '40' }]}>
-        <Ionicons name="information-circle" size={16} color={theme.primary} />
-        <Text style={[styles.sourceText, { color: theme.text }]}>
-          Source : Calendrier vaccinal français officiel.
-          Parlez-en à votre pédiatre pour un suivi personnalisé.
-        </Text>
-      </View>
-    </ScrollView>
+        {/* Source */}
+        <View style={[styles.sourceBox, { backgroundColor: theme.secondary + '40' }]}>
+          <Ionicons name="information-circle" size={16} color={theme.primary} />
+          <Text style={[styles.sourceText, { color: theme.text }]}>
+            Source : Calendrier vaccinal français officiel.
+            Parlez-en à votre pédiatre pour un suivi personnalisé.
+          </Text>
+        </View>
+      </ScrollView>
+
+      {/* Modal pour la date du vaccin */}
+      <Modal visible={selectedVaccine !== null} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContent, { backgroundColor: theme.card }]}>
+            <Text style={[styles.modalTitle, { color: theme.primary }]}>
+              Marquer comme effectué
+            </Text>
+            <Text style={[styles.modalSubtitle, { color: theme.text }]}>
+              {selectedVaccine?.name}
+            </Text>
+
+            <Text style={[styles.inputLabel, { color: theme.textDark }]}>
+              Date du vaccin (AAAA-MM-JJ) :
+            </Text>
+            <TextInput
+              style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+              value={vaccineDate}
+              onChangeText={setVaccineDate}
+              placeholder="2025-01-15"
+              placeholderTextColor={theme.textLight}
+            />
+
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.modalBtn, { backgroundColor: theme.secondary }]}
+                onPress={() => { setSelectedVaccine(null); setVaccineDate(''); }}
+              >
+                <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalBtn, { backgroundColor: theme.success }]}
+                onPress={confirmVaccine}
+              >
+                <Text style={[styles.modalBtnText, { color: '#fff' }]}>Confirmer</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  backButton: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
+  headerTitle: { fontSize: 18, fontWeight: '700' },
   content: { padding: 20, paddingBottom: 100 },
-  title: { fontSize: 28, fontWeight: '700', marginBottom: 4 },
   subtitle: { fontSize: 14, marginBottom: 16 },
   card: {
     borderRadius: 20,
@@ -235,6 +356,7 @@ const styles = StyleSheet.create({
   tag: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8 },
   tagText: { fontSize: 11, fontWeight: '600' },
   vaccineNotes: { fontSize: 11, fontStyle: 'italic', marginTop: 4 },
+  vaccineDate: { fontSize: 12, fontWeight: '600', marginTop: 4 },
   sourceBox: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -244,4 +366,35 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   sourceText: { fontSize: 12, flex: 1, lineHeight: 18 },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  modalContent: {
+    width: '100%',
+    borderRadius: 20,
+    padding: 24,
+  },
+  modalTitle: { fontSize: 18, fontWeight: '700', marginBottom: 4 },
+  modalSubtitle: { fontSize: 14, marginBottom: 20 },
+  inputLabel: { fontSize: 14, fontWeight: '500', marginBottom: 8 },
+  input: {
+    borderWidth: 1.5,
+    borderRadius: 12,
+    padding: 14,
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  modalButtons: { flexDirection: 'row', gap: 12 },
+  modalBtn: {
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  modalBtnText: { fontSize: 15, fontWeight: '600' },
 });

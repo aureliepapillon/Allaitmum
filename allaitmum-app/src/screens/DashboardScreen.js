@@ -29,6 +29,7 @@ import BabyProfileScreen from './BabyProfileScreen';
 import SubscriptionScreen from './SubscriptionScreen';
 import RappelsScreen from './RappelsScreen';
 import ExportScreen from './ExportScreen';
+import VaccinesScreen from './VaccinesScreen';
 
 // Custom icons
 const iconSein = require('../../assets/icon-sein.png');
@@ -410,6 +411,12 @@ export default function DashboardScreen() {
               <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Santé</Text>
               <TouchableOpacity
                 style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('vaccines'); }}
+              >
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Calendrier vaccinal</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('medications'); }}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Médicaments & Allergies</Text>
@@ -529,6 +536,10 @@ export default function DashboardScreen() {
 
       <Modal visible={activeScreen === 'export'} animationType="slide">
         <ExportScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'vaccines'} animationType="slide">
+        <VaccinesScreen onClose={() => setActiveScreen(null)} />
       </Modal>
     </View>
   );

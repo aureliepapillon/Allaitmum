@@ -214,3 +214,26 @@ export const getUpcomingVaccines = (birthDate, vaccinesDone) => {
     .sort((a, b) => a.ageMonths - b.ageMonths)
     .slice(0, 5);
 };
+
+// Obtenir le statut d'un vaccin
+export const getVaccineStatus = (vaccine, birthDate, vaccinesDone) => {
+  if (vaccinesDone.some(v => v.vaccineId === vaccine.id)) {
+    return 'done';
+  }
+
+  if (!birthDate) return 'upcoming';
+
+  const ageInMonths = Math.floor(
+    (new Date() - new Date(birthDate)) / (1000 * 60 * 60 * 24 * 30.44)
+  );
+
+  if (ageInMonths >= vaccine.ageMonths && ageInMonths < vaccine.ageMonths + 2) {
+    return 'due'; // À faire maintenant
+  }
+
+  if (ageInMonths >= vaccine.ageMonths + 2) {
+    return 'overdue'; // En retard
+  }
+
+  return 'upcoming'; // À venir
+};
