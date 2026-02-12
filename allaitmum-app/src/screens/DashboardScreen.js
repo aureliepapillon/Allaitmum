@@ -375,7 +375,7 @@ export default function DashboardScreen() {
                     style={[styles.menuItem, b.id === activeBabyId && { backgroundColor: theme.primary + '15' }]}
                     onPress={() => { switchBaby(b.id); setShowMenu(false); }}
                   >
-                    <Text style={{ fontSize: 18 }}>{b.gender === 'fille' ? '👧' : '👦'}</Text>
+                    <Ionicons name={b.gender === 'fille' ? 'flower' : 'planet'} size={20} color={theme.primary} />
                     <Text style={[styles.menuItemText, { color: theme.textDark }]}>{b.name}</Text>
                     {b.id === activeBabyId && <Ionicons name="checkmark" size={18} color={theme.primary} />}
                   </TouchableOpacity>
@@ -393,7 +393,7 @@ export default function DashboardScreen() {
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('souvenirs'); }}
               >
-                <Text style={{ fontSize: 18 }}>📖</Text>
+                <Ionicons name="book-outline" size={20} color={theme.primary} />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Souvenirs</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -438,14 +438,14 @@ export default function DashboardScreen() {
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('portage'); }}
               >
-                <Text style={{ fontSize: 18 }}>🧣</Text>
+                <Ionicons name="body-outline" size={20} color={theme.primary} />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Portage</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('cododo'); }}
               >
-                <Text style={{ fontSize: 18 }}>🌙</Text>
+                <Ionicons name="moon-outline" size={20} color={theme.primary} />
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Cododo</Text>
               </TouchableOpacity>
             </View>
