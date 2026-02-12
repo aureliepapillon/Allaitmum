@@ -28,6 +28,7 @@ import CododoScreen from './CododoScreen';
 import BabyProfileScreen from './BabyProfileScreen';
 import SubscriptionScreen from './SubscriptionScreen';
 import RappelsScreen from './RappelsScreen';
+import ExportScreen from './ExportScreen';
 
 // Custom icons
 const iconSein = require('../../assets/icon-sein.png');
@@ -460,6 +461,14 @@ export default function DashboardScreen() {
 
               <TouchableOpacity
                 style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('export'); }}
+              >
+                <Ionicons name="document-text" size={20} color="#4CAF50" />
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Exporter en PDF</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('profile'); }}
               >
                 <Ionicons name="person" size={20} color={theme.primary} />
@@ -539,6 +548,10 @@ export default function DashboardScreen() {
 
       <Modal visible={activeScreen === 'reminders'} animationType="slide">
         <RappelsScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'export'} animationType="slide">
+        <ExportScreen onClose={() => setActiveScreen(null)} />
       </Modal>
     </View>
   );
