@@ -17,6 +17,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 import { parseBirthDate } from '../utils/helpers';
+import { validateGrowthEntry } from '../utils/validators';
 
 const { width } = Dimensions.get('window');
 
@@ -80,17 +81,20 @@ export default function CroissanceScreen({ onClose }) {
       return;
     }
 
+    // Validate with validators
+    const validation = validateGrowthEntry({
+      weight: entryWeight,
+      height: entryHeight,
+      date: entryDate,
+    });
+
+    if (!validation.isValid) {
+      Alert.alert('Vérification', validation.errors[0]);
+      return;
+    }
+
     const weight = entryWeight ? parseFloat(entryWeight.replace(',', '.')) : null;
     const height = entryHeight ? parseFloat(entryHeight.replace(',', '.')) : null;
-
-    if (entryWeight && (isNaN(weight) || weight <= 0 || weight > 30)) {
-      Alert.alert('Erreur', 'Poids invalide (doit être entre 0 et 30 kg)');
-      return;
-    }
-    if (entryHeight && (isNaN(height) || height <= 0 || height > 150)) {
-      Alert.alert('Erreur', 'Taille invalide (doit être entre 0 et 150 cm)');
-      return;
-    }
 
     let date = new Date().toISOString().split('T')[0];
     if (entryDate) {

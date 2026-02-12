@@ -16,6 +16,7 @@ import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 import { getBabyAge } from '../utils/helpers';
 import LionMascot from '../components/LionMascot';
+import { validateBabyData, isValidEmail } from '../utils/validators';
 
 export default function BabyProfileScreen({ onClose }) {
   const { theme } = useTheme();
@@ -31,8 +32,17 @@ export default function BabyProfileScreen({ onClose }) {
   const [email, setEmail] = useState(userEmail || '');
 
   const handleSave = async () => {
-    if (!name.trim()) {
-      Alert.alert('Erreur', 'Le prénom est requis');
+    // Validate data
+    const validation = validateBabyData({
+      name,
+      birthDate,
+      birthWeight,
+      birthHeight,
+      email,
+    });
+
+    if (!validation.isValid) {
+      Alert.alert('Vérification', validation.errors[0]);
       return;
     }
 

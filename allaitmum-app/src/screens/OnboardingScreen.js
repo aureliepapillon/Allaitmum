@@ -9,10 +9,12 @@ import {
   Platform,
   KeyboardAvoidingView,
   Image,
+  Alert,
 } from 'react-native';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 import { Ionicons } from '@expo/vector-icons';
+import { validateBabyData, isValidEmail, isValidDate, isNotFutureDate, isValidBabyWeight, isValidBabyHeight } from '../utils/validators';
 
 const logoImage = require('../../assets/logo-allaitmum.png');
 const dashboardMascot = require('../../assets/dashboard-mascot.png');
@@ -36,9 +38,27 @@ export default function OnboardingScreen() {
     { id: 'mixed', icon: 'git-merge', label: 'Mixte', desc: 'Combinaison des deux' },
   ];
 
+  const handleNextStep = () => {
+    // Validate data before proceeding
+    const validation = validateBabyData({
+      name,
+      birthDate,
+      birthWeight,
+      birthHeight,
+      email,
+    });
+
+    if (!validation.isValid) {
+      Alert.alert('Vérification', validation.errors[0]);
+      return;
+    }
+
+    setStep(3);
+  };
+
   const handleComplete = (selectedMethod) => {
     completeOnboarding(
-      { name, birthDate, gender, birthWeight: birthWeight ? parseFloat(birthWeight) : null, birthHeight: birthHeight ? parseFloat(birthHeight) : null, momName },
+      { name, birthDate, gender, birthWeight: birthWeight ? parseFloat(birthWeight.replace(',', '.')) : null, birthHeight: birthHeight ? parseFloat(birthHeight.replace(',', '.')) : null, momName },
       selectedMethod,
       email.trim() || null
     );
@@ -202,7 +222,7 @@ export default function OnboardingScreen() {
                     backgroundColor: !name || !birthDate ? theme.textLight : theme.primary,
                   },
                 ]}
-                onPress={() => setStep(3)}
+                onPress={handleNextStep}
                 disabled={!name || !birthDate}
               >
                 <Text style={styles.mainButtonText}>Hop, on y va !</Text>
