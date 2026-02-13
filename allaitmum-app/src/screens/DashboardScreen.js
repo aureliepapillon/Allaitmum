@@ -93,6 +93,43 @@ export default function DashboardScreen() {
   const totalFeedingMins = Math.floor(todaySessions.reduce((acc, s) => acc + (s.duration || 0), 0) / 60);
   const totalSleepMins = Math.floor(todaySleep.reduce((acc, s) => acc + (s.duration || 0), 0) / 60);
 
+  // Timer pour "depuis la dernière tétée"
+  const [lastActivityTime, setLastActivityTime] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLastActivityTime(Date.now());
+    }, 60000); // Update every minute
+    return () => clearInterval(interval);
+  }, []);
+
+  // Calculer le temps depuis la dernière tétée
+  const getTimeSinceLastFeeding = () => {
+    const allSessions = feedingSessions.filter(s => !s.babyId || s.babyId === activeBabyId);
+    if (allSessions.length === 0) return null;
+
+    const lastSession = allSessions.sort((a, b) =>
+      new Date(b.startTime) - new Date(a.startTime)
+    )[0];
+
+    if (!lastSession.startTime) return null;
+
+    const endTime = lastSession.duration
+      ? new Date(lastSession.startTime).getTime() + lastSession.duration * 1000
+      : new Date(lastSession.startTime).getTime();
+
+    const diffMs = lastActivityTime - endTime;
+    const diffMins = Math.floor(diffMs / 60000);
+
+    if (diffMins < 0) return null;
+    if (diffMins < 60) return `${diffMins} min`;
+    const hours = Math.floor(diffMins / 60);
+    const mins = diffMins % 60;
+    return `${hours}h${mins > 0 ? mins.toString().padStart(2, '0') : ''}`;
+  };
+
+  const timeSinceFeeding = getTimeSinceLastFeeding();
+
   const handleStopFeeding = () => {
     const vol = pumpVolume ? parseInt(pumpVolume, 10) : null;
     stopFeeding(vol);
@@ -290,6 +327,17 @@ export default function DashboardScreen() {
           </View>
           <Text style={[styles.devText, { color: theme.text }]}>{devInfo.description}</Text>
         </View>
+
+        {/* ========== LAST FEEDING TIMER ========== */}
+        {timeSinceFeeding && !activeFeeding && (
+          <View style={[styles.lastFeedingCard, { backgroundColor: theme.primary + '15', borderColor: theme.primary + '30' }]}>
+            <Ionicons name="time-outline" size={22} color={theme.primary} />
+            <View style={styles.lastFeedingContent}>
+              <Text style={[styles.lastFeedingLabel, { color: theme.text }]}>Dernière tétée il y a</Text>
+              <Text style={[styles.lastFeedingTime, { color: theme.primary }]}>{timeSinceFeeding}</Text>
+            </View>
+          </View>
+        )}
 
         {/* ========== SUMMARY / HISTORY ========== */}
         <View style={[styles.summaryCard, { backgroundColor: theme.card }]}>
@@ -653,6 +701,20 @@ const styles = StyleSheet.create({
   devHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
   devTitle: { fontSize: 15, fontWeight: '600' },
   devText: { fontSize: 13, lineHeight: 20 },
+
+  // Last feeding timer
+  lastFeedingCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 14,
+    borderRadius: 14,
+    marginBottom: 12,
+    borderWidth: 1,
+  },
+  lastFeedingContent: { flex: 1 },
+  lastFeedingLabel: { fontSize: 13 },
+  lastFeedingTime: { fontSize: 22, fontWeight: '700' },
 
   // Summary
   summaryCard: { borderRadius: 16, padding: 16, marginBottom: 12 },
