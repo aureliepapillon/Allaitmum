@@ -392,7 +392,7 @@ export default function ChatbotScreen({ onClose }) {
     {
       id: 1,
       from: 'bot',
-      text: "Salut ! Je suis l'assistante Allait'mum. Pose-moi tes questions sur l'allaitement, les médicaments, le tire-lait, le sommeil... Je suis là pour t'aider !",
+      text: "Salut ! Je suis l'assistante Allait'mum.\n\nL'allaitement, c'est une douceur immense, une connexion profonde. Et parfois, c'est aussi des questions et des doutes.\n\nPose-moi tes questions sur l'allaitement, les médicaments, le tire-lait, le sommeil... Je suis là pour t'aider !",
     },
   ]);
   const [input, setInput] = useState('');
