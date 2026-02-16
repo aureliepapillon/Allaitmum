@@ -1,7 +1,16 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { Platform } from 'react-native';
+import Purchases from 'react-native-purchases';
 import { storage } from './storage';
 
 const AppContext = createContext();
+
+// RevenueCat API Keys (à remplacer par tes vraies clés)
+const REVENUECAT_API_KEY_IOS = 'appl_XXXXXXXXXXXXXXXXXXXXXXXXX';
+const REVENUECAT_API_KEY_ANDROID = 'goog_XXXXXXXXXXXXXXXXXXXXXXXXX';
+
+// Entitlement ID configuré dans RevenueCat dashboard
+const PREMIUM_ENTITLEMENT_ID = 'premium';
 
 export const AppProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,6 +18,11 @@ export const AppProvider = ({ children }) => {
 
   // User email (global, not per baby)
   const [userEmail, setUserEmail] = useState(null);
+
+  // Subscription / Premium status
+  const [isPremium, setIsPremium] = useState(false);
+  const [subscriptionInfo, setSubscriptionInfo] = useState(null);
+  const [offerings, setOfferings] = useState(null);
 
   // Multi-baby support
   const [babies, setBabies] = useState([]);
@@ -131,6 +145,82 @@ export const AppProvider = ({ children }) => {
     };
     loadAll();
   }, []);
+
+  // Initialize RevenueCat
+  useEffect(() => {
+    const initRevenueCat = async () => {
+      try {
+        const apiKey = Platform.OS === 'ios' ? REVENUECAT_API_KEY_IOS : REVENUECAT_API_KEY_ANDROID;
+
+        await Purchases.configure({ apiKey });
+
+        // Check current subscription status
+        const customerInfo = await Purchases.getCustomerInfo();
+        checkPremiumStatus(customerInfo);
+
+        // Get available offerings (products)
+        const offeringsResult = await Purchases.getOfferings();
+        if (offeringsResult.current) {
+          setOfferings(offeringsResult.current);
+        }
+
+        // Listen for subscription changes
+        Purchases.addCustomerInfoUpdateListener((info) => {
+          checkPremiumStatus(info);
+        });
+      } catch (error) {
+        // RevenueCat not available (Expo Go) - use dev mode
+        console.log('RevenueCat init error (normal in Expo Go):', error.message);
+      }
+    };
+
+    initRevenueCat();
+  }, []);
+
+  const checkPremiumStatus = (customerInfo) => {
+    const isPremiumActive = customerInfo.entitlements.active[PREMIUM_ENTITLEMENT_ID] !== undefined;
+    setIsPremium(isPremiumActive);
+    setSubscriptionInfo(customerInfo);
+  };
+
+  // Purchase a package
+  const purchasePackage = async (packageToPurchase) => {
+    try {
+      const { customerInfo } = await Purchases.purchasePackage(packageToPurchase);
+      checkPremiumStatus(customerInfo);
+      return { success: true };
+    } catch (error) {
+      if (!error.userCancelled) {
+        console.error('Purchase error:', error);
+        return { success: false, error: error.message };
+      }
+      return { success: false, cancelled: true };
+    }
+  };
+
+  // Restore purchases
+  const restorePurchases = async () => {
+    try {
+      const customerInfo = await Purchases.restorePurchases();
+      checkPremiumStatus(customerInfo);
+      return {
+        success: true,
+        isPremium: customerInfo.entitlements.active[PREMIUM_ENTITLEMENT_ID] !== undefined
+      };
+    } catch (error) {
+      console.error('Restore error:', error);
+      return { success: false, error: error.message };
+    }
+  };
+
+  // Set user ID for RevenueCat (when user provides email)
+  const setRevenueCatUserId = async (userId) => {
+    try {
+      await Purchases.logIn(userId);
+    } catch (error) {
+      console.log('RevenueCat login error:', error.message);
+    }
+  };
 
   // Auto-save
   useEffect(() => {
@@ -524,6 +614,13 @@ export const AppProvider = ({ children }) => {
         // Reminders
         reminders,
         updateReminders,
+        // Subscription / Premium
+        isPremium,
+        subscriptionInfo,
+        offerings,
+        purchasePackage,
+        restorePurchases,
+        setRevenueCatUserId,
       }}
     >
       {children}

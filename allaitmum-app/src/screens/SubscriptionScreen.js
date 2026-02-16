@@ -9,6 +9,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -37,26 +38,75 @@ const PREMIUM_FEATURES = [
   { label: 'Sans publicité', included: true },
 ];
 
+// Pricing configuration
+const MONTHLY_PRICE = '2,99 €';
+const YEARLY_PRICE = '19,99 €';
+const YEARLY_MONTHLY_EQUIVALENT = '1,67 €';
+
 export default function SubscriptionScreen({ onClose }) {
   const { theme } = useTheme();
-  const { userEmail, updateUserEmail } = useApp();
+  const {
+    userEmail,
+    updateUserEmail,
+    isPremium,
+    offerings,
+    purchasePackage,
+    restorePurchases,
+    setRevenueCatUserId,
+  } = useApp();
+
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [emailInput, setEmailInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState('monthly'); // 'monthly' or 'yearly'
 
   const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleSubscribe = () => {
+  const handleSubscribe = async () => {
     if (!userEmail) {
       setShowEmailForm(true);
       return;
     }
-    Alert.alert(
-      'Bientôt disponible',
-      'L\'abonnement Premium sera disponible très prochainement ! Merci de ton intérêt.',
-      [{ text: 'OK' }]
-    );
+
+    // Set user ID in RevenueCat
+    await setRevenueCatUserId(userEmail);
+
+    // Check if offerings are available (RevenueCat configured)
+    if (!offerings || !offerings.availablePackages || offerings.availablePackages.length === 0) {
+      Alert.alert(
+        'Bientôt disponible',
+        'L\'abonnement Premium sera disponible très prochainement ! Tu seras notifiée dès que c\'est prêt.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+
+    // Find the right package based on selected plan
+    const packageToPurchase = offerings.availablePackages.find(pkg =>
+      selectedPlan === 'yearly'
+        ? pkg.packageType === 'ANNUAL'
+        : pkg.packageType === 'MONTHLY'
+    ) || offerings.availablePackages[0];
+
+    setIsLoading(true);
+    const result = await purchasePackage(packageToPurchase);
+    setIsLoading(false);
+
+    if (result.success) {
+      Alert.alert(
+        'Bienvenue dans Premium !',
+        'Merci pour ton abonnement ! Tu as maintenant accès à toutes les fonctionnalités.',
+        [{ text: 'Super !' }]
+      );
+    } else if (!result.cancelled) {
+      Alert.alert(
+        'Erreur',
+        result.error || 'Une erreur est survenue lors de l\'achat.',
+        [{ text: 'OK' }]
+      );
+    }
   };
 
   const handleEmailSubmit = async () => {
@@ -67,20 +117,82 @@ export default function SubscriptionScreen({ onClose }) {
     await updateUserEmail(emailInput.trim());
     setShowEmailForm(false);
     setEmailInput('');
-    Alert.alert(
-      'Bientôt disponible',
-      'L\'abonnement Premium sera disponible très prochainement ! Merci de ton intérêt.',
-      [{ text: 'OK' }]
-    );
+
+    // Continue with subscription after email is set
+    handleSubscribe();
   };
 
-  const handleRestore = () => {
-    Alert.alert(
-      'Restaurer',
-      'Aucun achat trouvé à restaurer.',
-      [{ text: 'OK' }]
-    );
+  const handleRestore = async () => {
+    setIsLoading(true);
+    const result = await restorePurchases();
+    setIsLoading(false);
+
+    if (result.success) {
+      if (result.isPremium) {
+        Alert.alert(
+          'Restauration réussie !',
+          'Ton abonnement Premium a été restauré.',
+          [{ text: 'Super !' }]
+        );
+      } else {
+        Alert.alert(
+          'Aucun achat trouvé',
+          'Nous n\'avons pas trouvé d\'abonnement à restaurer.',
+          [{ text: 'OK' }]
+        );
+      }
+    } else {
+      Alert.alert(
+        'Erreur',
+        result.error || 'Une erreur est survenue lors de la restauration.',
+        [{ text: 'OK' }]
+      );
+    }
   };
+
+  // If user is already premium, show different UI
+  if (isPremium) {
+    return (
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
+        <View style={[styles.header, { backgroundColor: theme.card }]}>
+          <TouchableOpacity onPress={onClose} style={styles.backBtn}>
+            <Ionicons name="arrow-back" size={24} color={theme.primary} />
+          </TouchableOpacity>
+          <Text style={[styles.headerTitle, { color: theme.primary }]}>Mon abonnement</Text>
+          <View style={{ width: 40 }} />
+        </View>
+
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={[styles.premiumActiveCard, { backgroundColor: '#FFF8E1', borderColor: '#FFB300' }]}>
+            <Ionicons name="star" size={50} color="#FFB300" />
+            <Text style={styles.premiumActiveTitle}>Premium Actif</Text>
+            <Text style={styles.premiumActiveText}>
+              Tu profites de toutes les fonctionnalités Allait'mum !
+            </Text>
+          </View>
+
+          <View style={[styles.featuresCard, { backgroundColor: theme.card }]}>
+            <Text style={[styles.cardTitle, { color: theme.textDark }]}>Tes avantages Premium</Text>
+            {PREMIUM_FEATURES.filter(f => !f.soon).map((feature, index) => (
+              <View key={index} style={styles.featureRow}>
+                <Ionicons name="checkmark-circle" size={20} color="#FFB300" />
+                <Text style={[styles.featureText, { color: theme.textDark }]}>
+                  {feature.label}
+                </Text>
+              </View>
+            ))}
+          </View>
+
+          <View style={[styles.infoCard, { backgroundColor: theme.secondary + '40' }]}>
+            <Ionicons name="heart" size={20} color={theme.primary} />
+            <Text style={[styles.infoText, { color: theme.textDark }]}>
+              Merci de soutenir Allait'mum ! Ton abonnement nous aide à développer de nouvelles fonctionnalités.
+            </Text>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -130,14 +242,62 @@ export default function SubscriptionScreen({ onClose }) {
           <View style={styles.premiumHeader}>
             <Ionicons name="star" size={28} color="#FFB300" />
             <Text style={styles.premiumTitle}>Premium</Text>
-            <View style={[styles.priceBadge, { backgroundColor: '#FFB300' }]}>
-              <Text style={styles.priceBadgeText}>1,99 € / mois</Text>
-            </View>
           </View>
 
           <Text style={styles.premiumSubtitle}>
             Débloquez toutes les fonctionnalités
           </Text>
+
+          {/* Plan selector */}
+          <View style={styles.planSelector}>
+            <TouchableOpacity
+              style={[
+                styles.planOption,
+                selectedPlan === 'monthly' && styles.planOptionSelected,
+              ]}
+              onPress={() => setSelectedPlan('monthly')}
+            >
+              <Text style={[
+                styles.planOptionTitle,
+                selectedPlan === 'monthly' && styles.planOptionTitleSelected,
+              ]}>
+                Mensuel
+              </Text>
+              <Text style={[
+                styles.planOptionPrice,
+                selectedPlan === 'monthly' && styles.planOptionPriceSelected,
+              ]}>
+                {MONTHLY_PRICE} / mois
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.planOption,
+                selectedPlan === 'yearly' && styles.planOptionSelected,
+              ]}
+              onPress={() => setSelectedPlan('yearly')}
+            >
+              <View style={styles.planBestValue}>
+                <Text style={styles.planBestValueText}>-44%</Text>
+              </View>
+              <Text style={[
+                styles.planOptionTitle,
+                selectedPlan === 'yearly' && styles.planOptionTitleSelected,
+              ]}>
+                Annuel
+              </Text>
+              <Text style={[
+                styles.planOptionPrice,
+                selectedPlan === 'yearly' && styles.planOptionPriceSelected,
+              ]}>
+                {YEARLY_PRICE} / an
+              </Text>
+              <Text style={styles.planOptionEquivalent}>
+                soit {YEARLY_MONTHLY_EQUIVALENT} / mois
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.premiumFeatures}>
             {PREMIUM_FEATURES.map((feature, index) => (
@@ -192,11 +352,20 @@ export default function SubscriptionScreen({ onClose }) {
             </View>
           ) : (
             <TouchableOpacity
-              style={styles.subscribeBtn}
+              style={[styles.subscribeBtn, isLoading && { opacity: 0.7 }]}
               onPress={handleSubscribe}
+              disabled={isLoading}
             >
-              <Ionicons name="rocket" size={20} color="#fff" />
-              <Text style={styles.subscribeBtnText}>Passer à Premium</Text>
+              {isLoading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <>
+                  <Ionicons name="rocket" size={20} color="#fff" />
+                  <Text style={styles.subscribeBtnText}>
+                    Passer à Premium - {selectedPlan === 'yearly' ? YEARLY_PRICE : MONTHLY_PRICE}
+                  </Text>
+                </>
+              )}
             </TouchableOpacity>
           )}
 
@@ -206,7 +375,11 @@ export default function SubscriptionScreen({ onClose }) {
         </View>
 
         {/* Restore purchases */}
-        <TouchableOpacity style={styles.restoreBtn} onPress={handleRestore}>
+        <TouchableOpacity
+          style={[styles.restoreBtn, isLoading && { opacity: 0.5 }]}
+          onPress={handleRestore}
+          disabled={isLoading}
+        >
           <Text style={[styles.restoreBtnText, { color: theme.primary }]}>
             Restaurer mes achats
           </Text>
@@ -294,21 +467,69 @@ const styles = StyleSheet.create({
     color: '#FFB300',
     flex: 1,
   },
-  priceBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-  },
-  priceBadgeText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '700',
-  },
   premiumSubtitle: {
     fontSize: 14,
     color: '#666',
     marginBottom: 16,
   },
+
+  // Plan selector
+  planSelector: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 20,
+  },
+  planOption: {
+    flex: 1,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 16,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#E0E0E0',
+    position: 'relative',
+  },
+  planOptionSelected: {
+    borderColor: '#FFB300',
+    backgroundColor: '#FFFDF5',
+  },
+  planOptionTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#666',
+    marginBottom: 4,
+  },
+  planOptionTitleSelected: {
+    color: '#FFB300',
+  },
+  planOptionPrice: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#333',
+  },
+  planOptionPriceSelected: {
+    color: '#FFB300',
+  },
+  planOptionEquivalent: {
+    fontSize: 11,
+    color: '#999',
+    marginTop: 2,
+  },
+  planBestValue: {
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    backgroundColor: '#4CAF50',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  planBestValueText: {
+    color: '#fff',
+    fontSize: 11,
+    fontWeight: '700',
+  },
+
   premiumFeatures: {
     marginBottom: 20,
   },
@@ -397,5 +618,26 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: '#fff',
+  },
+
+  // Premium active state
+  premiumActiveCard: {
+    borderRadius: 20,
+    padding: 30,
+    marginBottom: 16,
+    borderWidth: 2,
+    alignItems: 'center',
+  },
+  premiumActiveTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#FFB300',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  premiumActiveText: {
+    fontSize: 15,
+    color: '#666',
+    textAlign: 'center',
   },
 });
