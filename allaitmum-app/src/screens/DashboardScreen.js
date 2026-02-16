@@ -594,16 +594,6 @@ export default function DashboardScreen() {
       <Modal visible={activeScreen === 'chatbot'} animationType="slide">
         <ChatbotScreen onClose={() => setActiveScreen(null)} />
       </Modal>
-
-      {/* Bouton flottant chatbot */}
-      {!activeScreen && (
-        <TouchableOpacity
-          style={[styles.fabButton, { backgroundColor: theme.primary }]}
-          onPress={() => setActiveScreen('chatbot')}
-        >
-          <Ionicons name="chatbubble-ellipses" size={26} color="#fff" />
-        </TouchableOpacity>
-      )}
     </View>
   );
 }
@@ -757,20 +747,4 @@ const styles = StyleSheet.create({
   upgradeBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingVertical: 14, borderRadius: 12, marginTop: 8 },
   upgradeBtnText: { color: '#fff', fontSize: 15, fontWeight: '600' },
   closeMenuBtn: { position: 'absolute', top: 50, right: 16 },
-  // Floating Action Button
-  fabButton: {
-    position: 'absolute',
-    bottom: 30,
-    right: 20,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 8,
-  },
 });

@@ -65,6 +65,9 @@ export const AppProvider = ({ children }) => {
   // Reminders (notifications)
   const [reminders, setReminders] = useState({ vitaminD: null, medications: [] });
 
+  // Rendez-vous (appointments)
+  const [appointments, setAppointments] = useState([]);
+
   // Computed: active baby (backward-compatible "baby" object)
   const baby = useMemo(() => {
     if (!babies.length) return { name: '', birthDate: '', gender: 'fille', birthWeight: null, birthHeight: null, momName: '' };
@@ -90,6 +93,7 @@ export const AppProvider = ({ children }) => {
       const savedAllergies = await storage.get('allergies', []);
       const savedMilestones = await storage.get('milestones', []);
       const savedReminders = await storage.get('reminders', { vitaminD: null, medications: [] });
+      const savedAppointments = await storage.get('appointments', []);
 
       if (savedBabies && savedBabies.length > 0 && savedMethod) {
         // New format: multi-baby
@@ -141,6 +145,7 @@ export const AppProvider = ({ children }) => {
       setAllergies(savedAllergies);
       setMilestones(savedMilestones);
       setReminders(savedReminders);
+      setAppointments(savedAppointments);
       setIsLoading(false);
     };
     loadAll();
@@ -270,6 +275,10 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     if (!isLoading) storage.set('reminders', reminders);
   }, [reminders]);
+
+  useEffect(() => {
+    if (!isLoading) storage.set('appointments', appointments);
+  }, [appointments]);
 
   useEffect(() => {
     if (!isLoading && babies.length > 0) storage.set('babies', babies);
@@ -614,6 +623,9 @@ export const AppProvider = ({ children }) => {
         // Reminders
         reminders,
         updateReminders,
+        // Appointments
+        appointments,
+        setAppointments,
         // Subscription / Premium
         isPremium,
         subscriptionInfo,

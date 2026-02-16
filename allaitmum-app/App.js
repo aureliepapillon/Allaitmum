@@ -12,7 +12,7 @@ import { AppProvider, useApp } from './src/utils/AppContext';
 import OnboardingScreen from './src/screens/OnboardingScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
 import JournalScreen from './src/screens/JournalScreen';
-import VaccinesScreen from './src/screens/VaccinesScreen';
+import RendezVousScreen from './src/screens/RendezVousScreen';
 import SavoirsScreen from './src/screens/SavoirsScreen';
 import ChatbotScreen from './src/screens/ChatbotScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
@@ -43,7 +43,7 @@ function MainTabs() {
             const icons = {
               Suivi: 'heart',
               Échange: 'cafe',
-              Vaccins: 'shield-checkmark',
+              RDV: 'calendar',
               Savoirs: 'library',
               Profil: 'person',
             };
@@ -53,7 +53,7 @@ function MainTabs() {
       >
         <Tab.Screen name="Suivi" component={DashboardScreen} />
         <Tab.Screen name="Échange" component={JournalScreen} />
-        <Tab.Screen name="Vaccins" component={VaccinesScreen} />
+        <Tab.Screen name="RDV" component={RendezVousScreen} />
         <Tab.Screen name="Savoirs" component={SavoirsScreen} />
         <Tab.Screen name="Profil" component={ProfileScreen} />
       </Tab.Navigator>
