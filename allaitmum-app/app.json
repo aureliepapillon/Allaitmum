@@ -38,14 +38,6 @@
           "icon": "./assets/icon.png",
           "color": "#AB7058"
         }
-      ],
-      [
-        "react-native-purchases",
-        {
-          "ios": {
-            "itunesConnectTeamId": "YOUR_TEAM_ID"
-          }
-        }
       ]
     ]
   }
