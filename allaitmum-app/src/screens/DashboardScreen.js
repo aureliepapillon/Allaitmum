@@ -31,6 +31,7 @@ import RappelsScreen from './RappelsScreen';
 import ExportScreen from './ExportScreen';
 import VaccinesScreen from './VaccinesScreen';
 import ChatbotScreen from './ChatbotScreen';
+import DiversificationScreen from './DiversificationScreen';
 
 // Custom icons
 const iconSein = require('../../assets/icon-sein.png');
@@ -487,6 +488,12 @@ export default function DashboardScreen() {
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Cododo</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('diversification'); }}
+              >
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Diversification alimentaire</Text>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.menuSection}>
@@ -593,6 +600,10 @@ export default function DashboardScreen() {
 
       <Modal visible={activeScreen === 'chatbot'} animationType="slide">
         <ChatbotScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'diversification'} animationType="slide">
+        <DiversificationScreen onClose={() => setActiveScreen(null)} />
       </Modal>
     </View>
   );
