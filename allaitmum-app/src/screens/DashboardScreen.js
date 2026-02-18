@@ -24,7 +24,6 @@ import MedicamentsScreen from './MedicamentsScreen';
 import CroissanceScreen from './CroissanceScreen';
 import EtapesMotricesScreen from './EtapesMotricesScreen';
 import PortageScreen from './PortageScreen';
-import CododoScreen from './CododoScreen';
 import BabyProfileScreen from './BabyProfileScreen';
 import SubscriptionScreen from './SubscriptionScreen';
 import RappelsScreen from './RappelsScreen';
@@ -484,12 +483,6 @@ export default function DashboardScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('cododo'); }}
-              >
-                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Cododo</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuItem}
                 onPress={() => { setShowMenu(false); setActiveScreen('diversification'); }}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Diversification alimentaire</Text>
@@ -572,10 +565,6 @@ export default function DashboardScreen() {
 
       <Modal visible={activeScreen === 'portage'} animationType="slide">
         <PortageScreen onClose={() => setActiveScreen(null)} />
-      </Modal>
-
-      <Modal visible={activeScreen === 'cododo'} animationType="slide">
-        <CododoScreen onClose={() => setActiveScreen(null)} />
       </Modal>
 
       <Modal visible={activeScreen === 'profile'} animationType="slide">

@@ -219,12 +219,7 @@ const botResponses = [
   {
     keywords: ['nuit', 'dort pas', 'réveille', 'sommeil', 'dodo'],
     answer:
-      "Les tétées de nuit sont NORMALES et essentielles (prolactine max la nuit). Nouveau-né : 2-4 tétées/nuit. 3-6 mois : 1-3. Ne les supprime pas trop tôt.\n\nLe cododo sécuritaire facilite l'allaitement nocturne. Matelas ferme, pas de couette/oreiller près de bébé.",
-  },
-  {
-    keywords: ['cododo', 'co-dodo', 'lit', 'dormir ensemble'],
-    answer:
-      "Cododo sécuritaire (règles des 7) :\n✓ Non-fumeurs\n✓ Pas d'alcool/drogue\n✓ Bébé à terme et en bonne santé\n✓ Allaitement\n✓ Sur le dos\n✓ Matelas ferme\n✓ Pas de couette/oreiller près de bébé\n\nLe cododo facilite l'allaitement nocturne et n'empêche PAS l'autonomie future.",
+      "Les tétées de nuit sont NORMALES et essentielles (prolactine max la nuit). Nouveau-né : 2-4 tétées/nuit. 3-6 mois : 1-3. Ne les supprime pas trop tôt.\n\nPour faciliter les nuits : garde bébé près de toi, allaite en position allongée si tu le souhaites, et repose-toi dès que possible.",
   },
   {
     keywords: ['sieste', 'bras', 'pose pas', 'réveille'],
