@@ -502,14 +502,16 @@ const styles = StyleSheet.create({
   categoryPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 12,
+    justifyContent: 'center',
+    gap: 6,
+    paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 20,
     borderWidth: 1.5,
     borderColor: '#E0E0E0',
+    minWidth: 70,
   },
-  categoryPillText: { fontSize: 12, fontWeight: '600', color: '#666' },
+  categoryPillText: { fontSize: 12, fontWeight: '600', color: '#666', textAlign: 'center' },
 
   // Food list
   foodList: { padding: 16, paddingTop: 12, gap: 8 },
