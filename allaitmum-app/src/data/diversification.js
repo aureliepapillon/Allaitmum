@@ -117,6 +117,8 @@ export const FOODS = [
   { name: 'Ail / Oignon', category: 'autres', fromMonths: 6, status: 'ok', texture: 'Cuit dans les préparations', note: 'Cuit, en petite quantité pour parfumer' },
   { name: 'Chocolat', category: 'autres', fromMonths: 24, status: 'prudence', texture: 'Petite quantité', note: 'Après 2 ans, en petite quantité. Éviter le chocolat blanc' },
   { name: 'Bonbons / Sucreries', category: 'autres', fromMonths: 36, status: 'interdit', texture: '', note: 'Risque étouffement + mauvaises habitudes alimentaires' },
+  { name: 'Saucisse (knacki, saucisse de Strasbourg)', category: 'proteines', fromMonths: 12, status: 'prudence', texture: 'JAMAIS en rondelles — toujours en longueur puis petits morceaux', note: 'DANGER N°1 d\'étouffement chez l\'enfant. Couper EN LONGUEUR puis en petits morceaux. Jamais en rondelles !' },
+  { name: 'Saucisse sèche / Merguez', category: 'proteines', fromMonths: 36, status: 'interdit', texture: '', note: 'Trop salée, trop grasse, et risque étouffement' },
 ];
 
 // Aliments à ABSOLUMENT éviter selon l'âge
@@ -132,6 +134,102 @@ export const DANGER_FOODS = [
   { name: 'Sodas et boissons sucrées', beforeMonths: 36, reason: 'Sucre, acidité, zéro valeur nutritive' },
   { name: 'Laits végétaux (en remplacement)', beforeMonths: 36, reason: 'Ne couvrent pas les besoins nutritionnels du bébé' },
   { name: 'Poissons prédateurs (requin, espadon)', beforeMonths: 36, reason: 'Accumulation de mercure et métaux lourds' },
+];
+
+// Conseils de prévention étouffement et découpe
+export const CHOKING_PREVENTION = [
+  {
+    food: 'Saucisses (knacki, cocktail, etc.)',
+    danger: 'Aliment N°1 d\'étouffement chez l\'enfant',
+    icon: 'alert-circle',
+    color: '#F44336',
+    howToCut: 'JAMAIS en rondelles ! Couper d\'abord en deux dans la longueur, puis en petits morceaux. La forme ronde et la texture glissante sont très dangereuses.',
+    image: 'lengthwise',
+  },
+  {
+    food: 'Raisin',
+    danger: 'Forme ronde, peau glissante',
+    icon: 'alert-circle',
+    color: '#F44336',
+    howToCut: 'Couper en 4 dans la LONGUEUR (pas en rondelles). Retirer la peau si possible pour les plus petits.',
+    image: 'quarter',
+  },
+  {
+    food: 'Tomates cerises',
+    danger: 'Forme ronde, éclatent en bouche',
+    icon: 'alert-circle',
+    color: '#F44336',
+    howToCut: 'Couper en 4 dans la longueur. Ne jamais donner entières.',
+    image: 'quarter',
+  },
+  {
+    food: 'Carottes crues',
+    danger: 'Très dures, risque de blocage',
+    icon: 'warning',
+    color: '#FF9800',
+    howToCut: 'Pas de bâtonnets de carotte crue avant 3 ans. Toujours cuites et molles. Râpées finement si cru après 2 ans.',
+    image: 'grated',
+  },
+  {
+    food: 'Pomme crue',
+    danger: 'Morceaux durs',
+    icon: 'warning',
+    color: '#FF9800',
+    howToCut: 'En compote ou cuite jusqu\'à 12 mois. Après : très fines lamelles ou râpée. Pas de quartiers durs.',
+    image: 'thin-slices',
+  },
+  {
+    food: 'Fruits à coque (noix, amandes, cacahuètes)',
+    danger: 'Forme parfaite pour bloquer les voies respiratoires',
+    icon: 'alert-circle',
+    color: '#F44336',
+    howToCut: 'JAMAIS entiers avant 4-5 ans. Uniquement en poudre ou en purée (beurre de cacahuète lisse).',
+    image: 'powder',
+  },
+  {
+    food: 'Fromage en cube / Mozzarella',
+    danger: 'Texture élastique et collante',
+    icon: 'warning',
+    color: '#FF9800',
+    howToCut: 'Râper ou couper en très fines lamelles. Éviter les cubes et la mozzarella en morceaux.',
+    image: 'grated',
+  },
+  {
+    food: 'Pop-corn',
+    danger: 'Forme irrégulière, risque d\'inhalation',
+    icon: 'alert-circle',
+    color: '#F44336',
+    howToCut: 'INTERDIT avant 4 ans. Les grains non éclatés sont très dangereux.',
+    image: 'forbidden',
+  },
+  {
+    food: 'Pain de mie / Mie de pain',
+    danger: 'Forme une boule compacte dans la bouche',
+    icon: 'warning',
+    color: '#FF9800',
+    howToCut: 'Griller légèrement le pain (toast). Couper en petits morceaux. Éviter les grosses bouchées de mie.',
+    image: 'small-pieces',
+  },
+  {
+    food: 'Viande en morceaux',
+    danger: 'Filandreuse, difficile à mâcher',
+    icon: 'information-circle',
+    color: '#2196F3',
+    howToCut: 'Couper en tout petits morceaux dans le SENS CONTRAIRE des fibres. Bien cuire pour attendrir.',
+    image: 'small-pieces',
+  },
+];
+
+// Règles d'or anti-étouffement
+export const SAFETY_RULES = [
+  'Toujours surveiller bébé pendant les repas — ne JAMAIS le laisser seul',
+  'Bébé doit être assis bien droit, pas incliné en arrière',
+  'Pas de nourriture en voiture, en poussette ou en marchant',
+  'Couper les aliments ronds en LONGUEUR (jamais en rondelles)',
+  'Retirer les noyaux, pépins, peaux dures et arêtes',
+  'Pas d\'aliments durs et petits (cacahuètes, pop-corn) avant 4-5 ans',
+  'Apprendre les gestes de premiers secours (claques dans le dos, Heimlich)',
+  'Adapter la taille des morceaux à l\'âge et à la mastication de bébé',
 ];
 
 // Étapes clés de la diversification

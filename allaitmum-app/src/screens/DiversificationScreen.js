@@ -16,6 +16,8 @@ import {
   FOODS,
   DANGER_FOODS,
   DIVERSIFICATION_STEPS,
+  CHOKING_PREVENTION,
+  SAFETY_RULES,
   getCurrentStep,
   getForbiddenFoods,
 } from '../data/diversification';
@@ -24,7 +26,7 @@ export default function DiversificationScreen({ onClose }) {
   const { theme } = useTheme();
   const { baby } = useApp();
 
-  const [activeTab, setActiveTab] = useState('guide'); // 'guide', 'aliments', 'interdits'
+  const [activeTab, setActiveTab] = useState('guide'); // 'guide', 'aliments', 'interdits', 'decoupe'
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchText, setSearchText] = useState('');
 
@@ -249,6 +251,61 @@ export default function DiversificationScreen({ onClose }) {
     </View>
   );
 
+  const renderDecoupeTab = () => (
+    <ScrollView contentContainerStyle={styles.scrollContent}>
+      {/* Safety rules */}
+      <View style={[styles.safetyCard, { backgroundColor: '#FFF3E0', borderColor: '#FF9800' }]}>
+        <View style={styles.safetyHeader}>
+          <Ionicons name="shield-checkmark" size={24} color="#FF9800" />
+          <Text style={styles.safetyTitle}>Règles d'or anti-étouffement</Text>
+        </View>
+        {SAFETY_RULES.map((rule, i) => (
+          <View key={i} style={styles.safetyRule}>
+            <Text style={styles.safetyNumber}>{i + 1}</Text>
+            <Text style={styles.safetyRuleText}>{rule}</Text>
+          </View>
+        ))}
+      </View>
+
+      {/* Choking prevention tips */}
+      <Text style={[styles.chokingTitle, { color: theme.primary }]}>
+        Comment bien couper les aliments
+      </Text>
+
+      {CHOKING_PREVENTION.map((item, i) => (
+        <View key={i} style={[styles.chokingCard, { backgroundColor: theme.card }]}>
+          <View style={[styles.chokingIconBox, { backgroundColor: item.color + '20' }]}>
+            <Ionicons name={item.icon} size={24} color={item.color} />
+          </View>
+          <View style={styles.chokingContent}>
+            <Text style={[styles.chokingFood, { color: theme.textDark }]}>{item.food}</Text>
+            <View style={[styles.chokingDangerBadge, { backgroundColor: item.color + '20' }]}>
+              <Text style={[styles.chokingDangerText, { color: item.color }]}>{item.danger}</Text>
+            </View>
+            <View style={[styles.chokingHowTo, { backgroundColor: '#E8F5E9' }]}>
+              <Ionicons name="cut" size={16} color="#4CAF50" />
+              <Text style={styles.chokingHowToText}>{item.howToCut}</Text>
+            </View>
+          </View>
+        </View>
+      ))}
+
+      {/* Emergency info */}
+      <View style={[styles.emergencyCard, { backgroundColor: '#FFEBEE', borderColor: '#F44336' }]}>
+        <Ionicons name="call" size={24} color="#F44336" />
+        <View style={styles.emergencyContent}>
+          <Text style={styles.emergencyTitle}>En cas d'étouffement</Text>
+          <Text style={styles.emergencyText}>
+            Appeler le 15 (SAMU) ou le 112 immédiatement.{'\n\n'}
+            Moins de 1 an : 5 claques dans le dos (entre les omoplates) puis 5 compressions thoraciques.{'\n\n'}
+            Plus de 1 an : claques dans le dos puis manœuvre de Heimlich (compressions abdominales).{'\n\n'}
+            Ne JAMAIS mettre les doigts dans la bouche à l'aveugle.
+          </Text>
+        </View>
+      </View>
+    </ScrollView>
+  );
+
   const renderInterditsTab = () => (
     <ScrollView contentContainerStyle={styles.scrollContent}>
       <View style={[styles.warningBanner, { backgroundColor: '#FFF3E0' }]}>
@@ -314,6 +371,7 @@ export default function DiversificationScreen({ onClose }) {
         {[
           { id: 'guide', label: 'Guide', icon: 'book' },
           { id: 'aliments', label: 'Aliments', icon: 'nutrition' },
+          { id: 'decoupe', label: 'Découpe', icon: 'cut' },
           { id: 'interdits', label: 'Interdits', icon: 'warning' },
         ].map(tab => (
           <TouchableOpacity
@@ -338,6 +396,7 @@ export default function DiversificationScreen({ onClose }) {
 
       {activeTab === 'guide' && renderGuideTab()}
       {activeTab === 'aliments' && renderAlimentsTab()}
+      {activeTab === 'decoupe' && renderDecoupeTab()}
       {activeTab === 'interdits' && renderInterditsTab()}
     </SafeAreaView>
   );
@@ -518,4 +577,84 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 10,
   },
+
+  // Découpe / Choking prevention
+  safetyCard: {
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 20,
+    borderWidth: 2,
+  },
+  safetyHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 14,
+  },
+  safetyTitle: { fontSize: 17, fontWeight: '700', color: '#E65100' },
+  safetyRule: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    paddingVertical: 6,
+  },
+  safetyNumber: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: '#FF9800',
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '700',
+    textAlign: 'center',
+    lineHeight: 22,
+    overflow: 'hidden',
+  },
+  safetyRuleText: { flex: 1, fontSize: 13, lineHeight: 18, color: '#333' },
+
+  chokingTitle: { fontSize: 18, fontWeight: '700', marginBottom: 14 },
+  chokingCard: {
+    flexDirection: 'row',
+    borderRadius: 14,
+    marginBottom: 12,
+    padding: 14,
+    gap: 12,
+  },
+  chokingIconBox: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  chokingContent: { flex: 1 },
+  chokingFood: { fontSize: 15, fontWeight: '600', marginBottom: 6 },
+  chokingDangerBadge: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    marginBottom: 8,
+  },
+  chokingDangerText: { fontSize: 11, fontWeight: '600' },
+  chokingHowTo: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+    padding: 10,
+    borderRadius: 10,
+  },
+  chokingHowToText: { flex: 1, fontSize: 13, lineHeight: 18, color: '#2E7D32' },
+
+  emergencyCard: {
+    flexDirection: 'row',
+    gap: 12,
+    borderRadius: 16,
+    padding: 16,
+    marginTop: 8,
+    borderWidth: 2,
+  },
+  emergencyContent: { flex: 1 },
+  emergencyTitle: { fontSize: 16, fontWeight: '700', color: '#F44336', marginBottom: 8 },
+  emergencyText: { fontSize: 13, lineHeight: 20, color: '#333' },
 });
