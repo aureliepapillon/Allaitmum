@@ -295,10 +295,10 @@ Conservation du lait :
     id: 8,
     category: 'Sommeil',
     title: 'Sommeil de bébé et allaitement',
-    duration: '7 min',
+    duration: '5 min',
     premium: true,
     source: 'La Leche League, OMS',
-    intro: "Les tétées de nuit, le cododo, le sevrage nocturne.",
+    intro: "Les tétées de nuit et le sommeil de bébé allaité.",
     sections: [
       {
         title: 'Les tétées de nuit sont NORMALES',
@@ -312,16 +312,15 @@ Les tétées nocturnes sont ESSENTIELLES pour la production (prolactine max la n
 Ne les supprime pas trop tôt !`,
       },
       {
-        title: 'Cododo sécuritaire',
-        content: `Conditions de sécurité OBLIGATOIRES :
-• Matelas ferme, plat
-• Pas d'oreiller/couette/tour de lit près de bébé
-• Pas de fumeur dans le lit
-• Pas d'alcool/drogue/médicaments sédatifs
-• Bébé sur le dos
-• Pas d'espace entre le matelas et le mur
+        title: 'Conseils pour les nuits',
+        content: `Pour faciliter les tétées nocturnes :
+• Garde bébé à proximité dans son propre lit
+• Prépare tout le nécessaire avant de te coucher
+• Limite les stimulations (lumière, bruit)
+• Allaite en position allongée si tu le souhaites
+• Accepte de l'aide pour te reposer la journée
 
-Le cododo facilite l'allaitement nocturne et le sommeil de la mère.`,
+Les nuits s'améliorent progressivement avec le temps.`,
       },
     ],
   },

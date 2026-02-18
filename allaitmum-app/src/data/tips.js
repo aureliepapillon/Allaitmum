@@ -32,7 +32,7 @@ export const weeklyTips = [
     id: 5,
     icon: "moon",
     title: "Sommeil sécuritaire",
-    text: "Bébé doit dormir sur le dos, sur un matelas ferme, sans oreiller ni couette. La turbulette est l'option la plus sûre. Évite le cododo sur canapé.",
+    text: "Bébé doit dormir sur le dos, sur un matelas ferme, sans oreiller ni couette. La turbulette est l'option la plus sûre. Toujours dans son propre espace de couchage.",
     source: "HAS",
   },
   {
