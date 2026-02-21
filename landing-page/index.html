@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Allait'Mum - L'app des jeunes mamans</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,8 +14,8 @@
         }
 
         body {
-            font-family: 'Nunito', sans-serif;
-            background: #FFFAF9;
+            font-family: 'Inter', sans-serif;
+            background: #FAFAFA;
             color: #333;
             line-height: 1.6;
             overflow-x: hidden;
@@ -32,7 +32,7 @@
             position: fixed;
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.5;
+            opacity: 0.4;
             z-index: -1;
             animation: float 20s infinite ease-in-out;
         }
@@ -40,7 +40,7 @@
         .blob-1 {
             width: 400px;
             height: 400px;
-            background: linear-gradient(135deg, #FFD1DC 0%, #FFB6C1 100%);
+            background: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%);
             top: -100px;
             right: -100px;
         }
@@ -48,7 +48,7 @@
         .blob-2 {
             width: 300px;
             height: 300px;
-            background: linear-gradient(135deg, #E8D5F2 0%, #D4B8E0 100%);
+            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
             bottom: 20%;
             left: -100px;
             animation-delay: -5s;
@@ -57,7 +57,7 @@
         .blob-3 {
             width: 250px;
             height: 250px;
-            background: linear-gradient(135deg, #FFECD2 0%, #FCB69F 100%);
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
             bottom: -50px;
             right: 10%;
             animation-delay: -10s;
@@ -80,27 +80,29 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #FF6B95 0%, #FF8BA7 100%);
-            border-radius: 28px;
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            border-radius: 24px;
             margin-bottom: 25px;
-            box-shadow: 0 15px 40px rgba(255, 107, 149, 0.3);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
             animation: pulse 3s infinite ease-in-out;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.03); }
         }
 
         .logo-container span {
-            font-size: 50px;
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
         }
 
         .hero h1 {
             font-size: 42px;
-            background: linear-gradient(135deg, #E91E63 0%, #FF6B95 100%);
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -109,17 +111,17 @@
         }
 
         .hero .tagline {
-            font-size: 22px;
-            color: #888;
+            font-size: 20px;
+            color: #64748B;
             margin-bottom: 25px;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         .hero p {
-            font-size: 18px;
+            font-size: 17px;
             max-width: 550px;
             margin: 0 auto 35px;
-            color: #666;
+            color: #64748B;
         }
 
         .store-buttons {
@@ -133,7 +135,7 @@
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: #1a1a1a;
+            background: #1E293B;
             color: #fff;
             padding: 14px 28px;
             border-radius: 14px;
@@ -150,11 +152,7 @@
         }
 
         .store-btn.coming-soon {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .store-btn .icon {
-            font-size: 24px;
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
         }
 
         /* Phone mockup */
@@ -168,11 +166,11 @@
             display: inline-block;
             width: 280px;
             height: 560px;
-            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            background: linear-gradient(145deg, #1E293B 0%, #334155 100%);
             border-radius: 45px;
             padding: 12px;
             box-shadow:
-                0 50px 100px rgba(0,0,0,0.2),
+                0 50px 100px rgba(0,0,0,0.15),
                 inset 0 2px 4px rgba(255,255,255,0.1);
             position: relative;
         }
@@ -180,7 +178,7 @@
         .phone-screen {
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, #FFF5F7 0%, #FFFFFF 100%);
+            background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
             border-radius: 35px;
             overflow: hidden;
             display: flex;
@@ -188,7 +186,7 @@
         }
 
         .phone-header {
-            background: linear-gradient(135deg, #FF6B95 0%, #FF8BA7 100%);
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
             padding: 45px 15px 20px;
             text-align: center;
         }
@@ -224,45 +222,48 @@
         .phone-card-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #FFE5EC 0%, #FFD1DC 100%);
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #6366F1;
         }
 
         .phone-card-text h4 {
             font-size: 12px;
-            color: #333;
+            color: #1E293B;
             font-weight: 700;
         }
 
         .phone-card-text p {
             font-size: 10px;
-            color: #999;
+            color: #94A3B8;
         }
 
         .phone-nav {
             display: flex;
             justify-content: space-around;
             padding: 12px;
-            border-top: 1px solid #f0f0f0;
+            border-top: 1px solid #E2E8F0;
         }
 
         .phone-nav-item {
             text-align: center;
             font-size: 9px;
-            color: #999;
+            color: #94A3B8;
         }
 
         .phone-nav-item.active {
-            color: #FF6B95;
+            color: #6366F1;
         }
 
         .phone-nav-item span {
             display: block;
-            font-size: 18px;
+            font-size: 10px;
+            font-weight: 700;
             margin-bottom: 2px;
         }
 
@@ -274,7 +275,7 @@
         .section-title {
             text-align: center;
             font-size: 32px;
-            color: #333;
+            color: #1E293B;
             margin-bottom: 15px;
             font-weight: 800;
         }
@@ -282,7 +283,7 @@
         .section-subtitle {
             text-align: center;
             font-size: 16px;
-            color: #888;
+            color: #64748B;
             margin-bottom: 50px;
             max-width: 500px;
             margin-left: auto;
@@ -297,11 +298,11 @@
 
         .feature-card {
             background: #fff;
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 30px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.04);
             transition: all 0.3s ease;
-            border: 1px solid #f5f5f5;
+            border: 1px solid #E2E8F0;
         }
 
         .feature-card:hover {
@@ -310,32 +311,34 @@
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 18px;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 20px;
+            font-weight: 700;
             margin-bottom: 20px;
+            color: #fff;
         }
 
-        .feature-card:nth-child(1) .feature-icon { background: linear-gradient(135deg, #FFE5EC 0%, #FFD1DC 100%); }
-        .feature-card:nth-child(2) .feature-icon { background: linear-gradient(135deg, #E8F4FD 0%, #D1E8FA 100%); }
-        .feature-card:nth-child(3) .feature-icon { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); }
-        .feature-card:nth-child(4) .feature-icon { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); }
-        .feature-card:nth-child(5) .feature-icon { background: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%); }
-        .feature-card:nth-child(6) .feature-icon { background: linear-gradient(135deg, #E0F7FA 0%, #B2EBF2 100%); }
+        .feature-card:nth-child(1) .feature-icon { background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%); }
+        .feature-card:nth-child(2) .feature-icon { background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%); }
+        .feature-card:nth-child(3) .feature-icon { background: linear-gradient(135deg, #10B981 0%, #34D399 100%); }
+        .feature-card:nth-child(4) .feature-icon { background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); }
+        .feature-card:nth-child(5) .feature-icon { background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%); }
+        .feature-card:nth-child(6) .feature-icon { background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%); }
 
         .feature-card h3 {
             font-size: 18px;
-            color: #333;
+            color: #1E293B;
             margin-bottom: 10px;
             font-weight: 700;
         }
 
         .feature-card p {
-            color: #777;
+            color: #64748B;
             font-size: 14px;
             line-height: 1.6;
         }
@@ -343,7 +346,7 @@
         /* Testimonials */
         .testimonials {
             padding: 60px 20px;
-            background: linear-gradient(135deg, #FFF5F7 0%, #FFF0F5 100%);
+            background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
             border-radius: 30px;
             margin: 40px 0;
         }
@@ -363,13 +366,14 @@
         }
 
         .testimonial-stars {
-            color: #FFD700;
-            font-size: 16px;
+            color: #F59E0B;
+            font-size: 14px;
             margin-bottom: 15px;
+            letter-spacing: 2px;
         }
 
         .testimonial-text {
-            color: #555;
+            color: #475569;
             font-size: 14px;
             line-height: 1.7;
             margin-bottom: 20px;
@@ -386,7 +390,7 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #FF6B95 0%, #FF8BA7 100%);
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -397,18 +401,18 @@
 
         .testimonial-name {
             font-weight: 700;
-            color: #333;
+            color: #1E293B;
             font-size: 14px;
         }
 
         .testimonial-info {
-            color: #999;
+            color: #94A3B8;
             font-size: 12px;
         }
 
         /* Premium */
         .premium {
-            background: linear-gradient(135deg, #FF6B95 0%, #FF8BA7 50%, #FFB6C1 100%);
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #9333EA 100%);
             padding: 60px 30px;
             text-align: center;
             color: #fff;
@@ -449,7 +453,7 @@
 
         .price-box {
             display: inline-block;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 25px 40px;
@@ -477,8 +481,8 @@
             position: absolute;
             top: -10px;
             right: -10px;
-            background: #FFD700;
-            color: #333;
+            background: #FCD34D;
+            color: #1E293B;
             font-size: 12px;
             font-weight: 700;
             padding: 5px 12px;
@@ -496,20 +500,20 @@
 
         .privacy h2 {
             font-size: 28px;
-            color: #333;
+            color: #1E293B;
             margin-bottom: 30px;
             text-align: center;
         }
 
         .privacy h3 {
             font-size: 16px;
-            color: #333;
+            color: #1E293B;
             margin: 25px 0 12px;
             font-weight: 700;
         }
 
         .privacy p, .privacy ul {
-            color: #666;
+            color: #64748B;
             font-size: 14px;
             margin-bottom: 10px;
         }
@@ -523,7 +527,7 @@
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
             border-radius: 16px;
             padding: 20px;
             margin: 25px 0;
@@ -533,11 +537,19 @@
         }
 
         .highlight-box .icon {
-            font-size: 30px;
+            width: 40px;
+            height: 40px;
+            background: #10B981;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
         }
 
         .highlight-box p {
-            color: #2E7D32;
+            color: #059669;
             font-weight: 600;
             margin: 0;
             font-size: 15px;
@@ -547,18 +559,18 @@
         footer {
             text-align: center;
             padding: 40px 20px;
-            color: #999;
+            color: #94A3B8;
             font-size: 14px;
         }
 
         footer a {
-            color: #FF6B95;
+            color: #6366F1;
             text-decoration: none;
             transition: color 0.3s;
         }
 
         footer a:hover {
-            color: #E91E63;
+            color: #4F46E5;
         }
 
         .footer-links {
@@ -608,7 +620,7 @@
         <!-- Hero -->
         <section class="hero">
             <div class="logo-container">
-                <span>🤱</span>
+                <span>A'M</span>
             </div>
             <h1>Allait'Mum</h1>
             <p class="tagline">L'app des jeunes mamans</p>
@@ -616,14 +628,12 @@
 
             <div class="store-buttons">
                 <a href="#" class="store-btn coming-soon">
-                    <span class="icon">🍎</span>
                     <div>
                         <small style="opacity: 0.8; font-size: 11px;">Bientôt sur</small><br>
                         App Store
                     </div>
                 </a>
                 <a href="#" class="store-btn coming-soon">
-                    <span class="icon">▶️</span>
                     <div>
                         <small style="opacity: 0.8; font-size: 11px;">Bientôt sur</small><br>
                         Google Play
@@ -637,37 +647,37 @@
             <div class="phone-mockup">
                 <div class="phone-screen">
                     <div class="phone-header">
-                        <h3>Bonjour Emma 👋</h3>
+                        <h3>Bonjour Emma</h3>
                         <p>Maëlle, 4 mois</p>
                     </div>
                     <div class="phone-content">
                         <div class="phone-card">
-                            <div class="phone-card-icon">🍼</div>
+                            <div class="phone-card-icon">T</div>
                             <div class="phone-card-text">
                                 <h4>Dernière tétée</h4>
-                                <p>Il y a 2h15 · Sein gauche</p>
+                                <p>Il y a 2h15 - Sein gauche</p>
                             </div>
                         </div>
                         <div class="phone-card">
-                            <div class="phone-card-icon">😴</div>
+                            <div class="phone-card-icon">S</div>
                             <div class="phone-card-text">
                                 <h4>Sommeil</h4>
-                                <p>Sieste en cours · 45 min</p>
+                                <p>Sieste en cours - 45 min</p>
                             </div>
                         </div>
                         <div class="phone-card">
-                            <div class="phone-card-icon">📈</div>
+                            <div class="phone-card-icon">C</div>
                             <div class="phone-card-text">
                                 <h4>Croissance</h4>
-                                <p>5.8 kg · Courbe normale</p>
+                                <p>5.8 kg - Courbe normale</p>
                             </div>
                         </div>
                     </div>
                     <div class="phone-nav">
-                        <div class="phone-nav-item active"><span>❤️</span>Suivi</div>
-                        <div class="phone-nav-item"><span>📅</span>RDV</div>
-                        <div class="phone-nav-item"><span>📚</span>Guide</div>
-                        <div class="phone-nav-item"><span>👤</span>Profil</div>
+                        <div class="phone-nav-item active"><span>Suivi</span></div>
+                        <div class="phone-nav-item"><span>RDV</span></div>
+                        <div class="phone-nav-item"><span>Guide</span></div>
+                        <div class="phone-nav-item"><span>Profil</span></div>
                     </div>
                 </div>
             </div>
@@ -680,37 +690,37 @@
 
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">⏱️</div>
+                    <div class="feature-icon">1</div>
                     <h3>Suivi alimentation</h3>
                     <p>Tétées, biberons, tire-lait. Chronomètre intégré et historique complet pour ne rien oublier.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">😴</div>
+                    <div class="feature-icon">2</div>
                     <h3>Suivi sommeil</h3>
                     <p>Siestes et nuits. Visualise les cycles de sommeil de bébé et repère les patterns.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">📈</div>
+                    <div class="feature-icon">3</div>
                     <h3>Croissance</h3>
                     <p>Poids, taille, périmètre crânien. Courbes de croissance OMS pour suivre l'évolution.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">🥕</div>
+                    <div class="feature-icon">4</div>
                     <h3>Diversification</h3>
                     <p>Guide alimentaire complet par âge. 80+ aliments avec conseils et alertes.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">📅</div>
+                    <div class="feature-icon">5</div>
                     <h3>Rendez-vous</h3>
                     <p>Pédiatre, sage-femme, vaccins. Calendrier intégré pour ne rater aucun RDV.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">💬</div>
+                    <div class="feature-icon">6</div>
                     <h3>Assistant 24h/24</h3>
                     <p>Pose tes questions et obtiens des réponses fiables, jour et nuit.</p>
                 </div>
@@ -723,7 +733,7 @@
 
             <div class="testimonials-grid">
                 <div class="testimonial-card">
-                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-stars">★★★★★</div>
                     <p class="testimonial-text">"Enfin une app simple et complète ! Je note tout en deux clics. Le suivi des tétées m'a sauvé les premiers mois."</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">M</div>
@@ -735,7 +745,7 @@
                 </div>
 
                 <div class="testimonial-card">
-                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-stars">★★★★★</div>
                     <p class="testimonial-text">"Le guide de diversification est top ! Je sais exactement quoi donner à mon bébé selon son âge. Très rassurant."</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">S</div>
@@ -747,7 +757,7 @@
                 </div>
 
                 <div class="testimonial-card">
-                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-stars">★★★★★</div>
                     <p class="testimonial-text">"J'adore pouvoir tout montrer au pédiatre avec l'export PDF. Il est impressionné par le suivi !"</p>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">L</div>
@@ -762,7 +772,7 @@
 
         <!-- Premium -->
         <section class="premium">
-            <h2>✨ Passe à Premium</h2>
+            <h2>Passe à Premium</h2>
             <p>Débloque toutes les fonctionnalités et accède aux articles approfondis</p>
             <div class="price-box">
                 <div class="price-badge">-44%</div>
@@ -773,8 +783,8 @@
 
         <!-- Privacy Policy -->
         <section class="privacy" id="privacy">
-            <h2>🔒 Politique de confidentialité</h2>
-            <p style="text-align: center; color: #999;"><em>Dernière mise à jour : Février 2026</em></p>
+            <h2>Politique de confidentialité</h2>
+            <p style="text-align: center; color: #94A3B8;"><em>Dernière mise à jour : Février 2026</em></p>
 
             <h3>1. Introduction</h3>
             <p>Allait'Mum ("nous", "notre", "l'application") respecte ta vie privée. Cette politique explique comment nous collectons, utilisons et protégeons tes données.</p>
@@ -798,7 +808,7 @@
 
             <h3>3. Stockage des données</h3>
             <div class="highlight-box">
-                <span class="icon">🔒</span>
+                <div class="icon">OK</div>
                 <p>Toutes tes données personnelles sont stockées LOCALEMENT sur ton appareil. Nous n'avons pas accès à tes informations.</p>
             </div>
 
@@ -823,7 +833,7 @@
 
         <!-- Footer -->
         <footer>
-            <p>© 2026 Allait'Mum. Fait avec 💕 pour les mamans.</p>
+            <p>© 2026 Allait'Mum. Fait avec soin pour les mamans.</p>
             <div class="footer-links">
                 <a href="#privacy">Confidentialité</a>
                 <a href="mailto:support@allaitmum.app">Contact</a>
