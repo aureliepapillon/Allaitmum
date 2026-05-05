@@ -10,6 +10,7 @@ import {
   Modal,
   Linking,
   Image,
+  BackHandler,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -60,6 +61,17 @@ export default function DashboardScreen() {
 
   const tip = getTipOfTheWeek();
   const devInfo = getDevelopmentInfo(baby.birthDate);
+
+  // Android back button
+  useEffect(() => {
+    const onBack = () => {
+      if (activeScreen) { setActiveScreen(null); return true; }
+      if (showMenu) { setShowMenu(false); return true; }
+      return false;
+    };
+    const sub = BackHandler.addEventListener('hardwareBackPress', onBack);
+    return () => sub.remove();
+  }, [activeScreen, showMenu]);
 
   // Feeding timer
   useEffect(() => {
