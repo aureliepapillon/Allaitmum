@@ -371,43 +371,14 @@ const botResponses = [
   },
 ];
 
-const SYSTEM_PROMPT = `Tu es l'assistante Allait'mum, une experte bienveillante en allaitement maternel et soins aux nourrissons. Tu parles en français, avec douceur et bienveillance, en tutoyant la maman.
-
-Tes domaines d'expertise :
-- Allaitement maternel (crevasses, engorgement, mastite, production, REF, sevrage naturel, allaitement long, etc.)
-- Médicaments compatibles avec l'allaitement (réfère à e-lactancia.org et lecrat.fr)
-- Tire-lait, conservation du lait maternel
-- Sommeil de bébé, rythmes, coliques
-- Diversification alimentaire
-- Développement de bébé
-- Soutien émotionnel post-partum
-
-Règles importantes :
-- Toujours encourager et soutenir, ne jamais culpabiliser
-- Pour les urgences médicales (fièvre, infection), toujours conseiller de consulter rapidement
-- Citer des sources fiables : La Leche League, IBCLC, e-lactancia.org, lecrat.fr
-- Réponses concises et pratiques, avec des bullet points si nécessaire
-- Ne jamais donner de diagnostics médicaux, orienter vers des professionnels si besoin`;
-
-const callClaude = async (conversationHistory) => {
-  const apiKey = process.env.EXPO_PUBLIC_ANTHROPIC_API_KEY;
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: conversationHistory,
-    }),
-  });
-  if (!response.ok) throw new Error('API error');
-  const data = await response.json();
-  return data.content[0].text;
+const getResponse = (input) => {
+  const lower = input.toLowerCase();
+  for (const r of botResponses) {
+    if (r.keywords.some((k) => lower.includes(k))) {
+      return r.answer;
+    }
+  }
+  return "Je n'ai pas de réponse précise à cette question, mais voici mes conseils :\n\n• Vérifie sur e-lactancia.org (médicaments)\n• Vérifie sur lecrat.fr (CRAT)\n• Contacte La Leche League (lllfrance.org)\n• Consulte une IBCLC (consultante en lactation)\n\nN'hésite pas à reformuler ta question avec des mots-clés comme : crevasse, engorgement, médicament, production, tire-lait, sevrage...";
 };
 
 export default function ChatbotScreen({ onClose }) {
@@ -420,35 +391,15 @@ export default function ChatbotScreen({ onClose }) {
     },
   ]);
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef();
 
-  const send = async (overrideText) => {
-    const text = (overrideText || input).trim();
-    if (!text || isLoading) return;
-    const userMsg = { id: Date.now(), from: 'user', text };
-    setMessages((prev) => [...prev, userMsg]);
+  const send = () => {
+    if (!input.trim()) return;
+    const userMsg = { id: Date.now(), from: 'user', text: input.trim() };
+    const botMsg = { id: Date.now() + 1, from: 'bot', text: getResponse(input) };
+    setMessages((prev) => [...prev, userMsg, botMsg]);
     setInput('');
-    setIsLoading(true);
     setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
-
-    const history = [...messages, userMsg]
-      .filter((m) => m.from !== 'typing')
-      .map((m) => ({ role: m.from === 'user' ? 'user' : 'assistant', content: m.text }));
-
-    try {
-      const reply = await callClaude(history);
-      setMessages((prev) => [...prev, { id: Date.now() + 1, from: 'bot', text: reply }]);
-    } catch {
-      setMessages((prev) => [...prev, {
-        id: Date.now() + 1,
-        from: 'bot',
-        text: "Désolée, je ne peux pas répondre pour l'instant. Consulte e-lactancia.org ou La Leche League (lllfrance.org).",
-      }]);
-    } finally {
-      setIsLoading(false);
-      setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
-    }
   };
 
   return (
@@ -508,12 +459,6 @@ export default function ChatbotScreen({ onClose }) {
             </Text>
           </View>
         ))}
-        {isLoading && (
-          <View style={[styles.bubble, styles.botBubble, { backgroundColor: theme.card }]}>
-            <Ionicons name="heart-circle" size={20} color={theme.primary} style={{ marginBottom: 4 }} />
-            <Text style={[styles.bubbleText, { color: theme.textLight }]}>En train d'écrire...</Text>
-          </View>
-        )}
       </ScrollView>
 
       {/* Quick questions */}
@@ -528,7 +473,10 @@ export default function ChatbotScreen({ onClose }) {
             <TouchableOpacity
               key={q}
               style={[styles.quickButton, { borderColor: theme.primary }]}
-              onPress={() => send(q)}
+              onPress={() => {
+                setInput(q);
+                setTimeout(() => send(), 50);
+              }}
             >
               <Text style={[styles.quickText, { color: theme.primary }]}>{q}</Text>
             </TouchableOpacity>
@@ -544,14 +492,12 @@ export default function ChatbotScreen({ onClose }) {
           onChangeText={setInput}
           placeholder="Pose ta question..."
           placeholderTextColor={theme.textLight}
-          onSubmitEditing={() => send()}
+          onSubmitEditing={send}
           returnKeyType="send"
-          editable={!isLoading}
         />
         <TouchableOpacity
-          style={[styles.sendButton, { backgroundColor: isLoading ? theme.textLight : theme.primary }]}
-          onPress={() => send()}
-          disabled={isLoading}
+          style={[styles.sendButton, { backgroundColor: theme.primary }]}
+          onPress={send}
         >
           <Ionicons name="send" size={20} color="#fff" />
         </TouchableOpacity>
