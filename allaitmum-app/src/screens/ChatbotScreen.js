@@ -387,7 +387,7 @@ export default function ChatbotScreen({ onClose }) {
     {
       id: 1,
       from: 'bot',
-      text: "Salut ! Je suis l'assistante Allait'mum.\n\nL'allaitement, c'est une douceur immense, une connexion profonde. Et parfois, c'est aussi des questions et des doutes.\n\nPose-moi tes questions sur l'allaitement, les médicaments, le tire-lait, le sommeil... Je suis là pour t'aider !",
+      text: "Salut ! Je suis l'assistante Malo.\n\nL'allaitement, c'est une douceur immense, une connexion profonde. Et parfois, c'est aussi des questions et des doutes.\n\nPose-moi tes questions sur l'allaitement, les médicaments, le tire-lait, le sommeil... Je suis là pour t'aider !",
     },
   ]);
   const [input, setInput] = useState('');
@@ -413,7 +413,7 @@ export default function ChatbotScreen({ onClose }) {
         <View style={styles.headerLeft}>
           <Ionicons name="chatbubbles" size={24} color="#fff" />
           <View>
-            <Text style={styles.headerTitle}>Assistante Allait'mum</Text>
+            <Text style={styles.headerTitle}>Assistante Malo</Text>
             <Text style={styles.headerSub}>Questions allaitement</Text>
           </View>
         </View>

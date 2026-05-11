@@ -85,7 +85,7 @@ ${baby.birthWeight ? `Poids de naissance : ${baby.birthWeight} kg` : ''}
 ${baby.birthHeight ? `Taille de naissance : ${baby.birthHeight} cm` : ''}
 ${momName ? `Maman : ${momName}` : ''}
 
-Envoyé depuis l'app Allaitmum`;
+Envoyé depuis l'app Malo`;
 
     try {
       await Share.share({

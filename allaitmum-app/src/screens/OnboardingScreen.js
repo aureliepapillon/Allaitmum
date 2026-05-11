@@ -77,7 +77,7 @@ export default function OnboardingScreen() {
         {step === 1 && (
           <View style={styles.stepContainer}>
             <Image source={logoImage} style={styles.logo} resizeMode="contain" />
-            <Text style={[styles.title, { color: theme.primary }]}>Allait'mum</Text>
+            <Text style={[styles.title, { color: theme.primary }]}>Malo</Text>
 
             <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
               <Text style={[styles.cardTitle, { color: theme.primary }]}>Bienvenue</Text>

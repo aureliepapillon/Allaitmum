@@ -223,7 +223,7 @@ export default function ProfileScreen() {
       <View style={[styles.card, { backgroundColor: theme.card }]}>
         <Text style={[styles.cardTitle, { color: theme.primary }]}>À propos</Text>
         <Text style={[styles.aboutText, { color: theme.text }]}>
-          Allait'mum est une application créée avec amour pour accompagner toutes les mamans dans leur parcours d'alimentation.{'\n\n'}
+          Malo est une application créée avec amour pour accompagner toutes les mamans dans leur parcours d'alimentation.{'\n\n'}
           Sein, biberon, tire-lait, mixte... Aucun jugement. Juste du soutien.{'\n\n'}
           Les informations sont sourcées (La Leche League, CRAT, e-lactancia, OMS) mais ne remplacent pas l'avis d'un professionnel de santé.
         </Text>

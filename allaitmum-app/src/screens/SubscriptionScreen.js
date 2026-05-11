@@ -167,7 +167,7 @@ export default function SubscriptionScreen({ onClose }) {
             <Ionicons name="star" size={50} color="#FFB300" />
             <Text style={styles.premiumActiveTitle}>Premium Actif</Text>
             <Text style={styles.premiumActiveText}>
-              Tu profites de toutes les fonctionnalités Allait'mum !
+              Tu profites de toutes les fonctionnalités Malo !
             </Text>
           </View>
 
@@ -186,7 +186,7 @@ export default function SubscriptionScreen({ onClose }) {
           <View style={[styles.infoCard, { backgroundColor: theme.secondary + '40' }]}>
             <Ionicons name="heart" size={20} color={theme.primary} />
             <Text style={[styles.infoText, { color: theme.textDark }]}>
-              Merci de soutenir Allait'mum ! Ton abonnement nous aide à développer de nouvelles fonctionnalités.
+              Merci de soutenir Malo ! Ton abonnement nous aide à développer de nouvelles fonctionnalités.
             </Text>
           </View>
         </ScrollView>
@@ -389,7 +389,7 @@ export default function SubscriptionScreen({ onClose }) {
         <View style={[styles.infoCard, { backgroundColor: theme.secondary + '40' }]}>
           <Ionicons name="heart" size={20} color={theme.primary} />
           <Text style={[styles.infoText, { color: theme.textDark }]}>
-            Ton abonnement aide à maintenir Allaitmum sans pub et à développer de nouvelles fonctionnalités.
+            Ton abonnement aide à maintenir Malo sans pub et à développer de nouvelles fonctionnalités.
             Merci de ton soutien !
           </Text>
         </View>

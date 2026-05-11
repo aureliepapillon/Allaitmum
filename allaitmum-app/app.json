@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Allait'mum",
-    "slug": "allaitmum-app",
+    "name": "Malo",
+    "slug": "malo-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +16,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.allaitmum.app",
       "infoPlist": {
-        "NSUserNotificationsUsageDescription": "Allait'mum utilise les notifications pour les rappels de vaccins et de tétées."
+        "NSUserNotificationsUsageDescription": "Malo utilise les notifications pour les rappels de vaccins et de tétées."
       }
     },
     "android": {
