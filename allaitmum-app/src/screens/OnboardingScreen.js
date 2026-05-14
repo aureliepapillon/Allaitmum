@@ -77,7 +77,7 @@ export default function OnboardingScreen() {
       {step === 1 && (
         <View style={styles.welcomeScreen}>
           <View style={styles.welcomeImageArea}>
-            <Image source={logoImage} style={styles.welcomeLogo} resizeMode="cover" />
+            <Image source={logoImage} style={styles.welcomeLogo} resizeMode="contain" />
             <LinearGradient
               colors={['transparent', theme.backgroundGradientStart]}
               style={styles.welcomeFade}
@@ -331,10 +331,11 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   tagline: {
-    fontSize: 26,
-    fontWeight: '700',
-    lineHeight: 34,
+    fontSize: 15,
+    fontWeight: '400',
+    lineHeight: 22,
     textAlign: 'center',
+    opacity: 0.8,
   },
   card: {
     width: '100%',
