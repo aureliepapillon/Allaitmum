@@ -10,11 +10,15 @@ import {
   KeyboardAvoidingView,
   Image,
   Alert,
+  Dimensions,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 import { Ionicons } from '@expo/vector-icons';
 import { validateBabyData, isValidEmail, isValidDate, isNotFutureDate, isValidBabyWeight, isValidBabyHeight } from '../utils/validators';
+
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const logoImage = require('../../assets/logo-allaitmum.png');
 const dashboardMascot = require('../../assets/dashboard-mascot.png');
@@ -69,29 +73,32 @@ export default function OnboardingScreen() {
       style={[styles.container, { backgroundColor: theme.backgroundGradientStart }]}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+      {/* Step 1: Welcome — plein écran, hors ScrollView */}
+      {step === 1 && (
+        <View style={styles.welcomeScreen}>
+          <Image source={logoImage} style={styles.welcomeLogo} resizeMode="cover" />
+          <LinearGradient
+            colors={['transparent', theme.backgroundGradientStart]}
+            style={styles.welcomeFade}
+          />
+          <View style={styles.welcomeBottom}>
+            <Text style={[styles.tagline, { color: theme.primary }]}>
+              Né d'un bébé,{'\n'}pour tous les bébés
+            </Text>
+            <TouchableOpacity
+              style={[styles.mainButton, { backgroundColor: theme.primary }]}
+              onPress={() => setStep(2)}
+            >
+              <Text style={styles.mainButtonText}>Créer mon espace</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Step 1: Welcome */}
-        {step === 1 && (
-          <View style={styles.stepContainer}>
-            <Image source={logoImage} style={styles.logo} resizeMode="contain" />
-
-            <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
-              <Text style={[styles.cardTitle, { color: theme.primary }]}>Bienvenue</Text>
-              <Text style={[styles.cardText, { color: theme.text }]}>
-                Ton nouveau carnet de bord
-              </Text>
-              <TouchableOpacity
-                style={[styles.mainButton, { backgroundColor: theme.primary }]}
-                onPress={() => setStep(2)}
-              >
-                <Text style={styles.mainButtonText}>Créer mon espace</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
 
         {/* Step 2: Baby info */}
         {step === 2 && (
@@ -293,16 +300,36 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24 },
   stepContainer: { alignItems: 'center' },
-  iconContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 24,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
+
+  // Step 1 — plein écran avec fondu
+  welcomeScreen: {
+    flex: 1,
+    height: SCREEN_HEIGHT,
   },
-  logo: { width: 150, height: 150, marginBottom: 16, borderRadius: 20 },
-  title: { fontSize: 42, fontWeight: '600', marginBottom: 24 },
+  welcomeLogo: {
+    width: '100%',
+    height: '75%',
+  },
+  welcomeFade: {
+    position: 'absolute',
+    bottom: '25%',
+    left: 0,
+    right: 0,
+    height: 200,
+  },
+  welcomeBottom: {
+    flex: 1,
+    paddingHorizontal: 28,
+    paddingBottom: 40,
+    justifyContent: 'flex-end',
+    gap: 20,
+  },
+  tagline: {
+    fontSize: 28,
+    fontWeight: '700',
+    lineHeight: 36,
+    textAlign: 'center',
+  },
   card: {
     width: '100%',
     borderRadius: 24,
