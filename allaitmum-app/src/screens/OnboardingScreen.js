@@ -76,11 +76,13 @@ export default function OnboardingScreen() {
       {/* Step 1: Welcome — plein écran, hors ScrollView */}
       {step === 1 && (
         <View style={styles.welcomeScreen}>
-          <Image source={logoImage} style={styles.welcomeLogo} resizeMode="cover" />
-          <LinearGradient
-            colors={['transparent', theme.backgroundGradientStart]}
-            style={styles.welcomeFade}
-          />
+          <View style={styles.welcomeImageArea}>
+            <Image source={logoImage} style={styles.welcomeLogo} resizeMode="cover" />
+            <LinearGradient
+              colors={['transparent', theme.backgroundGradientStart]}
+              style={styles.welcomeFade}
+            />
+          </View>
           <View style={styles.welcomeBottom}>
             <Text style={[styles.tagline, { color: theme.primary }]}>
               Né d'un bébé,{'\n'}pour tous les bébés
@@ -306,21 +308,23 @@ const styles = StyleSheet.create({
 
   // Step 1 — plein écran avec fondu
   welcomeScreen: {
-    height: SCREEN_HEIGHT,
+    flex: 1,
+  },
+  welcomeImageArea: {
+    flex: 3,
   },
   welcomeLogo: {
-    width: '100%',
-    height: SCREEN_HEIGHT * 0.72,
+    ...StyleSheet.absoluteFillObject,
   },
   welcomeFade: {
     position: 'absolute',
-    top: SCREEN_HEIGHT * 0.72 - 180,
+    bottom: 0,
     left: 0,
     right: 0,
-    height: 180,
+    height: 160,
   },
   welcomeBottom: {
-    height: SCREEN_HEIGHT * 0.28,
+    flex: 1,
     paddingHorizontal: 28,
     paddingBottom: 40,
     justifyContent: 'flex-end',
