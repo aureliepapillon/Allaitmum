@@ -95,6 +95,8 @@ export default function OnboardingScreen() {
         </View>
       )}
 
+      {/* Steps 2 & 3 */}
+      {step > 1 && (
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -292,6 +294,7 @@ export default function OnboardingScreen() {
         )}
 
       </ScrollView>
+      )}
     </KeyboardAvoidingView>
   );
 }
@@ -303,31 +306,30 @@ const styles = StyleSheet.create({
 
   // Step 1 — plein écran avec fondu
   welcomeScreen: {
-    flex: 1,
     height: SCREEN_HEIGHT,
   },
   welcomeLogo: {
     width: '100%',
-    height: '75%',
+    height: SCREEN_HEIGHT * 0.72,
   },
   welcomeFade: {
     position: 'absolute',
-    bottom: '25%',
+    top: SCREEN_HEIGHT * 0.72 - 180,
     left: 0,
     right: 0,
-    height: 200,
+    height: 180,
   },
   welcomeBottom: {
-    flex: 1,
+    height: SCREEN_HEIGHT * 0.28,
     paddingHorizontal: 28,
     paddingBottom: 40,
     justifyContent: 'flex-end',
-    gap: 20,
+    gap: 16,
   },
   tagline: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: '700',
-    lineHeight: 36,
+    lineHeight: 34,
     textAlign: 'center',
   },
   card: {
