@@ -77,16 +77,11 @@ export default function OnboardingScreen() {
         {step === 1 && (
           <View style={styles.stepContainer}>
             <Image source={logoImage} style={styles.logo} resizeMode="contain" />
-            <Text style={[styles.title, { color: theme.primary }]}>Malo</Text>
 
             <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
               <Text style={[styles.cardTitle, { color: theme.primary }]}>Bienvenue</Text>
               <Text style={[styles.cardText, { color: theme.text }]}>
-                Ici, toutes les mamans sont les bienvenues. Sein, tire-lait, biberon, mixte...
-                Ton parcours est unique. Ton choix est respecté.
-              </Text>
-              <Text style={[styles.cardSubtext, { color: theme.primary }]}>
-                Aucun jugement. Juste du soutien.
+                Ton nouveau carnet de bord
               </Text>
               <TouchableOpacity
                 style={[styles.mainButton, { backgroundColor: theme.primary }]}

@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { Platform } from 'react-native';
 import Purchases from 'react-native-purchases';
+import Constants from 'expo-constants';
+
+const isExpoGo = Constants.appOwnership === 'expo';
 import { storage } from './storage';
 
 const AppContext = createContext();
@@ -154,6 +157,7 @@ export const AppProvider = ({ children }) => {
   // Initialize RevenueCat
   useEffect(() => {
     const initRevenueCat = async () => {
+      if (isExpoGo) return; // RevenueCat ne fonctionne pas dans Expo Go
       try {
         const apiKey = Platform.OS === 'ios' ? REVENUECAT_API_KEY_IOS : REVENUECAT_API_KEY_ANDROID;
 
