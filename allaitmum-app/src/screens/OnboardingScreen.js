@@ -232,11 +232,8 @@ export default function OnboardingScreen() {
 
         {/* Step 3: Feeding method */}
         {step === 3 && (
-          <View style={styles.step3Container}>
-            {/* Mascot peek-a-boo on left */}
-            <Image source={dashboardMascot} style={styles.peekMascot} resizeMode="cover" />
-
-            <View style={[styles.card, styles.step3Card, { backgroundColor: theme.cardTransparent }]}>
+          <View style={styles.stepContainer}>
+            <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
               <Text style={[styles.cardTitle, { color: theme.primary }]}>
                 Tu es plutôt quelle team ?
               </Text>
