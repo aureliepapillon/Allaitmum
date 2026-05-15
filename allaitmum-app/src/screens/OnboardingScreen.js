@@ -37,9 +37,10 @@ export default function OnboardingScreen() {
   const [method, setMethod] = useState(null);
 
   const methods = [
-    { id: 'breast', icon: 'heart', label: 'Allaitement', desc: 'Tétées au sein' },
-    { id: 'pump', icon: 'water', label: 'Tire-allaitement', desc: 'Tire-lait + biberon' },
-    { id: 'mixed', icon: 'git-merge', label: 'Mixte', desc: 'Combinaison des deux' },
+    { id: 'breast', icon: 'heart', label: 'Allaitement' },
+    { id: 'pump', icon: 'water', label: 'Tire-allaitement' },
+    { id: 'bottle', icon: 'cafe', label: 'Biberon' },
+    { id: 'other', icon: 'ellipsis-horizontal', label: 'Autre' },
   ];
 
   const handleNextStep = () => {
@@ -237,7 +238,7 @@ export default function OnboardingScreen() {
 
             <View style={[styles.card, styles.step3Card, { backgroundColor: theme.cardTransparent }]}>
               <Text style={[styles.cardTitle, { color: theme.primary }]}>
-                Comment nourris-tu {name} aujourd'hui ?
+                Et toi, comment tu nourris {name} ?
               </Text>
               <Text style={[styles.cardSubtext, { color: theme.text }]}>
                 Pas de bon ou mauvais choix. Juste ton choix.
@@ -271,14 +272,6 @@ export default function OnboardingScreen() {
                       ]}
                     >
                       {m.label}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.methodDesc,
-                        { color: method === m.id ? 'rgba(255,255,255,0.8)' : theme.text },
-                      ]}
-                    >
-                      {m.desc}
                     </Text>
                   </View>
                 </TouchableOpacity>
