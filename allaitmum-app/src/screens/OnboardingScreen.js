@@ -37,10 +37,10 @@ export default function OnboardingScreen() {
   const [method, setMethod] = useState(null);
 
   const methods = [
-    { id: 'breast', icon: 'heart', label: 'Allaitement' },
-    { id: 'pump', icon: 'water', label: 'Tire-allaitement' },
-    { id: 'bottle', icon: 'cafe', label: 'Biberon' },
-    { id: 'other', icon: 'ellipsis-horizontal', label: 'Autre' },
+    { id: 'breast', label: 'Allaitement' },
+    { id: 'pump', label: 'Tire-allaitement' },
+    { id: 'bottle', label: 'Biberon' },
+    { id: 'other', label: 'Autre' },
   ];
 
   const handleNextStep = () => {
@@ -238,7 +238,7 @@ export default function OnboardingScreen() {
 
             <View style={[styles.card, styles.step3Card, { backgroundColor: theme.cardTransparent }]}>
               <Text style={[styles.cardTitle, { color: theme.primary }]}>
-                Et toi, comment tu nourris {name} ?
+                Tu es plutôt quelle team ?
               </Text>
               <Text style={[styles.cardSubtext, { color: theme.text }]}>
                 Pas de bon ou mauvais choix. Juste ton choix.
@@ -259,21 +259,12 @@ export default function OnboardingScreen() {
                     setTimeout(() => handleComplete(m.id), 300);
                   }}
                 >
-                  <Ionicons
-                    name={m.icon}
-                    size={28}
-                    color={method === m.id ? '#fff' : theme.primary}
-                  />
-                  <View style={styles.methodTextContainer}>
-                    <Text
-                      style={[
-                        styles.methodLabel,
-                        { color: method === m.id ? '#fff' : theme.textDark },
-                      ]}
-                    >
-                      {m.label}
-                    </Text>
-                  </View>
+                  <Text style={[
+                    styles.methodLabel,
+                    { color: method === m.id ? '#fff' : theme.textDark },
+                  ]}>
+                    {m.label}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -350,17 +341,14 @@ const styles = StyleSheet.create({
   },
   genderText: { fontSize: 15 },
   methodButton: {
-    flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    justifyContent: 'center',
+    paddingVertical: 16,
     borderRadius: 16,
     borderWidth: 2,
     marginBottom: 8,
-    gap: 12,
   },
-  methodTextContainer: { flex: 1 },
-  methodLabel: { fontSize: 15, fontWeight: '600', marginBottom: 2 },
-  methodDesc: { fontSize: 13 },
+  methodLabel: { fontSize: 15, fontWeight: '600', textAlign: 'center' },
   stepIcon: { alignSelf: 'center', marginBottom: 16 },
   measureRow: { flexDirection: 'row', gap: 12 },
   step3Container: {
