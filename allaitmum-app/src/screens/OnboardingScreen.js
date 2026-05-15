@@ -73,27 +73,19 @@ export default function OnboardingScreen() {
       style={[styles.container, { backgroundColor: theme.backgroundGradientStart }]}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      {/* Step 1: Welcome — plein écran, hors ScrollView */}
+      {/* Step 1: Welcome */}
       {step === 1 && (
-        <View style={styles.welcomeScreen}>
-          <View style={styles.welcomeImageArea}>
-            <Image source={logoImage} style={styles.welcomeLogo} resizeMode="contain" />
-            <LinearGradient
-              colors={['transparent', theme.backgroundGradientStart]}
-              style={styles.welcomeFade}
-            />
-          </View>
-          <View style={styles.welcomeBottom}>
-            <Text style={[styles.tagline, { color: theme.primary }]}>
-              Né d'un bébé,{'\n'}pour tous les bébés
-            </Text>
-            <TouchableOpacity
-              style={[styles.mainButton, { backgroundColor: theme.primary }]}
-              onPress={() => setStep(2)}
-            >
-              <Text style={styles.mainButtonText}>Créer mon espace</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={[styles.welcomeScreen, { backgroundColor: theme.backgroundGradientStart }]}>
+          <Image source={logoImage} style={styles.welcomeLogo} resizeMode="contain" />
+          <Text style={[styles.tagline, { color: theme.primary }]}>
+            Né d'un bébé,{'\n'}pour tous les bébés
+          </Text>
+          <TouchableOpacity
+            style={[styles.mainButton, { backgroundColor: theme.primary }]}
+            onPress={() => setStep(2)}
+          >
+            <Text style={styles.mainButtonText}>Créer mon espace</Text>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -306,29 +298,17 @@ const styles = StyleSheet.create({
   scrollContent: { flexGrow: 1, justifyContent: 'center', padding: 24 },
   stepContainer: { alignItems: 'center' },
 
-  // Step 1 — plein écran avec fondu
   welcomeScreen: {
     flex: 1,
-  },
-  welcomeImageArea: {
-    flex: 1.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 28,
+    paddingBottom: 60,
+    gap: 24,
   },
   welcomeLogo: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  welcomeFade: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 160,
-  },
-  welcomeBottom: {
-    flex: 1,
-    paddingHorizontal: 28,
-    paddingBottom: 40,
-    justifyContent: 'flex-end',
-    gap: 16,
+    width: 220,
+    height: 220,
   },
   tagline: {
     fontSize: 15,
