@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   welcomeImageArea: {
-    flex: 3,
+    flex: 1.5,
   },
   welcomeLogo: {
     ...StyleSheet.absoluteFillObject,
