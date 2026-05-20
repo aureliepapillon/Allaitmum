@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet, Modal, ActivityIndicator, Text } from 'react-native';
+import { storage } from './src/utils/storage';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,6 +11,7 @@ import { ThemeProvider, useTheme } from './src/theme/ThemeContext';
 import { AppProvider, useApp } from './src/utils/AppContext';
 
 import OnboardingScreen from './src/screens/OnboardingScreen';
+import DisclaimerScreen from './src/screens/DisclaimerScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
 import JournalScreen from './src/screens/JournalScreen';
 import RendezVousScreen from './src/screens/RendezVousScreen';
@@ -85,14 +87,28 @@ function MainTabs() {
 function AppContent() {
   const { isLoading, isOnboarded } = useApp();
   const { theme } = useTheme();
+  const [disclaimerAccepted, setDisclaimerAccepted] = useState(null);
 
-  if (isLoading) {
+  useEffect(() => {
+    storage.get('disclaimer_accepted', false).then(setDisclaimerAccepted);
+  }, []);
+
+  const handleAcceptDisclaimer = async () => {
+    await storage.set('disclaimer_accepted', true);
+    setDisclaimerAccepted(true);
+  };
+
+  if (isLoading || disclaimerAccepted === null) {
     return (
       <View style={[styles.loading, { backgroundColor: theme.background }]}>
         <ActivityIndicator size="large" color={theme.primary} />
-        <Text style={[styles.loadingText, { color: theme.primary }]}>Allait'mum</Text>
+        <Text style={[styles.loadingText, { color: theme.primary }]}>Malo</Text>
       </View>
     );
+  }
+
+  if (!disclaimerAccepted) {
+    return <DisclaimerScreen onAccept={handleAcceptDisclaimer} />;
   }
 
   if (!isOnboarded) {
