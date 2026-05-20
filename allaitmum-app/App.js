@@ -44,7 +44,7 @@ function MainTabs() {
           tabBarIcon: ({ color, size }) => {
             const icons = {
               Suivi: 'heart',
-              Échange: 'cafe',
+              'Safe Place': 'cafe',
               RDV: 'calendar',
               Savoirs: 'library',
               Profil: 'person',
@@ -54,7 +54,7 @@ function MainTabs() {
         })}
       >
         <Tab.Screen name="Suivi" component={DashboardScreen} />
-        <Tab.Screen name="Échange" component={JournalScreen} />
+        <Tab.Screen name="Safe Place" component={JournalScreen} />
         <Tab.Screen name="RDV" component={RendezVousScreen} />
         <Tab.Screen name="Savoirs" component={SavoirsScreen} />
         <Tab.Screen name="Profil" component={ProfileScreen} />

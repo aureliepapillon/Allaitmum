@@ -22,8 +22,8 @@ export default function JournalScreen() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerEmoji}>☕</Text>
-          <Text style={[styles.title, { color: theme.primary }]}>Milk'Échange</Text>
+          <Text style={styles.headerEmoji}>🤍</Text>
+          <Text style={[styles.title, { color: theme.primary }]}>Ta Safe Place</Text>
         </View>
         <Text style={[styles.subtitle, { color: theme.text }]}>
           Ton espace ressources et soutien post-partum
@@ -99,6 +99,64 @@ export default function JournalScreen() {
               <Ionicons name="chevron-forward" size={18} color={theme.textLight} />
             </TouchableOpacity>
           ))}
+        </View>
+
+        {/* Don de lait maternel */}
+        <Text style={[styles.sectionTitle, { color: theme.primary }]}>
+          🍼 Don de lait maternel
+        </Text>
+        <View style={[styles.card, { backgroundColor: theme.card }]}>
+          <Text style={[styles.donText, { color: theme.text }]}>
+            Tu as du lait en surplus ? Des bébés ont besoin de toi. Le don de lait maternel est encadré médicalement et totalement gratuit.
+          </Text>
+          {[
+            { name: 'Trouver un lactarium', desc: 'Réseau français des lactariums', url: 'https://www.lactariums-de-france.fr', color: '#AB7058' },
+            { name: 'Association Solidarilait', desc: 'Soutien au don de lait', url: 'https://www.solidarilait.org', color: '#AB7058' },
+          ].map((item, i) => (
+            <TouchableOpacity
+              key={i}
+              style={styles.linkRow}
+              onPress={() => Linking.openURL(item.url)}
+            >
+              <View style={[styles.linkIcon, { backgroundColor: item.color + '20' }]}>
+                <Ionicons name="heart-outline" size={20} color={item.color} />
+              </View>
+              <View style={styles.linkContent}>
+                <Text style={[styles.linkTitle, { color: theme.textDark }]}>{item.name}</Text>
+                <Text style={[styles.linkDesc, { color: theme.textLight }]}>{item.desc}</Text>
+              </View>
+              <Ionicons name="open-outline" size={18} color={theme.textLight} />
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {/* Photographes partenaires */}
+        <Text style={[styles.sectionTitle, { color: theme.primary }]}>
+          📸 Photographes partenaires
+        </Text>
+        <View style={[styles.card, { backgroundColor: theme.card }]}>
+          <Text style={[styles.donText, { color: theme.text }]}>
+            Des photographes spécialisées en allaitement et maternité, sélectionnées avec soin.
+          </Text>
+          <View style={[styles.photoCard, { backgroundColor: theme.background }]}>
+            <View style={styles.photoHeader}>
+              <View style={[styles.linkIcon, { backgroundColor: '#AB705820' }]}>
+                <Ionicons name="camera-outline" size={20} color="#AB7058" />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.linkTitle, { color: theme.textDark }]}>Lucie Reuil</Text>
+                <Text style={[styles.linkDesc, { color: theme.textLight }]}>Photographie allaitement & naissance · Narbonne (11)</Text>
+              </View>
+              <TouchableOpacity onPress={() => Linking.openURL('https://www.instagram.com/descorpsquivivent')}>
+                <Ionicons name="logo-instagram" size={22} color="#AB7058" />
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.promoRow, { backgroundColor: '#AB705815', borderColor: '#AB705840' }]}>
+              <Ionicons name="pricetag-outline" size={16} color="#AB7058" />
+              <Text style={[styles.promoLabel, { color: theme.text }]}>Code promo : </Text>
+              <Text style={[styles.promoCode, { color: '#AB7058' }]}>MALO10</Text>
+            </View>
+          </View>
         </View>
 
         {/* Urgence */}
@@ -239,6 +297,20 @@ const styles = StyleSheet.create({
   },
   emergencyTitle: { fontSize: 16, fontWeight: '700' },
   emergencyDesc: { fontSize: 13, marginTop: 2 },
+  donText: { fontSize: 14, lineHeight: 21, marginBottom: 12 },
+  photoCard: { borderRadius: 14, padding: 14, gap: 10 },
+  photoHeader: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  promoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderRadius: 10,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  promoLabel: { fontSize: 13 },
+  promoCode: { fontSize: 15, fontWeight: '700', letterSpacing: 1 },
 
   // Modals
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
