@@ -32,6 +32,7 @@ import ExportScreen from './ExportScreen';
 import VaccinesScreen from './VaccinesScreen';
 import ChatbotScreen from './ChatbotScreen';
 import DiversificationScreen from './DiversificationScreen';
+import FeverScreen from './FeverScreen';
 
 // Custom icons
 const iconSein = require('../../assets/icon-sein.png');
@@ -494,6 +495,12 @@ export default function DashboardScreen() {
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Médicaments & Allergies</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => { setShowMenu(false); setActiveScreen('fever'); }}
+              >
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Suivi de la fièvre</Text>
+              </TouchableOpacity>
             </View>
 
             {/* Conseils section */}
@@ -617,6 +624,10 @@ export default function DashboardScreen() {
 
       <Modal visible={activeScreen === 'diversification'} animationType="slide">
         <DiversificationScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'fever'} animationType="slide">
+        <FeverScreen onClose={() => setActiveScreen(null)} />
       </Modal>
     </View>
   );
