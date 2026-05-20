@@ -691,7 +691,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   toolLabel: { fontSize: 13, fontWeight: '600' },
-  toolIcon: { width: 44, height: 44 },
+  toolIcon: { width: 70, height: 70 },
   toolEmoji: { fontSize: 26 },
 
   // Active session
@@ -711,7 +711,7 @@ const styles = StyleSheet.create({
   sleepButtons: { flexDirection: 'row', gap: 12 },
   sleepBtn: { flex: 1, borderRadius: 16, backgroundColor: '#fff', alignItems: 'center', overflow: 'hidden', paddingTop: 18, paddingBottom: 0 },
   sleepIcon: { width: 40, height: 40 },
-  sleepIconLarge: { width: 55, height: 55 },
+  sleepIconLarge: { width: 70, height: 70 },
   sleepBtnLabel: { fontSize: 15, fontWeight: '700' },
   sleepIconRow: { marginBottom: 8 },
   activeSleepIcon: { width: 60, height: 60 },
@@ -720,7 +720,7 @@ const styles = StyleSheet.create({
   diaperGrid: { flexDirection: 'row', gap: 10 },
   diaperBtn: { flex: 1, borderRadius: 14, backgroundColor: '#fff', alignItems: 'center', overflow: 'hidden', paddingTop: 16, paddingBottom: 0 },
   diaperIcon: { width: 36, height: 36 },
-  diaperIconLarge: { width: 55, height: 55 },
+  diaperIconLarge: { width: 70, height: 70 },
 
   // Tip card
   tipCard: { borderRadius: 16, padding: 16, marginBottom: 12, borderWidth: 1 },
