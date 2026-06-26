@@ -154,6 +154,38 @@ export default function JournalScreen() {
               <Text style={[styles.promoCode, { color: '#AB7058' }]}>MALO10</Text>
             </View>
           </View>
+          <View style={[styles.comingSoonRow, { borderColor: theme.border }]}>
+            <Ionicons name="time-outline" size={16} color={theme.textLight} />
+            <Text style={[styles.comingSoonText, { color: theme.textLight }]}>D'autres partenaires à venir...</Text>
+          </View>
+        </View>
+
+        {/* Bain enveloppé */}
+        <Text style={[styles.sectionTitle, { color: theme.primary }]}>
+          🛁 Bain enveloppé
+        </Text>
+        <View style={[styles.card, { backgroundColor: theme.card }]}>
+          <Text style={[styles.donText, { color: theme.text }]}>
+            Des praticiennes spécialisées dans le bain enveloppé pour détendre et apaiser ton bébé.
+          </Text>
+          <View style={[styles.comingSoonRow, { borderColor: theme.border }]}>
+            <Ionicons name="time-outline" size={16} color={theme.textLight} />
+            <Text style={[styles.comingSoonText, { color: theme.textLight }]}>Partenaires à venir...</Text>
+          </View>
+        </View>
+
+        {/* Bijoux lait maternel */}
+        <Text style={[styles.sectionTitle, { color: theme.primary }]}>
+          💍 Bijoux lait maternel
+        </Text>
+        <View style={[styles.card, { backgroundColor: theme.card }]}>
+          <Text style={[styles.donText, { color: theme.text }]}>
+            Immortalise ton allaitement dans un bijou unique créé à partir de ton lait maternel.
+          </Text>
+          <View style={[styles.comingSoonRow, { borderColor: theme.border }]}>
+            <Ionicons name="time-outline" size={16} color={theme.textLight} />
+            <Text style={[styles.comingSoonText, { color: theme.textLight }]}>Partenaires à venir...</Text>
+          </View>
         </View>
 
         {/* Urgence */}
@@ -308,6 +340,15 @@ const styles = StyleSheet.create({
   },
   promoLabel: { fontSize: 13 },
   promoCode: { fontSize: 15, fontWeight: '700', letterSpacing: 1 },
+  comingSoonRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+  },
+  comingSoonText: { fontSize: 13, fontStyle: 'italic' },
 
   // Modals
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
