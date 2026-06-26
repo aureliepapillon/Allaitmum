@@ -54,7 +54,11 @@ export default function SubscriptionScreen({ onClose }) {
     purchasePackage,
     restorePurchases,
     setRevenueCatUserId,
+    trialEndDate,
+    trialDaysLeft,
   } = useApp();
+
+  const isOnTrial = isPremium && !!trialEndDate;
 
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [emailInput, setEmailInput] = useState('');
@@ -166,9 +170,13 @@ export default function SubscriptionScreen({ onClose }) {
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={[styles.premiumActiveCard, { backgroundColor: '#FFF8E1', borderColor: '#FFB300' }]}>
             <Ionicons name="star" size={50} color="#FFB300" />
-            <Text style={styles.premiumActiveTitle}>Premium Actif</Text>
+            <Text style={styles.premiumActiveTitle}>
+              {isOnTrial ? 'Accès Premium Offert' : 'Premium Actif'}
+            </Text>
             <Text style={styles.premiumActiveText}>
-              Tu profites de toutes les fonctionnalités Malo !
+              {isOnTrial
+                ? `Tu profites de toutes les fonctionnalités gratuitement encore ${trialDaysLeft} jour${trialDaysLeft > 1 ? 's' : ''} !`
+                : 'Tu profites de toutes les fonctionnalités Malo !'}
             </Text>
           </View>
 

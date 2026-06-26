@@ -26,6 +26,7 @@ export const AppProvider = ({ children }) => {
   const [isPremium, setIsPremium] = useState(false);
   const [subscriptionInfo, setSubscriptionInfo] = useState(null);
   const [offerings, setOfferings] = useState(null);
+  const [trialEndDate, setTrialEndDate] = useState(null);
 
   // Multi-baby support
   const [babies, setBabies] = useState([]);
@@ -97,6 +98,15 @@ export const AppProvider = ({ children }) => {
       const savedMilestones = await storage.get('milestones', []);
       const savedReminders = await storage.get('reminders', { vitaminD: null, medications: [] });
       const savedAppointments = await storage.get('appointments', []);
+      const savedTrialEndDate = await storage.get('trialEndDate');
+
+      // Check trial status
+      if (savedTrialEndDate) {
+        setTrialEndDate(savedTrialEndDate);
+        if (new Date(savedTrialEndDate) > new Date()) {
+          setIsPremium(true);
+        }
+      }
 
       if (savedBabies && savedBabies.length > 0 && savedMethod) {
         // New format: multi-baby
@@ -303,6 +313,18 @@ export const AppProvider = ({ children }) => {
     await storage.set('activeBabyId', newBaby.id);
     await storage.set('feedingMethod', method);
     if (email) await storage.set('userEmail', email);
+
+    // Démarrer le trial 30 jours
+    const existingTrial = await storage.get('trialEndDate');
+    if (!existingTrial) {
+      const end = new Date();
+      end.setDate(end.getDate() + 30);
+      const endStr = end.toISOString();
+      await storage.set('trialEndDate', endStr);
+      setTrialEndDate(endStr);
+      setIsPremium(true);
+    }
+
     setIsOnboarded(true);
   };
 
@@ -637,6 +659,10 @@ export const AppProvider = ({ children }) => {
         purchasePackage,
         restorePurchases,
         setRevenueCatUserId,
+        trialEndDate,
+        trialDaysLeft: trialEndDate
+          ? Math.max(0, Math.ceil((new Date(trialEndDate) - new Date()) / (1000 * 60 * 60 * 24)))
+          : 0,
       }}
     >
       {children}
