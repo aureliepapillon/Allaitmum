@@ -25,9 +25,6 @@ export default function JournalScreen() {
           <Text style={styles.headerEmoji}>🤍</Text>
           <Text style={[styles.title, { color: theme.primary }]}>Ta Safe Place</Text>
         </View>
-        <Text style={[styles.subtitle, { color: theme.text }]}>
-          Ton espace ressources et soutien post-partum
-        </Text>
 
         {/* Articles post-partum */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
@@ -107,7 +104,7 @@ export default function JournalScreen() {
         </Text>
         <View style={[styles.card, { backgroundColor: theme.card }]}>
           <Text style={[styles.donText, { color: theme.text }]}>
-            Tu as du lait en surplus ? Des bébés ont besoin de toi. Le don de lait maternel est encadré médicalement et totalement gratuit.
+            Tu as du lait en surplus ? Des bébés ont besoin de toi !
           </Text>
           {[
             { name: 'Trouver un lactarium', desc: 'Réseau français des lactariums', url: 'https://www.lactariums-de-france.fr', color: '#AB7058' },
