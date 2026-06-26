@@ -135,28 +135,9 @@ export default function JournalScreen() {
           <Text style={[styles.donText, { color: theme.text }]}>
             Des photographes spécialisées en allaitement et maternité, sélectionnées avec soin.
           </Text>
-          <View style={[styles.photoCard, { backgroundColor: theme.background }]}>
-            <View style={styles.photoHeader}>
-              <View style={[styles.linkIcon, { backgroundColor: '#AB705820' }]}>
-                <Ionicons name="camera-outline" size={20} color="#AB7058" />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.linkTitle, { color: theme.textDark }]}>Lucie Reuil</Text>
-                <Text style={[styles.linkDesc, { color: theme.textLight }]}>Photographie allaitement & naissance · Narbonne (11)</Text>
-              </View>
-              <TouchableOpacity onPress={() => Linking.openURL('https://www.instagram.com/descorpsquivivent')}>
-                <Ionicons name="logo-instagram" size={22} color="#AB7058" />
-              </TouchableOpacity>
-            </View>
-            <View style={[styles.promoRow, { backgroundColor: '#AB705815', borderColor: '#AB705840' }]}>
-              <Ionicons name="pricetag-outline" size={16} color="#AB7058" />
-              <Text style={[styles.promoLabel, { color: theme.text }]}>Code promo : </Text>
-              <Text style={[styles.promoCode, { color: '#AB7058' }]}>MALO10</Text>
-            </View>
-          </View>
-          <View style={[styles.comingSoonRow, { borderColor: theme.border }]}>
+          <View style={[styles.comingSoonRow, { borderColor: theme.border, marginTop: 0, paddingTop: 0, borderTopWidth: 0 }]}>
             <Ionicons name="time-outline" size={16} color={theme.textLight} />
-            <Text style={[styles.comingSoonText, { color: theme.textLight }]}>D'autres partenaires à venir...</Text>
+            <Text style={[styles.comingSoonText, { color: theme.textLight }]}>Partenaires à venir...</Text>
           </View>
         </View>
 
