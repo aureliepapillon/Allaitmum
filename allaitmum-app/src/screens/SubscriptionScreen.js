@@ -19,6 +19,7 @@ const FREE_FEATURES = [
   { label: 'Suivi tétées & biberons', included: true },
   { label: 'Suivi couches', included: true },
   { label: 'Suivi sommeil', included: true },
+  { label: 'Médicaments & Allergies', included: true },
   { label: 'Conseil de la semaine', included: true },
   { label: 'Multi-bébé', included: true },
 ];
@@ -30,7 +31,7 @@ const PREMIUM_FEATURES = [
   { label: 'Courbes de croissance', included: true },
   { label: 'Étapes motrices', included: true },
   { label: 'Suivi dents', included: true },
-  { label: 'Médicaments & Allergies', included: true },
+  { label: 'Diversification alimentaire', included: true },
   { label: 'Articles conseils exclusifs', included: true, highlight: true },
   { label: 'Export PDF des données', included: true },
   { label: 'Partage co-parent', included: true, soon: true },

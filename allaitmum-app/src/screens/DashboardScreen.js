@@ -54,7 +54,7 @@ export default function DashboardScreen() {
     isPremium,
   } = useApp();
 
-  const PREMIUM_SCREENS = ['souvenirs', 'teeth', 'milestones', 'growth', 'medications', 'export'];
+  const PREMIUM_SCREENS = ['souvenirs', 'teeth', 'milestones', 'growth', 'diversification', 'export'];
 
   const openScreen = (screenName) => {
     setShowMenu(false);
@@ -510,7 +510,6 @@ export default function DashboardScreen() {
                 onPress={() => openScreen('medications')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Médicaments & Allergies</Text>
-                {!isPremium && <Ionicons name="star" size={14} color="#FFB300" />}
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
@@ -534,6 +533,7 @@ export default function DashboardScreen() {
                 onPress={() => openScreen('diversification')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Diversification alimentaire</Text>
+                {!isPremium && <Ionicons name="star" size={14} color="#FFB300" />}
               </TouchableOpacity>
             </View>
 
