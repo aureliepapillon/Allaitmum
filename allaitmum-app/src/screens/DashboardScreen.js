@@ -248,26 +248,26 @@ export default function DashboardScreen() {
             <View style={styles.toolGrid}>
               <TouchableOpacity style={styles.toolBtn} onPress={() => startFeeding('left', 'breast')}>
                 <Image source={iconSein} style={styles.toolIcon} resizeMode="contain" />
-                <View style={[styles.toolLabelBand, { backgroundColor: '#FFEBEE' }]}>
-                  <Text style={[styles.toolLabel, { color: '#E57373' }]}>Sein G</Text>
+                <View style={[styles.toolLabelBand, { backgroundColor: '#F5E6D8' }]}>
+                  <Text style={[styles.toolLabel, { color: '#6B3A2A' }]}>Sein G</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity style={styles.toolBtn} onPress={() => startFeeding('right', 'breast')}>
                 <Image source={iconSein} style={styles.toolIcon} resizeMode="contain" />
-                <View style={[styles.toolLabelBand, { backgroundColor: '#FFEBEE' }]}>
-                  <Text style={[styles.toolLabel, { color: '#E57373' }]}>Sein D</Text>
+                <View style={[styles.toolLabelBand, { backgroundColor: '#F5E6D8' }]}>
+                  <Text style={[styles.toolLabel, { color: '#6B3A2A' }]}>Sein D</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity style={styles.toolBtn} onPress={() => startFeeding('none', 'bottle')}>
                 <Image source={iconBiberon} style={styles.toolIcon} resizeMode="contain" />
-                <View style={[styles.toolLabelBand, { backgroundColor: '#E3F2FD' }]}>
-                  <Text style={[styles.toolLabel, { color: '#42A5F5' }]}>Biberon</Text>
+                <View style={[styles.toolLabelBand, { backgroundColor: '#F5E6D8' }]}>
+                  <Text style={[styles.toolLabel, { color: '#6B3A2A' }]}>Biberon</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity style={styles.toolBtn} onPress={() => startFeeding('both', 'pump-double')}>
                 <Image source={iconTirelait} style={styles.toolIcon} resizeMode="contain" />
-                <View style={[styles.toolLabelBand, { backgroundColor: '#E8F5E9' }]}>
-                  <Text style={[styles.toolLabel, { color: '#66BB6A' }]}>Tire-lait</Text>
+                <View style={[styles.toolLabelBand, { backgroundColor: '#F5E6D8' }]}>
+                  <Text style={[styles.toolLabel, { color: '#6B3A2A' }]}>Tire-lait</Text>
                 </View>
               </TouchableOpacity>
             </View>
