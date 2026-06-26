@@ -44,21 +44,16 @@ export default function OnboardingScreen() {
   ];
 
   const handleNextStep = () => {
-    // Validate data before proceeding
-    const validation = validateBabyData({
-      name,
-      birthDate,
-      birthWeight,
-      birthHeight,
-      email,
-    });
-
+    const validation = validateBabyData({ name, birthDate, birthWeight, birthHeight, email });
     if (!validation.isValid) {
       Alert.alert('Vérification', validation.errors[0]);
       return;
     }
-
-    setStep(3);
+    completeOnboarding(
+      { name, birthDate, gender, birthWeight: birthWeight ? parseFloat(birthWeight.replace(',', '.')) : null, birthHeight: birthHeight ? parseFloat(birthHeight.replace(',', '.')) : null, momName },
+      'all',
+      email.trim() || null
+    );
   };
 
   const handleComplete = (selectedMethod) => {
@@ -102,7 +97,7 @@ export default function OnboardingScreen() {
           <View style={styles.stepContainer}>
             <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
               <Text style={[styles.cardTitle, { color: theme.primary }]}>
-                Trop contente de te voir ici !
+                Bienvenue
               </Text>
 
               <Text style={[styles.label, { color: theme.text }]}>Ton prénom</Text>
@@ -226,44 +221,6 @@ export default function OnboardingScreen() {
               >
                 <Text style={styles.mainButtonText}>Hop, on y va !</Text>
               </TouchableOpacity>
-            </View>
-          </View>
-        )}
-
-        {/* Step 3: Feeding method */}
-        {step === 3 && (
-          <View style={styles.stepContainer}>
-            <View style={[styles.card, { backgroundColor: theme.cardTransparent }]}>
-              <Text style={[styles.cardTitle, { color: theme.primary }]}>
-                Tu es plutôt quelle team ?
-              </Text>
-              <Text style={[styles.cardSubtext, { color: theme.text }]}>
-                Pas de bon ou mauvais choix. Juste ton choix.
-              </Text>
-
-              {methods.map((m) => (
-                <TouchableOpacity
-                  key={m.id}
-                  style={[
-                    styles.methodButton,
-                    {
-                      backgroundColor: method === m.id ? theme.primary : theme.card,
-                      borderColor: method === m.id ? theme.primary : theme.border,
-                    },
-                  ]}
-                  onPress={() => {
-                    setMethod(m.id);
-                    setTimeout(() => handleComplete(m.id), 300);
-                  }}
-                >
-                  <Text style={[
-                    styles.methodLabel,
-                    { color: method === m.id ? '#fff' : theme.textDark },
-                  ]}>
-                    {m.label}
-                  </Text>
-                </TouchableOpacity>
-              ))}
             </View>
           </View>
         )}
