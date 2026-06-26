@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 import { getBabyAge } from '../utils/helpers';
+import LionMascot from '../components/LionMascot';
 
 const FEEDING_METHODS = [
   { id: 'breast', label: 'Sein' },
@@ -136,9 +137,7 @@ export default function ProfileScreen() {
       {/* Active baby card */}
       <View style={[styles.card, { backgroundColor: theme.card }]}>
         <View style={styles.babyRow}>
-          <View style={[styles.avatar, { backgroundColor: theme.secondary }]}>
-            <Text style={{ fontSize: 28 }}>{baby.gender === 'fille' ? '👧' : '👦'}</Text>
-          </View>
+          <LionMascot size={56} gender={baby.gender} />
           <View style={{ flex: 1 }}>
             <Text style={[styles.babyName, { color: theme.primary }]}>
               {baby.name || 'Bébé'}
