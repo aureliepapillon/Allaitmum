@@ -4,11 +4,11 @@
     "slug": "malo-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo-allaitmum.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/logo-allaitmum.png",
       "resizeMode": "contain",
       "backgroundColor": "#EED9C4"
     },
