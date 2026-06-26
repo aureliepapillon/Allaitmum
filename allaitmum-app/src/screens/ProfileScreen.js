@@ -249,14 +249,14 @@ export default function ProfileScreen() {
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>Nous contacter</Text>
         <TouchableOpacity
           style={[styles.contactButton, { backgroundColor: theme.primary + '15', borderColor: theme.primary + '40' }]}
-          onPress={() => Linking.openURL('mailto:contact@malo-app.fr?subject=Malo%20-%20Question')}
+          onPress={() => Linking.openURL('mailto:aureliepapillon111@gmail.com?subject=Malo%20-%20Question')}
         >
           <Ionicons name="mail-outline" size={20} color={theme.primary} />
           <Text style={[styles.contactText, { color: theme.primary }]}>Une question ? Écris-nous</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.contactButton, { backgroundColor: '#EF535015', borderColor: '#EF535040', marginTop: 10 }]}
-          onPress={() => Linking.openURL(`mailto:contact@malo-app.fr?subject=Malo%20-%20Bug&body=D%C3%A9cris%20le%20probl%C3%A8me%20rencontr%C3%A9%20:%0A%0ABébé%20:%20${baby.name}%0AVersion%20:%201.0.0`)}
+          onPress={() => Linking.openURL(`mailto:aureliepapillon111@gmail.com?subject=Malo%20-%20Bug&body=D%C3%A9cris%20le%20probl%C3%A8me%20rencontr%C3%A9%20:%0A%0ABébé%20:%20${baby.name}%0AVersion%20:%201.0.0`)}
         >
           <Ionicons name="bug-outline" size={20} color="#EF5350" />
           <Text style={[styles.contactText, { color: '#EF5350' }]}>Signaler un bug</Text>
