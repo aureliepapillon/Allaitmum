@@ -51,7 +51,19 @@ export default function DashboardScreen() {
     feedingSessions, setFeedingSessions, activeFeeding, startFeeding, stopFeeding, cancelFeeding,
     diaperEntries, setDiaperEntries, addDiaper,
     sleepSessions, setSleepSessions, activeSleep, startSleep, stopSleep, cancelSleep,
+    isPremium,
   } = useApp();
+
+  const PREMIUM_SCREENS = ['souvenirs', 'teeth', 'milestones', 'growth', 'medications', 'export'];
+
+  const openScreen = (screenName) => {
+    setShowMenu(false);
+    if (PREMIUM_SCREENS.includes(screenName) && !isPremium) {
+      setActiveScreen('subscription');
+    } else {
+      setActiveScreen(screenName);
+    }
+  };
 
   const [showMenu, setShowMenu] = useState(false);
   const [activeScreen, setActiveScreen] = useState(null); // 'souvenirs', 'teeth', null
@@ -456,27 +468,31 @@ export default function DashboardScreen() {
               <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Bébé Book</Text>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('souvenirs'); }}
+                onPress={() => openScreen('souvenirs')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Souvenirs</Text>
+                {!isPremium && <Ionicons name="star" size={14} color="#FFB300" />}
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('teeth'); }}
+                onPress={() => openScreen('teeth')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Dents</Text>
+                {!isPremium && <Ionicons name="star" size={14} color="#FFB300" />}
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('milestones'); }}
+                onPress={() => openScreen('milestones')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Étapes motrices</Text>
+                {!isPremium && <Ionicons name="star" size={14} color="#FFB300" />}
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('growth'); }}
+                onPress={() => openScreen('growth')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Croissance</Text>
+                {!isPremium && <Ionicons name="star" size={14} color="#FFB300" />}
               </TouchableOpacity>
             </View>
 
@@ -485,19 +501,20 @@ export default function DashboardScreen() {
               <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Santé</Text>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('vaccines'); }}
+                onPress={() => openScreen('vaccines')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Calendrier vaccinal</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('medications'); }}
+                onPress={() => openScreen('medications')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Médicaments & Allergies</Text>
+                {!isPremium && <Ionicons name="star" size={14} color="#FFB300" />}
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('fever'); }}
+                onPress={() => openScreen('fever')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Suivi de la fièvre</Text>
               </TouchableOpacity>
@@ -508,13 +525,13 @@ export default function DashboardScreen() {
               <Text style={[styles.menuSectionTitle, { color: theme.textLight }]}>Conseils</Text>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('portage'); }}
+                onPress={() => openScreen('portage')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Portage</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('diversification'); }}
+                onPress={() => openScreen('diversification')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Diversification alimentaire</Text>
               </TouchableOpacity>
@@ -523,28 +540,29 @@ export default function DashboardScreen() {
             <View style={styles.menuSection}>
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('reminders'); }}
+                onPress={() => openScreen('reminders')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Rappels</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('export'); }}
+                onPress={() => openScreen('export')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Exporter en PDF</Text>
+                {!isPremium && <Ionicons name="star" size={14} color="#FFB300" />}
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('profile'); }}
+                onPress={() => openScreen('profile')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Profil bébé</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.menuItem}
-                onPress={() => { setShowMenu(false); setActiveScreen('subscription'); }}
+                onPress={() => openScreen('subscription')}
               >
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Mon abonnement</Text>
                 <View style={[styles.planBadge, { backgroundColor: theme.secondary }]}>
