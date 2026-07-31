@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.allaitmum.app",
+      "bundleIdentifier": "com.aureliepapillon.Allaitmum",
       "infoPlist": {
         "NSUserNotificationsUsageDescription": "Malo utilise les notifications pour les rappels de vaccins et de tétées."
       }
