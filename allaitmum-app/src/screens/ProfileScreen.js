@@ -202,6 +202,18 @@ export default function ProfileScreen() {
         </TouchableOpacity>
       </View>
 
+      {/* Ondes & mode avion */}
+      <View style={[styles.card, { backgroundColor: '#E3F2FD' }]}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+          <Text style={{ fontSize: 20 }}>✈️</Text>
+          <Text style={[styles.cardTitle, { color: '#1565C0', marginBottom: 0 }]}>Mode avion compatible</Text>
+        </View>
+        <Text style={[styles.aboutText, { color: '#1E3A5F' }]}>
+          Toutes les données de Malo sont stockées localement sur ton téléphone (aucun serveur). Tu peux activer le <Text style={{ fontWeight: '700' }}>mode avion</Text> quand tu utilises l'app près de bébé pour réduire les ondes électromagnétiques.{'\n\n'}
+          Seuls les liens externes (partenaires, prise de RDV) nécessitent une connexion internet.
+        </Text>
+      </View>
+
       {/* Useful links */}
       <View style={[styles.card, { backgroundColor: theme.card }]}>
         <Text style={[styles.cardTitle, { color: theme.primary }]}>Ressources utiles</Text>

@@ -98,6 +98,31 @@ export default function JournalScreen() {
           ))}
         </View>
 
+        {/* Ondes & mode avion */}
+        <Text style={[styles.sectionTitle, { color: theme.primary }]}>
+          ✈️ Réduire les ondes autour de bébé
+        </Text>
+        <View style={[styles.card, { backgroundColor: '#E3F2FD', shadowColor: '#90CAF9' }]}>
+          <Text style={[styles.donText, { color: '#1E3A5F' }]}>
+            Les ondes électromagnétiques (WiFi, 4G/5G) sont partout autour de nous. Si tu veux les limiter quand tu utilises l'app près de bébé, bonne nouvelle :
+          </Text>
+          <View style={{ gap: 10, marginBottom: 4 }}>
+            {[
+              { emoji: '🛫', text: 'Mode avion activé → toutes les fonctionnalités core fonctionnent (tétées, sommeil, couches, vaccins, courbes, souvenirs…)' },
+              { emoji: '📵', text: 'Seuls les liens externes (partenaires, lactariums, RDV) nécessitent internet' },
+              { emoji: '💾', text: 'Toutes tes données sont stockées localement, rien ne transite par un serveur' },
+            ].map((item, i) => (
+              <View key={i} style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
+                <Text style={{ fontSize: 16 }}>{item.emoji}</Text>
+                <Text style={[styles.donText, { color: '#1E3A5F', marginBottom: 0, flex: 1 }]}>{item.text}</Text>
+              </View>
+            ))}
+          </View>
+          <Text style={[styles.donText, { color: '#1565C0', fontWeight: '600', marginBottom: 0, marginTop: 8 }]}>
+            💡 Astuce : active le mode avion et utilise le WiFi seul (sans données mobiles) pour une exposition encore plus réduite.
+          </Text>
+        </View>
+
         {/* Don de lait maternel */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
           🍼 Don de lait maternel
