@@ -492,13 +492,15 @@ Très efficaces pour :
 Tu peux aussi les utiliser chauds pour favoriser l'écoulement du lait avant la tétée.`,
       },
       {
-        title: 'Ce dont tu n\'as probablement pas besoin',
-        content: `❌ Biberon à la naissance si tu veux allaiter (confusion sein/tétine possible)
-❌ Lait infantile "au cas où" — ça peut saboter la mise en place de l'allaitement
-❌ Un tire-lait électrique haut de gamme d'emblée (commence par voir si tu en as besoin)
-❌ 50 soutien-gorges d'allaitement (2-3 suffisent pour commencer)
+        title: 'Nos conseils pour bien choisir',
+        content: `💡 Commence léger et ajoute au fur et à mesure selon tes besoins.
 
-L'allaitement ne nécessite pas beaucoup de matériel — l'essentiel c'est du soutien humain !`,
+• Soutien-gorge d'allaitement : 2-3 suffisent pour commencer, choisis sans armatures
+• Tire-lait : attends de voir si tu en as besoin avant d'investir dans un haut de gamme
+• Coussinets lavables : économiques et écologiques sur la durée
+• Lanoline pure : indispensable pour les mamelons douloureux les premiers jours
+
+L'allaitement c'est avant tout une relation entre toi et bébé — le matériel est là pour t'accompagner, pas pour te compliquer la vie !`,
       },
     ],
   },
