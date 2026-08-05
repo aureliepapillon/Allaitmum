@@ -18,10 +18,11 @@ import { getBabyAgeInMonths } from '../utils/helpers';
 
 export default function VaccinesScreen({ onClose }) {
   const { theme } = useTheme();
-  const { baby, vaccinesDone, toggleVaccine, isVaccineDone, getVaccineDate } = useApp();
+  const { baby, vaccinesDone, toggleVaccine, isVaccineDone, getVaccineDate, getVaccineName } = useApp();
   const [expandedGroup, setExpandedGroup] = useState(null);
   const [selectedVaccine, setSelectedVaccine] = useState(null);
   const [vaccineDate, setVaccineDate] = useState('');
+  const [vaccineName, setVaccineName] = useState('');
 
   const groups = getVaccinesByAge();
   const babyAgeMonths = getBabyAgeInMonths(baby.birthDate);
@@ -70,9 +71,10 @@ export default function VaccinesScreen({ onClose }) {
       Alert.alert('Erreur', 'Veuillez saisir une date');
       return;
     }
-    toggleVaccine(selectedVaccine.id, vaccineDate);
+    toggleVaccine(selectedVaccine.id, vaccineDate, vaccineName.trim() || null);
     setSelectedVaccine(null);
     setVaccineDate('');
+    setVaccineName('');
   };
 
   const formatDate = (dateStr) => {
@@ -188,6 +190,7 @@ export default function VaccinesScreen({ onClose }) {
                 {group.vaccines.map((v) => {
                   const isDone = isVaccineDone(v.id);
                   const doneDate = getVaccineDate(v.id);
+                  const doneName = getVaccineName(v.id);
                   return (
                     <TouchableOpacity
                       key={v.id}
@@ -216,7 +219,7 @@ export default function VaccinesScreen({ onClose }) {
                         </Text>
                         {isDone && doneDate && (
                           <Text style={[styles.vaccineDate, { color: theme.success }]}>
-                            Fait le {formatDate(doneDate)}
+                            Fait le {formatDate(doneDate)}{doneName ? ` · ${doneName}` : ''}
                           </Text>
                         )}
                         <View style={styles.vaccineTagRow}>
@@ -273,10 +276,21 @@ export default function VaccinesScreen({ onClose }) {
               placeholderTextColor={theme.textLight}
             />
 
+            <Text style={[styles.inputLabel, { color: theme.textDark, marginTop: 12 }]}>
+              Nom du vaccin (facultatif) :
+            </Text>
+            <TextInput
+              style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
+              value={vaccineName}
+              onChangeText={setVaccineName}
+              placeholder="ex. Infanrix Hexa, Prevenar 13…"
+              placeholderTextColor={theme.textLight}
+            />
+
             <View style={styles.modalButtons}>
               <TouchableOpacity
                 style={[styles.modalBtn, { backgroundColor: theme.secondary }]}
-                onPress={() => { setSelectedVaccine(null); setVaccineDate(''); }}
+                onPress={() => { setSelectedVaccine(null); setVaccineDate(''); setVaccineName(''); }}
               >
                 <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
               </TouchableOpacity>

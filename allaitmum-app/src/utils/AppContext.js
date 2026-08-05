@@ -446,7 +446,7 @@ export const AppProvider = ({ children }) => {
   const cancelSleep = () => setActiveSleep(null);
 
   // Vaccine actions
-  const toggleVaccine = (vaccineId, date = null) => {
+  const toggleVaccine = (vaccineId, date = null, name = null) => {
     setVaccinesDone((prev) => {
       // Migration: si c'est un simple ID string, on garde la compatibilité
       const isAlreadyDone = prev.some(v =>
@@ -460,7 +460,9 @@ export const AppProvider = ({ children }) => {
           (!v || v.vaccineId !== vaccineId)
         );
       } else {
-        return [...prev, { vaccineId, date: date || new Date().toISOString().split('T')[0], babyId: activeBabyId }];
+        const entry = { vaccineId, date: date || new Date().toISOString().split('T')[0], babyId: activeBabyId };
+        if (name) entry.name = name;
+        return [...prev, entry];
       }
     });
   };
@@ -479,6 +481,13 @@ export const AppProvider = ({ children }) => {
       (v && v.vaccineId === vaccineId && (!v.babyId || v.babyId === activeBabyId))
     );
     return found ? found.date : null;
+  };
+
+  const getVaccineName = (vaccineId) => {
+    const found = vaccinesDone.find(v =>
+      (v && v.vaccineId === vaccineId && (!v.babyId || v.babyId === activeBabyId))
+    );
+    return found ? found.name || null : null;
   };
 
   // Souvenir actions
@@ -624,6 +633,7 @@ export const AppProvider = ({ children }) => {
         toggleVaccine,
         isVaccineDone,
         getVaccineDate,
+        getVaccineName,
         // Growth
         growthEntries,
         setGrowthEntries,
