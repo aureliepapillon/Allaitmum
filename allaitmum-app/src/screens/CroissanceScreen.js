@@ -377,6 +377,29 @@ export default function CroissanceScreen({ onClose }) {
             Les courbes de croissance sont un bon indicateur de santé !
           </Text>
         </View>
+
+        {/* Info allaitement & courbes OMS */}
+        <View style={[styles.tipCard, { backgroundColor: '#FFF3E0', borderLeftWidth: 4, borderLeftColor: theme.primary }]}>
+          <Ionicons name="alert-circle" size={20} color={theme.primary} />
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.tipText, { color: theme.textDark, fontWeight: '700', marginBottom: 4 }]}>
+              🤱 Bébé allaité : des courbes différentes
+            </Text>
+            <Text style={[styles.tipText, { color: theme.textDark }]}>
+              Les courbes du carnet de santé français sont souvent basées sur des bébés nourris au lait infantile. Un bébé allaité grandit différemment : il prend du poids plus vite les 3 premiers mois, puis ralentit naturellement.{'\n\n'}
+              Les courbes de référence pour un bébé allaité sont celles de l'OMS (Organisation Mondiale de la Santé), établies à partir de bébés allaités dans plusieurs pays.{'\n\n'}
+              Ne t'inquiète pas si {baby?.name || 'bébé'} sort des courbes du carnet — parle-en à ta sage-femme ou ton pédiatre en précisant que tu allaites.
+            </Text>
+            <TouchableOpacity
+              onPress={() => require('react-native').Linking.openURL('https://www.who.int/tools/child-growth-standards/standards')}
+              style={{ marginTop: 8 }}
+            >
+              <Text style={{ color: theme.primary, fontWeight: '600', fontSize: 13 }}>
+                📊 Courbes de croissance OMS →
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ScrollView>
 
       {/* Add Entry Modal */}
