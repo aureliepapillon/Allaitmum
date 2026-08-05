@@ -23,7 +23,7 @@ export const AppProvider = ({ children }) => {
   const [userEmail, setUserEmail] = useState(null);
 
   // Subscription / Premium status
-  const [isPremium, setIsPremium] = useState(false);
+  const [isPremium, setIsPremium] = useState(true); // Toutes les fonctionnalités gratuites en v1.0
   const [subscriptionInfo, setSubscriptionInfo] = useState(null);
   const [offerings, setOfferings] = useState(null);
   const [trialEndDate, setTrialEndDate] = useState(null);
