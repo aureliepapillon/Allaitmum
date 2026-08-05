@@ -127,13 +127,13 @@ export default function JournalScreen() {
           ))}
         </View>
 
-        {/* Photographes partenaires */}
+        {/* Créateurs partenaires */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          📸 Photographes partenaires
+          Photographes & créateurs partenaires
         </Text>
         <View style={[styles.card, { backgroundColor: theme.card }]}>
           <Text style={[styles.donText, { color: theme.text }]}>
-            Des photographes spécialisées en allaitement et maternité, sélectionnées avec soin.
+            Des photographes et créateurs spécialisés en allaitement et maternité (ADN bébé, portraits naissance...), sélectionnés avec soin.
           </Text>
           <View style={[styles.comingSoonRow, { borderColor: theme.border, marginTop: 0, paddingTop: 0, borderTopWidth: 0 }]}>
             <Ionicons name="time-outline" size={16} color={theme.textLight} />
