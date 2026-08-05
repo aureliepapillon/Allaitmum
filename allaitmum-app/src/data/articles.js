@@ -387,6 +387,121 @@ Le sevrage PEUT prendre des semaines/mois. C'est normal.`,
       },
     ],
   },
+  {
+    id: 11,
+    category: 'Accessoires',
+    title: 'Téterelles : quand et comment les utiliser',
+    duration: '6 min',
+    premium: false,
+    source: 'La Leche League France, IBCLC',
+    intro: 'Les téterelles peuvent être une aide précieuse — à condition de les utiliser correctement et au bon moment.',
+    sections: [
+      {
+        title: 'C\'est quoi une téterelle ?',
+        content: `Une téterelle (aussi appelée "bout de sein") est un capuchon en silicone souple que tu places sur ton mamelon pendant la tétée.
+
+Elle imite la forme d'un téton allongé pour aider bébé à prendre le sein.
+
+Il en existe en différentes tailles (S, M, L) — la taille compte beaucoup pour l'efficacité !`,
+      },
+      {
+        title: 'Quand peut-elle aider ?',
+        content: `✅ Mamelons plats ou ombiliqués (qui ne ressortent pas)
+✅ Mamelons très douloureux ou crevassés (en transition)
+✅ Bébé prématuré ou avec un frein de langue
+✅ Bébé habitué au biberon qui a du mal à revenir au sein
+✅ Sein trop engorgé et dur (bébé n'arrive pas à saisir)
+
+⚠️ Ce n'est pas une solution miracle — si bébé ne prend pas bien le sein, une consultante en lactation (IBCLC) doit être consultée en priorité.`,
+      },
+      {
+        title: 'Comment bien l\'utiliser',
+        content: `1. Choisis la bonne taille : le mamelon doit bouger librement dans le tunnel sans être serré
+2. Humidifie-la avant de la poser (lait maternel ou eau tiède)
+3. Retourne-la à moitié comme un bonnet, pose sur le mamelon, laisse revenir en place
+4. Vérifie que bébé attrape aussi l'aréole, pas juste la téterelle
+5. Tu dois entendre bébé déglutir — signe qu'il boit vraiment
+
+Nettoie-la après chaque tétée à l'eau chaude savonneuse ou stérilise-la.`,
+      },
+      {
+        title: 'Les points de vigilance',
+        content: `⚠️ La téterelle peut réduire la stimulation du sein et donc ta production si mal utilisée.
+
+Surveille ces signes que tout va bien :
+• Bébé prend du poids correctement
+• Tu entends des déglutitions
+• Bébé semble rassasié après la tétée
+• Tes seins se vident bien
+
+Si tu utilises une téterelle, fais des pesées régulières chez la PMI ou ton pédiatre.`,
+      },
+      {
+        title: 'Sevrage de la téterelle',
+        content: `L'objectif : utiliser la téterelle le moins possible et sevrer progressivement.
+
+Comment :
+• Commence chaque tétée sans téterelle, mets-la seulement si bébé décroche
+• Propose le sein nu en fin de tétée quand bébé est détendu
+• Alterne tétées avec et sans
+
+Beaucoup de mamans arrivent à s'en passer en quelques semaines. D'autres en ont besoin plus longtemps — et c'est OK !`,
+      },
+    ],
+  },
+  {
+    id: 12,
+    category: 'Accessoires',
+    title: 'Bouts de sein & accessoires d\'allaitement',
+    duration: '5 min',
+    premium: false,
+    source: 'La Leche League France',
+    intro: 'Coquillages, protège-mamelons, coussinets... Le guide des accessoires utiles (et ceux dont tu peux te passer).',
+    sections: [
+      {
+        title: 'Les coquillages d\'allaitement',
+        content: `Ce sont des coupelles en silicone ou en plastique que tu portes dans ton soutien-gorge ENTRE les tétées (pas pendant).
+
+À quoi ça sert ?
+• Recueillir le lait qui coule du sein opposé pendant une tétée
+• Protéger des mamelons douloureux du frottement du tissu
+• Aider les mamelons plats à ressortir (à porter quelques heures par jour)
+
+⚠️ Ne pas confondre avec les téterelles (portées PENDANT la tétée).`,
+      },
+      {
+        title: 'Les coussinets d\'allaitement',
+        content: `Indispensables pour les fuites de lait, surtout les premières semaines.
+
+Jetables : pratiques en voyage, à l'hôpital, les premières semaines.
+Lavables : économiques et écologiques sur le long terme.
+
+💡 Change-les souvent — un coussinet humide peut favoriser les mycoses.
+
+Évite les coussinets avec couche plastique qui retiennent l'humidité contre la peau.`,
+      },
+      {
+        title: 'Les protège-mamelons (cold packs)',
+        content: `Des disques de gel que tu mets au froid et que tu appliques sur les mamelons douloureux après la tétée.
+
+Très efficaces pour :
+• Soulager les crevasses
+• Calmer les mamelons en feu les premiers jours
+• Réduire l'inflammation en cas d'engorgement
+
+Tu peux aussi les utiliser chauds pour favoriser l'écoulement du lait avant la tétée.`,
+      },
+      {
+        title: 'Ce dont tu n\'as probablement pas besoin',
+        content: `❌ Biberon à la naissance si tu veux allaiter (confusion sein/tétine possible)
+❌ Lait infantile "au cas où" — ça peut saboter la mise en place de l'allaitement
+❌ Un tire-lait électrique haut de gamme d'emblée (commence par voir si tu en as besoin)
+❌ 50 soutien-gorges d'allaitement (2-3 suffisent pour commencer)
+
+L'allaitement ne nécessite pas beaucoup de matériel — l'essentiel c'est du soutien humain !`,
+      },
+    ],
+  },
 ];
 
 export const categories = [
@@ -401,4 +516,5 @@ export const categories = [
   'Sommeil',
   'Droits',
   'Sevrage',
+  'Accessoires',
 ];
