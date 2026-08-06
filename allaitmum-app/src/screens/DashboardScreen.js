@@ -15,7 +15,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
-import { formatTime, formatTimeOfDay, todayString, getBabyAge } from '../utils/helpers';
+import { formatTime, formatTimeOfDay, todayString, toLocalDateStr, getBabyAge } from '../utils/helpers';
 import { getTipOfTheWeek } from '../data/tips';
 import { getDevelopmentInfo } from '../data/development';
 import LionMascot from '../components/LionMascot';
@@ -110,10 +110,11 @@ export default function DashboardScreen() {
     }
   }, [activeSleep]);
 
-  // Today's entries
-  const todaySessions = feedingSessions.filter((s) => s.startTime?.startsWith(todayString()) && (!s.babyId || s.babyId === activeBabyId));
-  const todayDiapers = diaperEntries.filter((d) => d.timestamp?.startsWith(todayString()) && (!d.babyId || d.babyId === activeBabyId));
-  const todaySleep = sleepSessions.filter((s) => s.startTime?.startsWith(todayString()) && (!s.babyId || s.babyId === activeBabyId));
+  // Today's entries — comparaison en date LOCALE (pas UTC) pour éviter les décalages de fuseau horaire
+  const today = todayString();
+  const todaySessions = feedingSessions.filter((s) => toLocalDateStr(s.startTime) === today && (!s.babyId || s.babyId === activeBabyId));
+  const todayDiapers = diaperEntries.filter((d) => toLocalDateStr(d.timestamp) === today && (!d.babyId || d.babyId === activeBabyId));
+  const todaySleep = sleepSessions.filter((s) => toLocalDateStr(s.startTime) === today && (!s.babyId || s.babyId === activeBabyId));
 
   const totalFeedingMins = Math.floor(todaySessions.reduce((acc, s) => acc + (s.duration || 0), 0) / 60);
   const totalSleepMins = Math.floor(todaySleep.reduce((acc, s) => acc + (s.duration || 0), 0) / 60);
@@ -163,7 +164,7 @@ export default function DashboardScreen() {
 
   const handleStartSleep = (type) => {
     setSleepType(type);
-    startSleep();
+    startSleep(type);
   };
 
   const deleteEntry = (type, id) => {

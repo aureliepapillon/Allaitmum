@@ -58,4 +58,21 @@ export const getBabyAgeInMonths = (birthDate) => {
   return Math.floor(days / 30.44);
 };
 
-export const todayString = () => new Date().toISOString().split('T')[0];
+// Retourne la date locale au format YYYY-MM-DD (pas UTC — important pour les filtres journée)
+export const todayString = () => {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+};
+
+// Convertit un ISO timestamp UTC en date locale YYYY-MM-DD
+export const toLocalDateStr = (isoStr) => {
+  if (!isoStr) return '';
+  const d = new Date(isoStr);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+};

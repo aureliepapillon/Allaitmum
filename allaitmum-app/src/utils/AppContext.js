@@ -426,8 +426,8 @@ export const AppProvider = ({ children }) => {
   };
 
   // Sleep actions
-  const startSleep = () => {
-    setActiveSleep({ startTime: new Date().toISOString(), babyId: activeBabyId });
+  const startSleep = (type = 'dodo') => {
+    setActiveSleep({ startTime: new Date().toISOString(), babyId: activeBabyId, type });
   };
 
   const stopSleep = () => {
