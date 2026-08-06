@@ -77,7 +77,7 @@ export default function ProfileScreen() {
   };
 
   const stats = [
-    { icon: 'heart', label: 'Tétées/biberons', value: feedingSessions.length, color: '#E88A7A' },
+    { icon: 'heart', label: 'Alimentations', value: feedingSessions.length, color: '#E88A7A' },
     { icon: 'water-outline', label: 'Changes', value: diaperEntries.length, color: '#42A5F5' },
     { icon: 'moon', label: 'Dodos', value: sleepSessions.length, color: '#9575CD' },
     { icon: 'journal', label: 'Notes journal', value: moodEntries.length, color: '#FFB74D' },

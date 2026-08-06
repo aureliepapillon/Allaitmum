@@ -216,7 +216,7 @@ export default function DashboardScreen() {
           <View style={[styles.activeBanner, { backgroundColor: theme.primary }]}>
             <Ionicons name={activeFeeding ? 'heart' : 'moon'} size={20} color="#fff" />
             <Text style={styles.activeBannerText}>
-              {activeFeeding ? 'Tétée en cours' : (sleepType === 'sieste' ? 'Sieste' : 'Dodo')} — {formatTime(activeFeeding ? elapsed : sleepElapsed)}
+              {activeFeeding ? 'Alimentation en cours' : (sleepType === 'sieste' ? 'Sieste' : 'Dodo')} — {formatTime(activeFeeding ? elapsed : sleepElapsed)}
             </Text>
             <TouchableOpacity onPress={activeFeeding ? handleStopFeeding : stopSleep}>
               <Ionicons name="stop-circle" size={24} color="#fff" />
@@ -382,7 +382,7 @@ export default function DashboardScreen() {
           <View style={[styles.lastFeedingCard, { backgroundColor: theme.primary + '15', borderColor: theme.primary + '30' }]}>
             <Ionicons name="time-outline" size={22} color={theme.primary} />
             <View style={styles.lastFeedingContent}>
-              <Text style={[styles.lastFeedingLabel, { color: theme.text }]}>Dernière tétée il y a</Text>
+              <Text style={[styles.lastFeedingLabel, { color: theme.text }]}>Dernière alimentation il y a</Text>
               <Text style={[styles.lastFeedingTime, { color: theme.primary }]}>{timeSinceFeeding}</Text>
             </View>
           </View>
@@ -395,7 +395,7 @@ export default function DashboardScreen() {
             <View style={styles.summaryItem}>
               <Ionicons name="heart" size={18} color="#E57373" />
               <Text style={[styles.summaryValue, { color: theme.textDark }]}>{todaySessions.length}</Text>
-              <Text style={[styles.summaryLabel, { color: theme.textLight }]}>tétées</Text>
+              <Text style={[styles.summaryLabel, { color: theme.textLight }]}>alim.</Text>
             </View>
             <View style={styles.summaryItem}>
               <Ionicons name="moon" size={18} color="#5C6BC0" />
