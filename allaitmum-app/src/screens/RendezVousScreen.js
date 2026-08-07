@@ -60,6 +60,23 @@ export default function RendezVousScreen({ onClose }) {
     setLocation('');
   };
 
+  // Auto-format date : l'utilisatrice tape les chiffres, les "/" s'ajoutent automatiquement
+  const handleDateChange = (text) => {
+    const digits = text.replace(/\D/g, '').slice(0, 8);
+    let formatted = digits;
+    if (digits.length > 2) formatted = `${digits.slice(0, 2)}/${digits.slice(2)}`;
+    if (digits.length > 4) formatted = `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
+    setDateStr(formatted);
+  };
+
+  // Auto-format heure : les ":" s'ajoutent automatiquement
+  const handleTimeChange = (text) => {
+    const digits = text.replace(/\D/g, '').slice(0, 4);
+    let formatted = digits;
+    if (digits.length > 2) formatted = `${digits.slice(0, 2)}:${digits.slice(2)}`;
+    setTimeStr(formatted);
+  };
+
   // Parse date string (DD/MM/YYYY) to Date object
   const parseDate = (str) => {
     const parts = str.split('/');
@@ -365,30 +382,32 @@ export default function RendezVousScreen({ onClose }) {
               </View>
 
               {/* Date */}
-              <Text style={[styles.label, { color: theme.textDark }]}>Date (JJ/MM/AAAA)</Text>
+              <Text style={[styles.label, { color: theme.textDark }]}>Date</Text>
               <View style={[styles.dateInput, { borderColor: theme.border, backgroundColor: theme.inputBg }]}>
                 <Ionicons name="calendar" size={20} color={theme.primary} />
                 <TextInput
                   style={[styles.dateInputText, { color: theme.textDark, flex: 1 }]}
                   value={dateStr}
-                  onChangeText={setDateStr}
+                  onChangeText={handleDateChange}
                   placeholder="25/03/2026"
                   placeholderTextColor={theme.textLight}
-                  keyboardType="numeric"
+                  keyboardType="number-pad"
+                  maxLength={10}
                 />
               </View>
 
               {/* Time */}
-              <Text style={[styles.label, { color: theme.textDark }]}>Heure (HH:MM)</Text>
+              <Text style={[styles.label, { color: theme.textDark }]}>Heure</Text>
               <View style={[styles.dateInput, { borderColor: theme.border, backgroundColor: theme.inputBg }]}>
                 <Ionicons name="time" size={20} color={theme.primary} />
                 <TextInput
                   style={[styles.dateInputText, { color: theme.textDark, flex: 1 }]}
                   value={timeStr}
-                  onChangeText={setTimeStr}
+                  onChangeText={handleTimeChange}
                   placeholder="14:30"
                   placeholderTextColor={theme.textLight}
-                  keyboardType="numeric"
+                  keyboardType="number-pad"
+                  maxLength={5}
                 />
               </View>
 
