@@ -192,14 +192,11 @@ export default function JournalScreen() {
             Des professionnelles spécialisées en maternité et allaitement, sélectionnées avec soin.
           </Text>
           {[
-            { name: 'Photographe', desc: 'Portraits naissance, ADN bébé...', icon: 'camera-outline', color: '#7E57C2' },
-            { name: 'Créatrice bijou', desc: 'Bijoux souvenir en lait maternel', icon: 'diamond-outline', color: '#D4A574' },
-            { name: 'Bain enveloppé', desc: 'Détente et apaisement pour bébé', icon: 'water-outline', color: '#42A5F5' },
+            { name: 'Photographe', desc: 'Portraits naissance, ADN bébé...' },
+            { name: 'Créatrice bijou', desc: 'Bijoux souvenir en lait maternel' },
+            { name: 'Bain enveloppé', desc: 'Détente et apaisement pour bébé' },
           ].map((item, i) => (
             <View key={i} style={styles.linkRow}>
-              <View style={[styles.linkIcon, { backgroundColor: item.color + '20' }]}>
-                <Ionicons name={item.icon} size={20} color={item.color} />
-              </View>
               <View style={styles.linkContent}>
                 <Text style={[styles.linkTitle, { color: theme.textDark }]}>{item.name}</Text>
                 <Text style={[styles.linkDesc, { color: theme.textLight }]} numberOfLines={1}>
