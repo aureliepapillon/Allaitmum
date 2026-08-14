@@ -13,6 +13,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
@@ -31,7 +32,8 @@ export default function CroissanceScreen({ onClose }) {
   const [showAddEntry, setShowAddEntry] = useState(false);
   const [entryWeight, setEntryWeight] = useState('');
   const [entryHeight, setEntryHeight] = useState('');
-  const [entryDate, setEntryDate] = useState('');
+  const [entrySelectedDate, setEntrySelectedDate] = useState(new Date());
+  const [showEntryDatePicker, setShowEntryDatePicker] = useState(false);
 
   // Filter entries for current baby and sort by date
   const babyEntries = growthEntries
@@ -85,7 +87,6 @@ export default function CroissanceScreen({ onClose }) {
     const validation = validateGrowthEntry({
       weight: entryWeight,
       height: entryHeight,
-      date: entryDate,
     });
 
     if (!validation.isValid) {
@@ -96,13 +97,10 @@ export default function CroissanceScreen({ onClose }) {
     const weight = entryWeight ? parseFloat(entryWeight.replace(',', '.')) : null;
     const height = entryHeight ? parseFloat(entryHeight.replace(',', '.')) : null;
 
-    let date = new Date().toISOString().split('T')[0];
-    if (entryDate) {
-      const [day, month, year] = entryDate.split('/');
-      if (day && month && year) {
-        date = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-      }
-    }
+    const y = entrySelectedDate.getFullYear();
+    const m = String(entrySelectedDate.getMonth() + 1).padStart(2, '0');
+    const d = String(entrySelectedDate.getDate()).padStart(2, '0');
+    const date = `${y}-${m}-${d}`;
 
     const entry = {
       id: Date.now(),
@@ -116,7 +114,8 @@ export default function CroissanceScreen({ onClose }) {
     setGrowthEntries((prev) => [...prev, entry]);
     setEntryWeight('');
     setEntryHeight('');
-    setEntryDate('');
+    setEntrySelectedDate(new Date());
+    setShowEntryDatePicker(false);
     setShowAddEntry(false);
   };
 
@@ -417,15 +416,31 @@ export default function CroissanceScreen({ onClose }) {
                 Nouvelle mesure
               </Text>
 
-              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Date (JJ/MM/AAAA)</Text>
-              <TextInput
-                style={[styles.input, { borderColor: theme.border, color: theme.textDark, backgroundColor: theme.inputBg }]}
-                value={entryDate}
-                onChangeText={setEntryDate}
-                placeholder="Aujourd'hui"
-                placeholderTextColor={theme.textLight}
-                keyboardType="numbers-and-punctuation"
-              />
+              <Text style={[styles.inputLabel, { color: theme.textDark }]}>Date</Text>
+              <TouchableOpacity
+                style={[styles.input, styles.dateTouchable, { borderColor: theme.border, backgroundColor: theme.inputBg }]}
+                onPress={() => setShowEntryDatePicker(true)}
+              >
+                <Ionicons name="calendar" size={20} color={theme.primary} />
+                <Text style={{ color: theme.textDark, fontSize: 16 }}>
+                  {entrySelectedDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                </Text>
+              </TouchableOpacity>
+              {showEntryDatePicker && (
+                <DateTimePicker
+                  value={entrySelectedDate}
+                  mode="date"
+                  display={Platform.OS === 'ios' ? 'inline' : 'default'}
+                  locale="fr-FR"
+                  maximumDate={new Date()}
+                  minimumDate={new Date(2015, 0, 1)}
+                  onChange={(event, date) => {
+                    if (Platform.OS === 'android') setShowEntryDatePicker(false);
+                    if (date) setEntrySelectedDate(date);
+                  }}
+                  style={{ marginTop: 8 }}
+                />
+              )}
 
               <Text style={[styles.inputLabel, { color: theme.textDark }]}>Poids (kg)</Text>
               <TextInput
@@ -450,7 +465,13 @@ export default function CroissanceScreen({ onClose }) {
               <View style={styles.modalButtons}>
                 <TouchableOpacity
                   style={[styles.modalBtn, { backgroundColor: theme.background }]}
-                  onPress={() => setShowAddEntry(false)}
+                  onPress={() => {
+                    setShowAddEntry(false);
+                    setShowEntryDatePicker(false);
+                    setEntrySelectedDate(new Date());
+                    setEntryWeight('');
+                    setEntryHeight('');
+                  }}
                 >
                   <Text style={[styles.modalBtnText, { color: theme.textDark }]}>Annuler</Text>
                 </TouchableOpacity>
@@ -605,6 +626,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 14,
     fontSize: 16,
+  },
+  dateTouchable: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   modalButtons: {
     flexDirection: 'row',
