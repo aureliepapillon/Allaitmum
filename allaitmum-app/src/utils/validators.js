@@ -46,18 +46,18 @@ export const isNotFutureDate = (dateStr) => {
   return date <= new Date();
 };
 
-// Weight validation for babies (0.5 - 15 kg)
+// Weight validation for babies/young children (0.5 - 40 kg)
 export const isValidBabyWeight = (weight) => {
   if (!weight && weight !== 0) return true; // Optional field
   const num = typeof weight === 'string' ? parseFloat(weight.replace(',', '.')) : weight;
-  return !isNaN(num) && num >= 0.5 && num <= 15;
+  return !isNaN(num) && num >= 0.5 && num <= 40;
 };
 
-// Height validation for babies (30 - 120 cm)
+// Height validation for babies/young children (30 - 140 cm)
 export const isValidBabyHeight = (height) => {
   if (!height && height !== 0) return true; // Optional field
   const num = typeof height === 'string' ? parseFloat(height.replace(',', '.')) : height;
-  return !isNaN(num) && num >= 30 && num <= 120;
+  return !isNaN(num) && num >= 30 && num <= 140;
 };
 
 // Head circumference validation (25 - 60 cm)
