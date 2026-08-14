@@ -183,46 +183,32 @@ export default function JournalScreen() {
           ))}
         </View>
 
-        {/* Créateurs partenaires */}
+        {/* Espace partenaire */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          Photographes & créateurs partenaires
+          🤝 Espace partenaire
         </Text>
         <View style={[styles.card, { backgroundColor: theme.card }]}>
           <Text style={[styles.donText, { color: theme.text }]}>
-            Des photographes et créateurs spécialisés en allaitement et maternité (ADN bébé, portraits naissance...), sélectionnés avec soin.
+            Des professionnelles spécialisées en maternité et allaitement, sélectionnées avec soin.
           </Text>
-          <View style={[styles.comingSoonRow, { borderColor: theme.border, marginTop: 0, paddingTop: 0, borderTopWidth: 0 }]}>
-            <Ionicons name="time-outline" size={16} color={theme.textLight} />
-            <Text style={[styles.comingSoonText, { color: theme.textLight }]}>Partenaires à venir...</Text>
-          </View>
-        </View>
-
-        {/* Bain enveloppé */}
-        <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          🛁 Bain enveloppé
-        </Text>
-        <View style={[styles.card, { backgroundColor: theme.card }]}>
-          <Text style={[styles.donText, { color: theme.text }]}>
-            Des praticiennes spécialisées dans le bain enveloppé pour détendre et apaiser ton bébé.
-          </Text>
-          <View style={[styles.comingSoonRow, { borderColor: theme.border }]}>
-            <Ionicons name="time-outline" size={16} color={theme.textLight} />
-            <Text style={[styles.comingSoonText, { color: theme.textLight }]}>Partenaires à venir...</Text>
-          </View>
-        </View>
-
-        {/* Bijoux lait maternel */}
-        <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          💍 Bijoux lait maternel
-        </Text>
-        <View style={[styles.card, { backgroundColor: theme.card }]}>
-          <Text style={[styles.donText, { color: theme.text }]}>
-            Immortalise ton allaitement dans un bijou unique créé à partir de ton lait maternel.
-          </Text>
-          <View style={[styles.comingSoonRow, { borderColor: theme.border }]}>
-            <Ionicons name="time-outline" size={16} color={theme.textLight} />
-            <Text style={[styles.comingSoonText, { color: theme.textLight }]}>Partenaires à venir...</Text>
-          </View>
+          {[
+            { name: 'Photographe', desc: 'Portraits naissance, ADN bébé...', icon: 'camera-outline', color: '#7E57C2' },
+            { name: 'Créatrice bijou', desc: 'Bijoux souvenir en lait maternel', icon: 'diamond-outline', color: '#D4A574' },
+            { name: 'Bain enveloppé', desc: 'Détente et apaisement pour bébé', icon: 'water-outline', color: '#42A5F5' },
+          ].map((item, i) => (
+            <View key={i} style={styles.linkRow}>
+              <View style={[styles.linkIcon, { backgroundColor: item.color + '20' }]}>
+                <Ionicons name={item.icon} size={20} color={item.color} />
+              </View>
+              <View style={styles.linkContent}>
+                <Text style={[styles.linkTitle, { color: theme.textDark }]}>{item.name}</Text>
+                <Text style={[styles.linkDesc, { color: theme.textLight }]} numberOfLines={1}>
+                  {item.desc}
+                </Text>
+              </View>
+              <Text style={[styles.comingSoonText, { color: theme.textLight }]}>Bientôt</Text>
+            </View>
+          ))}
         </View>
 
         {/* Urgence */}
