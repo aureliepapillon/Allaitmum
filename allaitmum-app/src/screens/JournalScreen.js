@@ -132,7 +132,7 @@ export default function JournalScreen() {
             Tu as du lait en surplus ? Des bébés ont besoin de toi !
           </Text>
           {[
-            { name: 'Trouver un lactarium', desc: 'Réseau français des lactariums', url: 'https://www.lactariums-de-france.fr', color: '#AB7058' },
+            { name: 'Trouver un lactarium', desc: 'Réseau français des lactariums', url: 'https://www.google.com/maps/search/lactarium', color: '#AB7058' },
             { name: 'Association Solidarilait', desc: 'Soutien au don de lait', url: 'https://www.solidarilait.org', color: '#AB7058' },
           ].map((item, i) => (
             <TouchableOpacity
