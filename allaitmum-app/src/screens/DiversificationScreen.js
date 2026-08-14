@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
+import { parseBirthDate } from '../utils/helpers';
 import {
   FOOD_CATEGORIES,
   FOODS,
@@ -33,9 +34,11 @@ export default function DiversificationScreen({ onClose }) {
   // Calculate baby age in months
   const babyAgeMonths = useMemo(() => {
     if (!baby.birthDate) return 6;
-    const birth = new Date(baby.birthDate);
+    const birth = parseBirthDate(baby.birthDate);
+    if (!birth || isNaN(birth.getTime())) return 6;
     const now = new Date();
-    return Math.floor((now - birth) / (1000 * 60 * 60 * 24 * 30.44));
+    const months = Math.floor((now - birth) / (1000 * 60 * 60 * 24 * 30.44));
+    return months >= 0 ? months : 6;
   }, [baby.birthDate]);
 
   const currentStep = getCurrentStep(babyAgeMonths);
