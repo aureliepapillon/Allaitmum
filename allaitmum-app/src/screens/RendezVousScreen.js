@@ -8,7 +8,9 @@ import {
   Modal,
   TextInput,
   Alert,
+  Platform,
 } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../theme/ThemeContext';
@@ -32,8 +34,9 @@ export default function RendezVousScreen({ onClose }) {
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedType, setSelectedType] = useState(null);
-  const [dateStr, setDateStr] = useState('');
-  const [timeStr, setTimeStr] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
   const [notes, setNotes] = useState('');
   const [doctorName, setDoctorName] = useState('');
   const [location, setLocation] = useState('');
@@ -53,49 +56,12 @@ export default function RendezVousScreen({ onClose }) {
 
   const resetForm = () => {
     setSelectedType(null);
-    setDateStr('');
-    setTimeStr('');
+    setSelectedDate(new Date());
+    setShowDatePicker(false);
+    setShowTimePicker(false);
     setNotes('');
     setDoctorName('');
     setLocation('');
-  };
-
-  // Auto-format date : l'utilisatrice tape les chiffres, les "/" s'ajoutent automatiquement
-  const handleDateChange = (text) => {
-    const digits = text.replace(/\D/g, '').slice(0, 8);
-    let formatted = digits;
-    if (digits.length > 2) formatted = `${digits.slice(0, 2)}/${digits.slice(2)}`;
-    if (digits.length > 4) formatted = `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
-    setDateStr(formatted);
-  };
-
-  // Auto-format heure : les ":" s'ajoutent automatiquement
-  const handleTimeChange = (text) => {
-    const digits = text.replace(/\D/g, '').slice(0, 4);
-    let formatted = digits;
-    if (digits.length > 2) formatted = `${digits.slice(0, 2)}:${digits.slice(2)}`;
-    setTimeStr(formatted);
-  };
-
-  // Parse date string (DD/MM/YYYY) to Date object
-  const parseDate = (str) => {
-    const parts = str.split('/');
-    if (parts.length === 3) {
-      const day = parseInt(parts[0], 10);
-      const month = parseInt(parts[1], 10) - 1;
-      const year = parseInt(parts[2], 10);
-      return new Date(year, month, day);
-    }
-    return null;
-  };
-
-  // Parse time string (HH:MM) to hours and minutes
-  const parseTime = (str) => {
-    const parts = str.split(':');
-    if (parts.length === 2) {
-      return { hours: parseInt(parts[0], 10), minutes: parseInt(parts[1], 10) };
-    }
-    return null;
   };
 
   const handleAddAppointment = () => {
@@ -104,26 +70,11 @@ export default function RendezVousScreen({ onClose }) {
       return;
     }
 
-    const parsedDate = parseDate(dateStr);
-    if (!parsedDate) {
-      Alert.alert('Erreur', 'Format de date invalide. Utilise JJ/MM/AAAA');
-      return;
-    }
-
-    const parsedTime = parseTime(timeStr);
-    if (!parsedTime) {
-      Alert.alert('Erreur', 'Format d\'heure invalide. Utilise HH:MM');
-      return;
-    }
-
-    const dateTime = new Date(parsedDate);
-    dateTime.setHours(parsedTime.hours, parsedTime.minutes);
-
     const newAppointment = {
       id: Date.now(),
       babyId: activeBabyId,
       type: selectedType,
-      dateTime: dateTime.toISOString(),
+      dateTime: selectedDate.toISOString(),
       doctorName,
       location,
       notes,
@@ -383,33 +334,64 @@ export default function RendezVousScreen({ onClose }) {
 
               {/* Date */}
               <Text style={[styles.label, { color: theme.textDark }]}>Date</Text>
-              <View style={[styles.dateInput, { borderColor: theme.border, backgroundColor: theme.inputBg }]}>
+              <TouchableOpacity
+                style={[styles.dateInput, { borderColor: theme.border, backgroundColor: theme.inputBg }]}
+                onPress={() => { setShowDatePicker(true); setShowTimePicker(false); }}
+              >
                 <Ionicons name="calendar" size={20} color={theme.primary} />
-                <TextInput
-                  style={[styles.dateInputText, { color: theme.textDark, flex: 1 }]}
-                  value={dateStr}
-                  onChangeText={handleDateChange}
-                  placeholder="25/03/2026"
-                  placeholderTextColor={theme.textLight}
-                  keyboardType="number-pad"
-                  maxLength={10}
+                <Text style={[styles.dateInputText, { color: theme.textDark }]}>
+                  {selectedDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                </Text>
+                <Ionicons name="chevron-down" size={16} color={theme.textLight} />
+              </TouchableOpacity>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={selectedDate}
+                  mode="date"
+                  display={Platform.OS === 'ios' ? 'inline' : 'default'}
+                  locale="fr-FR"
+                  minimumDate={new Date(2020, 0, 1)}
+                  onChange={(event, date) => {
+                    if (Platform.OS === 'android') setShowDatePicker(false);
+                    if (date) {
+                      const updated = new Date(selectedDate);
+                      updated.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+                      setSelectedDate(updated);
+                    }
+                  }}
+                  style={{ marginBottom: 8 }}
                 />
-              </View>
+              )}
 
               {/* Time */}
               <Text style={[styles.label, { color: theme.textDark }]}>Heure</Text>
-              <View style={[styles.dateInput, { borderColor: theme.border, backgroundColor: theme.inputBg }]}>
+              <TouchableOpacity
+                style={[styles.dateInput, { borderColor: theme.border, backgroundColor: theme.inputBg }]}
+                onPress={() => { setShowTimePicker(true); setShowDatePicker(false); }}
+              >
                 <Ionicons name="time" size={20} color={theme.primary} />
-                <TextInput
-                  style={[styles.dateInputText, { color: theme.textDark, flex: 1 }]}
-                  value={timeStr}
-                  onChangeText={handleTimeChange}
-                  placeholder="14:30"
-                  placeholderTextColor={theme.textLight}
-                  keyboardType="number-pad"
-                  maxLength={5}
+                <Text style={[styles.dateInputText, { color: theme.textDark }]}>
+                  {selectedDate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                </Text>
+                <Ionicons name="chevron-down" size={16} color={theme.textLight} />
+              </TouchableOpacity>
+              {showTimePicker && (
+                <DateTimePicker
+                  value={selectedDate}
+                  mode="time"
+                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                  locale="fr-FR"
+                  is24Hour
+                  onChange={(event, date) => {
+                    if (Platform.OS === 'android') setShowTimePicker(false);
+                    if (date) {
+                      const updated = new Date(selectedDate);
+                      updated.setHours(date.getHours(), date.getMinutes());
+                      setSelectedDate(updated);
+                    }
+                  }}
                 />
-              </View>
+              )}
 
               {/* Doctor name */}
               <Text style={[styles.label, { color: theme.textDark }]}>Nom du praticien (optionnel)</Text>
