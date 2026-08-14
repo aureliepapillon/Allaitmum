@@ -122,14 +122,6 @@ Idées repas rapides :
 
 export const friendlyPlaces = [
   {
-    id: 1,
-    name: "Mum Friendly",
-    description: "L'app qui référence les lieux accueillants pour les mamans et bébés",
-    url: "https://www.mumfriendly.com",
-    icon: "location",
-    color: "#EC407A",
-  },
-  {
     id: 2,
     name: "AlloVoisins",
     description: "Trouve une nounou, une baby-sitter ou de l'aide près de chez toi",
