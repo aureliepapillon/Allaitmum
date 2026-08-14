@@ -48,6 +48,37 @@ export default function JournalScreen() {
           ))}
         </ScrollView>
 
+        {/* Médicaments compatibles allaitement */}
+        <Text style={[styles.sectionTitle, { color: theme.primary }]}>
+          💊 Médicaments & allaitement
+        </Text>
+        <View style={[styles.card, { backgroundColor: theme.card }]}>
+          <Text style={[styles.donText, { color: theme.text }]}>
+            Vérifie la compatibilité d'un médicament avec l'allaitement avant de le prendre :
+          </Text>
+          {[
+            { name: 'CRAT', desc: 'Centre de Référence sur les Agents Tératogènes (France)', url: 'https://www.lecrat.fr', color: '#2E7D32' },
+            { name: 'e-lactancia', desc: 'Base de données internationale sur l\'allaitement', url: 'https://e-lactancia.org/', color: '#2E7D32' },
+          ].map((item, i) => (
+            <TouchableOpacity
+              key={i}
+              style={styles.linkRow}
+              onPress={() => Linking.openURL(item.url)}
+            >
+              <View style={[styles.linkIcon, { backgroundColor: item.color + '20' }]}>
+                <Ionicons name="medical-outline" size={20} color={item.color} />
+              </View>
+              <View style={styles.linkContent}>
+                <Text style={[styles.linkTitle, { color: theme.textDark }]}>{item.name}</Text>
+                <Text style={[styles.linkDesc, { color: theme.textLight }]} numberOfLines={1}>
+                  {item.desc}
+                </Text>
+              </View>
+              <Ionicons name="open-outline" size={18} color={theme.textLight} />
+            </TouchableOpacity>
+          ))}
+        </View>
+
         {/* Lieux baby-friendly */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
           📍 Lieux baby-friendly
