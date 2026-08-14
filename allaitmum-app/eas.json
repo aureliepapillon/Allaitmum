@@ -23,8 +23,7 @@
     "production": {
       "ios": {
         "appleId": "aureliepapillon111@gmail.com",
-        "ascAppId": "6796742596",
-        "appleTeamId": "REMPLACE_PAR_TON_TEAM_ID"
+        "ascAppId": "6796742596"
       }
     }
   }
