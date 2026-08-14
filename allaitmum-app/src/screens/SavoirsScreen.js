@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { storage } from '../utils/storage';
@@ -13,6 +14,7 @@ import { articles, categories } from '../data/articles';
 
 export default function SavoirsScreen() {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('Toutes');
   const [savedArticles, setSavedArticles] = useState([]);
@@ -46,7 +48,7 @@ export default function SavoirsScreen() {
         showsVerticalScrollIndicator={false}
       >
         <TouchableOpacity
-          style={styles.backButton}
+          style={[styles.backButton, { marginTop: insets.top }]}
           onPress={() => setSelectedArticle(null)}
         >
           <Ionicons name="arrow-back" size={20} color={theme.primary} />
