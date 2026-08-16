@@ -431,6 +431,7 @@ export default function CroissanceScreen({ onClose }) {
                   value={entrySelectedDate}
                   mode="date"
                   display={Platform.OS === 'ios' ? 'inline' : 'default'}
+                  themeVariant="light"
                   locale="fr-FR"
                   maximumDate={new Date()}
                   minimumDate={new Date(2015, 0, 1)}

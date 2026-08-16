@@ -349,6 +349,7 @@ export default function RendezVousScreen({ onClose }) {
                   value={selectedDate}
                   mode="date"
                   display={Platform.OS === 'ios' ? 'inline' : 'default'}
+                  themeVariant="light"
                   locale="fr-FR"
                   minimumDate={new Date(2020, 0, 1)}
                   onChange={(event, date) => {
@@ -380,6 +381,7 @@ export default function RendezVousScreen({ onClose }) {
                   value={selectedDate}
                   mode="time"
                   display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                  themeVariant="light"
                   locale="fr-FR"
                   is24Hour
                   onChange={(event, date) => {
