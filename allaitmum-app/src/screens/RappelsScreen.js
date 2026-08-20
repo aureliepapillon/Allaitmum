@@ -55,21 +55,25 @@ export default function RappelsScreen({ onClose }) {
   };
 
   const saveVitaminDTime = async () => {
-    await notificationService.scheduleDailyReminder({
-      id: REMINDER_TYPES.VITAMIN_D.id,
-      title: REMINDER_TYPES.VITAMIN_D.title,
-      body: `C'est l'heure de la vitamine D pour ${baby.name} !`,
-      hour: selectedHour,
-      minute: selectedMinute,
-    });
+    try {
+      await notificationService.scheduleDailyReminder({
+        id: REMINDER_TYPES.VITAMIN_D.id,
+        title: REMINDER_TYPES.VITAMIN_D.title,
+        body: `C'est l'heure de la vitamine D pour ${baby.name} !`,
+        hour: selectedHour,
+        minute: selectedMinute,
+      });
 
-    updateReminders({
-      ...reminders,
-      vitaminD: { hour: selectedHour, minute: selectedMinute, enabled: true },
-    });
+      updateReminders({
+        ...reminders,
+        vitaminD: { hour: selectedHour, minute: selectedMinute, enabled: true },
+      });
 
-    setShowTimePicker(null);
-    Alert.alert('Rappel activé', `Rappel quotidien à ${formatTime(selectedHour, selectedMinute)}`);
+      setShowTimePicker(null);
+      Alert.alert('Rappel activé', `Rappel quotidien à ${formatTime(selectedHour, selectedMinute)}`);
+    } catch (e) {
+      Alert.alert('Erreur', 'Impossible de programmer le rappel. Réessaie plus tard.');
+    }
   };
 
   // Add medication reminder
@@ -79,27 +83,31 @@ export default function RappelsScreen({ onClose }) {
       return;
     }
 
-    const medId = `med_${Date.now()}`;
-    await notificationService.scheduleDailyReminder({
-      id: medId,
-      title: 'Rappel médicament',
-      body: `C'est l'heure de ${medName} pour ${baby.name} !`,
-      hour: medHour,
-      minute: medMinute,
-    });
+    try {
+      const medId = `med_${Date.now()}`;
+      await notificationService.scheduleDailyReminder({
+        id: medId,
+        title: 'Rappel médicament',
+        body: `C'est l'heure de ${medName} pour ${baby.name} !`,
+        hour: medHour,
+        minute: medMinute,
+      });
 
-    const newMedReminders = [
-      ...(reminders.medications || []),
-      { id: medId, name: medName, hour: medHour, minute: medMinute, enabled: true },
-    ];
+      const newMedReminders = [
+        ...(reminders.medications || []),
+        { id: medId, name: medName, hour: medHour, minute: medMinute, enabled: true },
+      ];
 
-    updateReminders({ ...reminders, medications: newMedReminders });
+      updateReminders({ ...reminders, medications: newMedReminders });
 
-    setShowMedForm(false);
-    setMedName('');
-    setMedHour(9);
-    setMedMinute(0);
-    Alert.alert('Rappel ajouté', `Rappel pour ${medName} à ${formatTime(medHour, medMinute)}`);
+      setShowMedForm(false);
+      setMedName('');
+      setMedHour(9);
+      setMedMinute(0);
+      Alert.alert('Rappel ajouté', `Rappel pour ${medName} à ${formatTime(medHour, medMinute)}`);
+    } catch (e) {
+      Alert.alert('Erreur', 'Impossible de programmer le rappel. Réessaie plus tard.');
+    }
   };
 
   // Toggle medication reminder

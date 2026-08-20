@@ -43,6 +43,7 @@ class NotificationService {
     await this.cancelReminder(id);
 
     const trigger = {
+      type: Notifications.SchedulableTriggerInputTypes.CALENDAR,
       hour,
       minute,
       repeats: true,
@@ -67,12 +68,17 @@ class NotificationService {
     // Cancel existing reminder with same ID first
     await this.cancelReminder(id);
 
-    const trigger = new Date(date);
+    const triggerDate = new Date(date);
 
     // Don't schedule if date is in the past
-    if (trigger <= new Date()) {
+    if (triggerDate <= new Date()) {
       return null;
     }
+
+    const trigger = {
+      type: Notifications.SchedulableTriggerInputTypes.DATE,
+      date: triggerDate,
+    };
 
     const notificationId = await Notifications.scheduleNotificationAsync({
       content: {
