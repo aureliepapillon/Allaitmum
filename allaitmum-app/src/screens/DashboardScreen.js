@@ -453,6 +453,7 @@ export default function DashboardScreen() {
       <Modal visible={showMenu} animationType="fade" transparent>
         <TouchableOpacity style={styles.menuOverlay} activeOpacity={1} onPress={() => setShowMenu(false)}>
           <View style={[styles.menuDrawer, { backgroundColor: theme.card }]}>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.menuScrollContent}>
             <View style={styles.menuHeader}>
               <LionMascot size={50} gender={baby.gender} />
               <Text style={[styles.menuTitle, { color: theme.primary }]}>Menu</Text>
@@ -595,6 +596,7 @@ export default function DashboardScreen() {
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>SAV / Support</Text>
               </TouchableOpacity>
             </View>
+            </ScrollView>
 
             <TouchableOpacity style={styles.closeMenuBtn} onPress={() => setShowMenu(false)}>
               <Ionicons name="close" size={24} color={theme.textLight} />
@@ -808,6 +810,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 10,
   },
+  menuScrollContent: { paddingBottom: 40 },
   menuHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 24 },
   menuTitle: { fontSize: 22, fontWeight: '700' },
   menuSection: { marginBottom: 20 },
