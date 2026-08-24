@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/logo-allaitmum.png",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/logo-allaitmum.png",
       "resizeMode": "contain",
