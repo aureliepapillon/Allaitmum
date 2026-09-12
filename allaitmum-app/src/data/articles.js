@@ -563,6 +563,266 @@ Une transition en douceur vers la parole : le signe n'est qu'une étape, il disp
       },
     ],
   },
+  {
+    id: 14,
+    category: 'Post-partum',
+    title: 'Baby blues et dépression post-partum : faire la différence',
+    duration: '8 min',
+    premium: false,
+    source: 'Santé Publique France, Haute Autorité de Santé (HAS)',
+    intro: "Pleurer sans raison à J3, ce n'est pas pareil que ne plus réussir à se lever à 2 mois. Apprends à repérer la différence — et à demander de l'aide sans honte.",
+    sections: [
+      {
+        title: 'Le baby blues : bref et normal',
+        content: `Touche 60 à 80% des mamans, entre J2 et J5 après l'accouchement.
+
+Symptômes : hypersensibilité, larmes faciles, irritabilité, anxiété passagère. Lié à la chute brutale des hormones + fatigue + bouleversement de vie.
+
+Ça dure quelques jours et ça passe seul. Le principal besoin : du repos, du soutien, ne pas rester isolée.`,
+      },
+      {
+        title: 'La dépression post-partum : ce n\'est pas "juste être fatiguée"',
+        content: `Elle peut apparaître à tout moment dans les 12 mois après la naissance, pas seulement les premières semaines.
+
+Signes qui doivent alerter (au-delà de 2 semaines) :
+• Tristesse ou vide qui ne passe pas
+• Perte d'intérêt pour bébé ou culpabilité excessive d'être mère
+• Troubles du sommeil AU-DELÀ de la fatigue liée à bébé
+• Pensées noires, sentiment de ne jamais y arriver
+• Anxiété envahissante, crises de panique
+
+Ce n'est ni une faiblesse, ni un manque d'amour pour ton bébé. C'est une maladie qui se soigne.`,
+      },
+      {
+        title: 'Vers qui te tourner',
+        content: `• Ta sage-femme (jusqu'à 1 an post-accouchement, elle assure ton suivi)
+• Ton médecin traitant ou un psychiatre périnatal
+• PMI (Protection Maternelle et Infantile) — gratuit, sans avance de frais
+• Numéro national : 3114 (numéro national de prévention du suicide, 24h/24)
+• Allo Parents Bébé : 0 800 00 3456 (gratuit et anonyme)
+
+En parler à ton entourage n'est pas un échec. Plus tôt c'est pris en charge, plus vite ça va mieux.`,
+      },
+      {
+        title: 'Et le papa / le co-parent ?',
+        content: `La dépression post-partum touche aussi les pères et co-parents (environ 1 sur 10), souvent moins repérée car moins recherchée.
+
+Les mêmes signes s'appliquent : repli, irritabilité inhabituelle, désintérêt, épuisement qui ne passe pas. N'hésite pas à en parler aussi pour lui/elle.`,
+      },
+    ],
+  },
+  {
+    id: 15,
+    category: 'Droits',
+    title: 'Congés de naissance et parentaux : ce qui change',
+    duration: '6 min',
+    premium: false,
+    source: 'service-public.fr, Ameli.fr',
+    intro: "Congé maternité, paternité, parental d'éducation... Le paysage des congés autour de la naissance évolue régulièrement. Voici les repères à connaître et où vérifier les montants à jour.",
+    sections: [
+      {
+        title: 'Les briques de base',
+        content: `Congé maternité : durée variable selon le nombre d'enfants déjà à charge et le nombre d'enfants attendus (environ 16 semaines pour un 1er ou 2e enfant, plus long à partir du 3e ou en cas de grossesse multiple).
+
+Congé paternité et d'accueil de l'enfant : 25 jours calendaires (32 en cas de naissances multiples), dont 4 jours obligatoires pris juste après la naissance, cumulables avec le congé de naissance de 3 jours pris en charge par l'employeur.
+
+Congé parental d'éducation : possible jusqu'aux 3 ans de l'enfant, non rémunéré par l'employeur mais ouvrant droit à une prestation de la CAF sous conditions.`,
+      },
+      {
+        title: 'Une réforme en mouvement',
+        content: `Un projet de "congé de naissance" plus court mais mieux rémunéré que l'actuel congé parental est en discussion/déploiement ces dernières années en France, avec l'objectif de le rendre plus attractif pour les deux parents et de réduire les écarts de recours entre mères et pères.
+
+⚠️ Les montants, durées et conditions évoluent régulièrement selon les décrets d'application. Vérifie toujours l'information à jour sur service-public.fr ou directement auprès de ta CAF avant de prendre une décision.`,
+      },
+      {
+        title: 'Nos conseils pratiques',
+        content: `• Anticipe tes démarches dès le 2e trimestre de grossesse (déclaration à l'employeur, CPAM, CAF)
+• Simule ton allocation sur caf.fr avant de choisir la durée de ton congé parental
+• Le congé parental peut être partagé et pris de façon fractionnée entre les deux parents
+• Pense à vérifier les accords de ta convention collective — certaines entreprises offrent des conditions plus favorables que le minimum légal`,
+      },
+    ],
+  },
+  {
+    id: 16,
+    category: 'Bébé',
+    title: 'Écrans et tout-petits : les repères à connaître',
+    duration: '6 min',
+    premium: false,
+    source: 'Santé Publique France, recommandations OMS',
+    intro: "Pas de culpabilisation, juste les repères actuels pour faire des choix éclairés sur les écrans avec un bébé ou un jeune enfant.",
+    sections: [
+      {
+        title: 'Les repères par âge',
+        content: `Avant 2-3 ans : l'OMS et Santé Publique France recommandent d'éviter les écrans, y compris en arrière-plan (télé allumée dans la pièce).
+
+Le cerveau d'un tout-petit se développe grâce aux interactions réelles (voix, regard, toucher) — l'écran, même "éducatif", ne remplace pas ces échanges pour les tout-petits.
+
+À partir de 3 ans : usage possible, encadré, limité, et toujours accompagné plutôt qu'en solo.`,
+      },
+      {
+        title: 'Pourquoi c\'est plus une question de contexte que de minutage strict',
+        content: `Un écran en fond sonore pendant le repas ou le jeu libre a plus d'impact négatif documenté qu'un moment ponctuel et accompagné.
+
+Ce qui compte le plus : la qualité de l'interaction autour de l'écran (en parler ensemble) plutôt que le nombre de minutes exact.`,
+      },
+      {
+        title: 'Des alternatives concrètes',
+        content: `Les fameux "4 pas" recommandés par les pédiatres : pas d'écran le matin, pas pendant les repas, pas avant de dormir, pas dans la chambre.
+
+Pour les moments où tu as besoin de souffler (douche, appel important) : un jouet sensoriel, un mobile, une chanson, ou simplement le laisser en sécurité quelques minutes sont des alternatives sans culpabilité à avoir.`,
+      },
+    ],
+  },
+  {
+    id: 17,
+    category: 'Sommeil',
+    title: 'Cododo : les règles pour le pratiquer en sécurité',
+    duration: '6 min',
+    premium: false,
+    source: 'Santé Publique France, Académie Américaine de Pédiatrie (AAP)',
+    intro: "Partager le lit ou la chambre avec bébé, oui — mais avec des règles précises pour réduire au maximum les risques.",
+    sections: [
+      {
+        title: 'Cododo dans la même chambre : la recommandation officielle',
+        content: `Dormir dans la même chambre que bébé (dans son propre lit, à côté du lit parental) est recommandé jusqu'à 6 mois minimum : ça facilite l'allaitement nocturne et réduit le risque de mort inattendue du nourrisson (MIN).`,
+      },
+      {
+        title: 'Partage du lit : les conditions de sécurité strictes',
+        content: `Si tu choisis le partage du lit (bed-sharing), certaines conditions réduisent significativement les risques :
+
+• JAMAIS si toi ou ton/ta partenaire fumez, avez bu de l'alcool ou pris des médicaments sédatifs
+• JAMAIS sur un canapé ou un fauteuil (risque majeur d'étouffement)
+• Matelas ferme, sans oreillers ni couettes près de bébé
+• Bébé sur le dos, jamais entre deux adultes (plutôt côté mur ou côté d'un seul parent)
+• Cheveux longs attachés, pas de bijoux
+• Jamais si bébé est né prématuré ou avec un petit poids de naissance
+
+⚠️ En cas de doute, le lit cododo accolé au lit parental (sans partage du même matelas) est l'option la plus sûre.`,
+      },
+      {
+        title: 'Pourquoi ces précautions existent',
+        content: `Le risque principal est l'étouffement accidentel et la surchauffe, surtout dans les premiers mois où bébé ne peut pas se dégager seul.
+
+Ce n'est pas un jugement sur les familles qui pratiquent le cododo — c'est une pratique ancestrale et répandue dans le monde — mais des règles qui, appliquées, réduisent vraiment les risques documentés.`,
+      },
+    ],
+  },
+  {
+    id: 18,
+    category: 'Lactation',
+    title: 'Allaitement mixte : bien le mettre en place',
+    duration: '7 min',
+    premium: false,
+    source: 'La Leche League France',
+    intro: "Sein et biberon, ce n'est pas 'tout ou rien'. Voici comment conjuguer les deux sans casser ta lactation ni culpabiliser.",
+    sections: [
+      {
+        title: 'Pourquoi passer au mixte',
+        content: `Reprise du travail, besoin de partager les biberons avec le co-parent, fatigue, production insuffisante, ou simplement un choix personnel — toutes les raisons sont valables.
+
+L'allaitement mixte n'est pas un échec de l'allaitement, c'est une autre façon de le poursuivre.`,
+      },
+      {
+        title: 'Comment préserver ta lactation',
+        content: `La production de lait fonctionne à la demande : moins tu stimules, moins tu produis.
+
+Pour limiter la baisse de lactation :
+• Remplace progressivement une tétée à la fois, pas toutes d'un coup
+• Privilégie de garder les tétées du matin et de la nuit (prolactine plus élevée à ces moments)
+• Tire ton lait au moment du biberon donné par quelqu'un d'autre, si tu veux maintenir ta production
+• Laisse 3-5 jours entre chaque suppression de tétée pour laisser ton corps s'adapter`,
+      },
+      {
+        title: 'Le choix du lait et du biberon',
+        content: `Avant 6 mois : lait infantile 1er âge en complément (le lait de vache n'est pas adapté avant 1 an).
+
+Pour limiter la confusion sein-tétine chez un bébé encore jeune : tétine à débit lent, biberon proposé par quelqu'un d'autre que toi si possible (bébé associe moins bien ton odeur au biberon).
+
+Pas de règle universelle sur les quantités — observe les signes de faim et de satiété de bébé plutôt qu'un tableau générique.`,
+      },
+    ],
+  },
+  {
+    id: 19,
+    category: 'Post-partum',
+    title: 'Charge mentale et épuisement parental : en parler',
+    duration: '7 min',
+    premium: false,
+    source: 'Association Française de Pédiatrie Ambulatoire, Santé Publique France',
+    intro: "Tu gères, tu anticipes, tu penses à tout — et tu es épuisée. La charge mentale et le burn-out parental sont réels, reconnus, et on peut agir dessus.",
+    sections: [
+      {
+        title: 'C\'est quoi la charge mentale ?',
+        content: `C'est le travail invisible de planification, d'anticipation et de gestion permanente (le prochain repas, le stock de couches, le rendez-vous vaccin, le linge propre) qui tourne en fond, même quand on ne "fait" rien physiquement.
+
+Elle repose encore très souvent, statistiquement, davantage sur les mères — ce qui explique une fatigue qui ne se voit pas toujours de l'extérieur.`,
+      },
+      {
+        title: 'Reconnaître le burn-out parental',
+        content: `Différent de la simple fatigue : épuisement émotionnel intense, distance affective avec ses enfants (culpabilisante mais réelle), sentiment de ne plus être un parent efficace, contraste avec le parent qu'on était avant.
+
+Ce n'est pas un manque d'amour. C'est un signal d'épuisement des ressources qui nécessite du répit, pas de la volonté supplémentaire.`,
+      },
+    ],
+  },
+  {
+    id: 20,
+    category: 'Nutrition',
+    title: 'Perturbateurs endocriniens : réduire l\'exposition simplement',
+    duration: '6 min',
+    premium: false,
+    source: 'ANSES, Santé Publique France',
+    intro: "Impossible d'éliminer tous les perturbateurs endocriniens du quotidien — mais quelques gestes simples réduisent vraiment l'exposition pendant la grossesse et l'allaitement.",
+    sections: [
+      {
+        title: 'Les gestes qui comptent le plus',
+        content: `• Aère ton logement 10 min par jour, même en hiver
+• Évite de faire chauffer les aliments dans du plastique (privilégie verre ou céramique)
+• Limite les emballages plastiques au contact direct des aliments chauds ou gras
+• Privilégie les cosmétiques avec peu d'ingrédients, évite les parfums synthétiques forts en début de grossesse
+• Aère et dépoussière régulièrement (la poussière concentre certains polluants domestiques)`,
+      },
+      {
+        title: 'Pas de panique, une hiérarchie existe',
+        content: `L'exposition ponctuelle n'a pas le même impact que l'exposition chronique répétée. Pas besoin de tout changer d'un coup ni de viser le zéro absolu.
+
+Priorise : ce qui touche directement les aliments et l'air respiré au quotidien (cuisine, chambre) plutôt que de te stresser sur chaque produit de la maison.`,
+      },
+    ],
+  },
+  {
+    id: 21,
+    category: 'Droits',
+    title: 'Reprendre le travail en allaitant : tes droits',
+    duration: '6 min',
+    premium: false,
+    source: 'Code du travail, La Leche League France',
+    intro: "Tirer son lait au bureau n'est pas un service que ton employeur te rend — c'est un droit encadré par la loi.",
+    sections: [
+      {
+        title: 'Ce que dit la loi en France',
+        content: `Pendant 1 an après la naissance, tu as droit à 1 heure par jour pour allaiter ou tirer ton lait, répartie en deux pauses de 30 minutes (matin et après-midi), sur ton temps de travail.
+
+Ce temps peut être non rémunéré sauf accord d'entreprise ou convention collective plus favorable — renseigne-toi sur celle de ton secteur.
+
+Dans les entreprises de plus de 100 salariés, un local dédié à l'allaitement doit théoriquement être mis à disposition.`,
+      },
+      {
+        title: 'Organiser concrètement le tire-lait au travail',
+        content: `• Prépare-toi en amont : tire-lait portable, glacière, sacs de conservation
+• Prévois un stock de lait constitué avant la reprise (le lait se congèle jusqu'à 6 mois)
+• Parle à ton employeur en amont pour organiser un espace privé et calme
+• Un rythme de tire toutes les 3h environ pendant les heures de travail maintient généralement bien la production`,
+      },
+      {
+        title: 'Et si ta production baisse un peu ?',
+        content: `C'est fréquent et normal au moment de la reprise (stress, changement de rythme). Les tétées du matin, du soir et de la nuit à la maison aident à compenser.
+
+Le corps s'adapte en 1 à 2 semaines généralement. Reste hydratée, et ne culpabilise pas si le rendement au tire-lait est moins bon qu'au sein — c'est normal, pas un signe de manque de lait.`,
+      },
+    ],
+  },
 ];
 
 export const categories = [
@@ -574,6 +834,7 @@ export const categories = [
   'Nutrition',
   'Bébé',
   'Éveil',
+  'Post-partum',
   'Tire-lait',
   'Sommeil',
   'Droits',
