@@ -22,13 +22,12 @@ export default function JournalScreen() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerEmoji}>🤍</Text>
           <Text style={[styles.title, { color: theme.primary }]}>Ta Safe Place</Text>
         </View>
 
         {/* Articles post-partum */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          📚 Articles post-partum
+          Articles post-partum
         </Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
           {postpartumArticles.map((article) => (
@@ -50,7 +49,7 @@ export default function JournalScreen() {
 
         {/* Médicaments compatibles allaitement */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          💊 Médicaments & allaitement
+          Médicaments & allaitement
         </Text>
         <View style={[styles.card, { backgroundColor: theme.card }]}>
           <Text style={[styles.donText, { color: theme.text }]}>
@@ -81,7 +80,7 @@ export default function JournalScreen() {
 
         {/* Lieux baby-friendly */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          📍 Lieux baby-friendly
+          Lieux baby-friendly
         </Text>
         <View style={[styles.card, { backgroundColor: theme.card }]}>
           {friendlyPlaces.map((place) => (
@@ -106,7 +105,7 @@ export default function JournalScreen() {
 
         {/* Prendre RDV */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          📅 Prendre rendez-vous
+          Prendre rendez-vous
         </Text>
         <View style={[styles.card, { backgroundColor: theme.card }]}>
           {appointmentLinks.map((link) => (
@@ -131,7 +130,7 @@ export default function JournalScreen() {
 
         {/* Ondes & mode avion */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          ✈️ Réduire les ondes autour de bébé
+          Réduire les ondes autour de bébé
         </Text>
         <View style={[styles.card, { backgroundColor: '#E3F2FD', shadowColor: '#90CAF9' }]}>
           <Text style={[styles.donText, { color: '#1E3A5F' }]}>
@@ -139,24 +138,24 @@ export default function JournalScreen() {
           </Text>
           <View style={{ gap: 10, marginBottom: 4 }}>
             {[
-              { emoji: '🛫', text: 'Mode avion activé → toutes les fonctionnalités core fonctionnent (tétées, sommeil, couches, vaccins, courbes, souvenirs…)' },
-              { emoji: '📵', text: 'Seuls les liens externes (partenaires, lactariums, RDV) nécessitent internet' },
-              { emoji: '💾', text: 'Toutes tes données sont stockées localement, rien ne transite par un serveur' },
-            ].map((item, i) => (
+              'Mode avion activé → toutes les fonctionnalités core fonctionnent (tétées, sommeil, couches, vaccins, courbes, souvenirs…)',
+              'Seuls les liens externes (partenaires, lactariums, RDV) nécessitent internet',
+              'Toutes tes données sont stockées localement, rien ne transite par un serveur',
+            ].map((text, i) => (
               <View key={i} style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
-                <Text style={{ fontSize: 16 }}>{item.emoji}</Text>
-                <Text style={[styles.donText, { color: '#1E3A5F', marginBottom: 0, flex: 1 }]}>{item.text}</Text>
+                <Text style={[styles.donText, { color: '#1E3A5F', marginBottom: 0 }]}>•</Text>
+                <Text style={[styles.donText, { color: '#1E3A5F', marginBottom: 0, flex: 1 }]}>{text}</Text>
               </View>
             ))}
           </View>
           <Text style={[styles.donText, { color: '#1565C0', fontWeight: '600', marginBottom: 0, marginTop: 8 }]}>
-            💡 Astuce : active le mode avion et utilise le WiFi seul (sans données mobiles) pour une exposition encore plus réduite.
+            Astuce : active le mode avion et utilise le WiFi seul (sans données mobiles) pour une exposition encore plus réduite.
           </Text>
         </View>
 
         {/* Don de lait maternel */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          🍼 Don de lait maternel
+          Don de lait maternel
         </Text>
         <View style={[styles.card, { backgroundColor: theme.card }]}>
           <Text style={[styles.donText, { color: theme.text }]}>
@@ -185,7 +184,7 @@ export default function JournalScreen() {
 
         {/* Espace partenaire */}
         <Text style={[styles.sectionTitle, { color: theme.primary }]}>
-          🤝 Espace partenaire
+          Espace partenaire
         </Text>
         <View style={[styles.card, { backgroundColor: theme.card }]}>
           <Text style={[styles.donText, { color: theme.text }]}>

@@ -360,11 +360,11 @@ export default function DashboardScreen() {
         {/* ========== MODE AVION ========== */}
         <View style={[styles.tipCard, { backgroundColor: '#E3F2FD', borderColor: '#90CAF9', borderWidth: 1 }]}>
           <View style={styles.tipHeader}>
-            <Text style={{ fontSize: 18 }}>✈️</Text>
-            <Text style={[styles.tipTitle, { color: '#1565C0' }]}>L'app fonctionne en mode avion</Text>
+            <Ionicons name="airplane" size={20} color="#1565C0" />
+            <Text style={[styles.tipTitle, { color: '#1565C0' }]}>Compatible mode avion</Text>
           </View>
           <Text style={[styles.tipText, { color: '#1E3A5F' }]}>
-            Toutes tes données sont stockées localement sur ton téléphone. Tu peux activer le mode avion pour réduire les ondes autour de bébé — tétées, sommeil, couches, vaccins… tout continue de fonctionner. 🛫
+            Tes données restent sur ton téléphone. Le mode avion n'empêche pas de suivre tétées, sommeil, couches et vaccins.
           </Text>
         </View>
 
