@@ -412,7 +412,7 @@ Il en existe en différentes tailles (S, M, L) — la taille compte beaucoup pou
 ✅ Bébé habitué au biberon qui a du mal à revenir au sein
 ✅ Sein trop engorgé et dur (bébé n'arrive pas à saisir)
 
-⚠️ Ce n'est pas une solution miracle — si bébé ne prend pas bien le sein, une consultante en lactation (IBCLC) doit être consultée en priorité.`,
+Ce n'est pas une solution miracle — si bébé ne prend pas bien le sein, une consultante en lactation (IBCLC) doit être consultée en priorité.`,
       },
       {
         title: 'Comment bien l\'utiliser',
@@ -426,7 +426,7 @@ Nettoie-la après chaque tétée à l'eau chaude savonneuse ou stérilise-la.`,
       },
       {
         title: 'Les points de vigilance',
-        content: `⚠️ La téterelle peut réduire la stimulation du sein et donc ta production si mal utilisée.
+        content: `La téterelle peut réduire la stimulation du sein et donc ta production si mal utilisée.
 
 Surveille ces signes que tout va bien :
 • Bébé prend du poids correctement
@@ -467,7 +467,7 @@ Beaucoup de mamans arrivent à s'en passer en quelques semaines. D'autres en ont
 • Protéger des mamelons douloureux du frottement du tissu
 • Aider les mamelons plats à ressortir (à porter quelques heures par jour)
 
-⚠️ Ne pas confondre avec les téterelles (portées PENDANT la tétée).`,
+Ne pas confondre avec les téterelles (portées PENDANT la tétée).`,
       },
       {
         title: 'Les coussinets d\'allaitement',
@@ -476,7 +476,7 @@ Beaucoup de mamans arrivent à s'en passer en quelques semaines. D'autres en ont
 Jetables : pratiques en voyage, à l'hôpital, les premières semaines.
 Lavables : économiques et écologiques sur le long terme.
 
-💡 Change-les souvent — un coussinet humide peut favoriser les mycoses.
+Change-les souvent — un coussinet humide peut favoriser les mycoses.
 
 Évite les coussinets avec couche plastique qui retiennent l'humidité contre la peau.`,
       },
@@ -493,7 +493,7 @@ Tu peux aussi les utiliser chauds pour favoriser l'écoulement du lait avant la 
       },
       {
         title: 'Nos conseils pour bien choisir',
-        content: `💡 Commence léger et ajoute au fur et à mesure selon tes besoins.
+        content: `Commence léger et ajoute au fur et à mesure selon tes besoins.
 
 • Soutien-gorge d'allaitement : 2-3 suffisent pour commencer, choisis sans armatures
 • Tire-lait : attends de voir si tu en as besoin avant d'investir dans un haut de gamme
@@ -519,7 +519,7 @@ L'allaitement c'est avant tout une relation entre toi et bébé — le matériel
 
 Bébé comprend bien plus de mots qu'il ne peut en prononcer — ses mains sont prêtes à communiquer avant sa bouche. Le signe vient combler cet écart.
 
-⚠️ Ça ne retarde PAS le langage oral. Les études (Acredolo & Goodwyn, université de Californie) montrent au contraire que les bébés qui signent parlent souvent plus tôt et ont un vocabulaire plus riche — signer, c'est déjà communiquer.`,
+Ça ne retarde PAS le langage oral. Les études (Acredolo & Goodwyn, université de Californie) montrent au contraire que les bébés qui signent parlent souvent plus tôt et ont un vocabulaire plus riche — signer, c'est déjà communiquer.`,
       },
       {
         title: 'À partir de quel âge ?',
@@ -559,7 +559,7 @@ Plus de complicité : tu comprends ce qu'il veut dire avant même qu'il sache le
 
 Une transition en douceur vers la parole : le signe n'est qu'une étape, il disparaît naturellement quand le mot parlé prend le relais, souvent vers 18-24 mois.
 
-💡 N'en fait pas un objectif de performance. Certains bébés adorent signer, d'autres préfèrent pointer du doigt ou babiller — chaque mode de communication est valable.`,
+N'en fait pas un objectif de performance. Certains bébés adorent signer, d'autres préfèrent pointer du doigt ou babiller — chaque mode de communication est valable.`,
       },
     ],
   },
@@ -632,7 +632,7 @@ Congé parental d'éducation : possible jusqu'aux 3 ans de l'enfant, non rémun�
         title: 'Une réforme en mouvement',
         content: `Un projet de "congé de naissance" plus court mais mieux rémunéré que l'actuel congé parental est en discussion/déploiement ces dernières années en France, avec l'objectif de le rendre plus attractif pour les deux parents et de réduire les écarts de recours entre mères et pères.
 
-⚠️ Les montants, durées et conditions évoluent régulièrement selon les décrets d'application. Vérifie toujours l'information à jour sur service-public.fr ou directement auprès de ta CAF avant de prendre une décision.`,
+Les montants, durées et conditions évoluent régulièrement selon les décrets d'application. Vérifie toujours l'information à jour sur service-public.fr ou directement auprès de ta CAF avant de prendre une décision.`,
       },
       {
         title: 'Nos conseils pratiques',
@@ -698,7 +698,7 @@ Pour les moments où tu as besoin de souffler (douche, appel important) : un jou
 • Cheveux longs attachés, pas de bijoux
 • Jamais si bébé est né prématuré ou avec un petit poids de naissance
 
-⚠️ En cas de doute, le lit cododo accolé au lit parental (sans partage du même matelas) est l'option la plus sûre.`,
+En cas de doute, le lit cododo accolé au lit parental (sans partage du même matelas) est l'option la plus sûre.`,
       },
       {
         title: 'Pourquoi ces précautions existent',
