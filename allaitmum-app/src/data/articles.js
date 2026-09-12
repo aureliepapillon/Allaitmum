@@ -823,6 +823,357 @@ Le corps s'adapte en 1 à 2 semaines généralement. Reste hydratée, et ne culp
       },
     ],
   },
+  {
+    id: 22,
+    category: 'Débuter',
+    title: 'Les 100 premiers jours : à quoi s\'attendre',
+    duration: '7 min',
+    premium: false,
+    source: 'La Leche League France',
+    intro: "Personne ne te prévient vraiment. Voici à quoi ressemble le quatrième trimestre, sans filtre et sans dramatiser.",
+    sections: [
+      {
+        title: 'Le "quatrième trimestre"',
+        content: `Les 3 premiers mois de bébé sont parfois décrits comme un prolongement de la grossesse hors du ventre : bébé a besoin de contact permanent, de succion, de bruit blanc, de mouvement — comme avant la naissance.
+
+Comprendre ça aide à relativiser : ce n'est pas "un problème à résoudre", c'est une étape de développement normale.`,
+      },
+      {
+        title: 'Ce qui est normal (même si personne n\'en parle)',
+        content: `• Ne pas se reconnaître dans le miroir les premières semaines
+• Pleurer sans raison précise (voir l'article sur le baby blues)
+• Douter en permanence de tes choix
+• Trouver le temps long ET court à la fois
+• Ne pas ressentir "l'amour instantané" — il vient souvent avec le temps, pas au premier regard`,
+      },
+      {
+        title: 'S\'organiser sans se mettre la pression',
+        content: `Le seul objectif réaliste des 100 premiers jours : nourrir bébé, dormir un peu, et tenir.
+
+Accepte l'aide qu'on te propose (repas, ménage, garde d'un aîné). Dis oui aux visites courtes plutôt qu'aux visites qui s'éternisent. Le rangement et les tâches ménagères peuvent attendre.`,
+      },
+    ],
+  },
+  {
+    id: 23,
+    category: 'Débuter',
+    title: 'La liste de naissance : l\'essentiel, pas le superflu',
+    duration: '6 min',
+    premium: false,
+    source: 'Retours de mamans et professionnels de la petite enfance',
+    intro: "Pas besoin de la moitié de ce qu'on te vend. Voici ce qui sert vraiment les premiers mois.",
+    sections: [
+      {
+        title: 'Ce qui sert vraiment',
+        content: `• Bodies et pyjamas en plusieurs tailles (bébé grandit vite les 3 premiers mois)
+• Un moyen de portage (écharpe ou porte-bébé physiologique)
+• Un lit conforme aux normes de sécurité (matelas ferme, pas de tour de lit ni coussin)
+• Couches et produits de toilette basiques
+• Un thermomètre et une solution physiologique pour le nez`,
+      },
+      {
+        title: 'Ce qu\'on peut attendre de voir venir',
+        content: `Chauffe-biberon, stérilisateur électrique, transat multifonction, chaussures avant la marche : tout ça peut souvent attendre — ou ne jamais servir selon les besoins réels de ton bébé.
+
+Le tire-lait haut de gamme : attends de voir si tu en as vraiment besoin avant d'investir (voir l'article dédié tire-lait).`,
+      },
+      {
+        title: 'Privilégier l\'occasion',
+        content: `Vêtements, transats, jouets d'éveil : le marché de l'occasion est immense pour la puériculture (bébé n'use presque rien).
+
+Seule exception à toujours acheter neuf : le siège auto (l'historique de choc n'est jamais garanti sur un modèle d'occasion).`,
+      },
+    ],
+  },
+  {
+    id: 24,
+    category: 'SOS',
+    title: 'Maman épuisée : les vrais réflexes qui aident',
+    duration: '6 min',
+    premium: false,
+    source: 'Santé Publique France',
+    intro: "Avant de craquer, quelques réflexes concrets pour souffler — sans culpabiliser de les utiliser.",
+    sections: [
+      {
+        title: 'Reconnaître le seuil critique',
+        content: `Si tu ressens l'envie de poser bébé quelque part en sécurité et de sortir de la pièce pour respirer : fais-le. Pose bébé dans son lit, ferme la porte, respire 2 minutes. Ce n'est pas abandonner, c'est se protéger pour mieux revenir.
+
+Un bébé qui pleure quelques minutes de plus pendant que tu te régules ne subit aucun dommage. Toi qui craques, si.`,
+      },
+      {
+        title: 'Les relais à activer sans culpabiliser',
+        content: `• Demande à ton entourage un vrai relais de quelques heures, pas juste "dis-moi si tu as besoin"
+• PMI et sages-femmes libérales peuvent orienter vers des solutions locales (TISF, aide à domicile)
+• Le congé paternité/co-parent existe justement pour ça — encourage à le prendre en entier`,
+      },
+      {
+        title: 'Quand ça dépasse la simple fatigue',
+        content: `Si l'épuisement s'accompagne de pensées noires ou d'un sentiment de ne plus pouvoir fonctionner du tout, ce n'est plus "juste être fatiguée" — regarde l'article sur la dépression post-partum et les numéros à contacter.`,
+      },
+    ],
+  },
+  {
+    id: 25,
+    category: 'SOS',
+    title: 'Reflux et coliques : faire la différence',
+    duration: '6 min',
+    premium: false,
+    source: 'Association Française de Pédiatrie Ambulatoire',
+    intro: "Bébé pleure après les repas ou en soirée ? Voici comment distinguer les deux causes les plus fréquentes.",
+    sections: [
+      {
+        title: 'Le reflux : régurgitations et inconfort',
+        content: `Signes : régurgitations fréquentes, bébé qui se cambre ou pleure pendant/juste après les repas, hoquets fréquents.
+
+À essayer : portage vertical 20-30 min après les repas, buste légèrement surélevé pendant le sommeil (jamais avec un coussin, mais en inclinant le matelas), fractionner les repas si besoin.
+
+Si les régurgitations s'accompagnent d'une mauvaise prise de poids ou de pleurs constants : consulte, un reflux plus marqué peut nécessiter un traitement.`,
+      },
+      {
+        title: 'Les coliques : pleurs de fin de journée',
+        content: `Signes : pleurs intenses, souvent entre 17h et 22h, bébé qui recroqueville les jambes, ventre parfois dur. Pic vers 6 semaines, s'améliore généralement vers 3-4 mois.
+
+Ce n'est pas lié à ton lait ni à ta façon de nourrir bébé. Les causes exactes restent mal comprises (immaturité digestive probable).`,
+      },
+      {
+        title: 'Ce qui aide dans les deux cas',
+        content: `Peau à peau, portage, bruit blanc, mouvement rythmé (balancement, voiture), position "tiger in the tree" (bébé à plat ventre sur ton avant-bras).
+
+Dans le doute, ou si les pleurs sont associés à de la fièvre, des vomissements en jet, ou une altération de l'état général : consulte sans attendre.`,
+      },
+    ],
+  },
+  {
+    id: 26,
+    category: 'Médicaments',
+    title: 'Vaccins de bébé et allaitement : compatible à 100%',
+    duration: '5 min',
+    premium: false,
+    source: 'Haute Autorité de Santé, CRAT',
+    intro: "Aucun vaccin du calendrier français n'impose d'arrêter ou de suspendre l'allaitement — ni pour bébé, ni pour toi.",
+    sections: [
+      {
+        title: 'Vacciner bébé pendant qu\'il est allaité',
+        content: `Tous les vaccins du calendrier vaccinal français sont compatibles avec l'allaitement. Certains sont même mieux tolérés grâce à l'effet apaisant de la tétée pendant ou juste après l'injection.
+
+L'allaitement au moment du vaccin peut réduire la douleur ressentie par bébé — n'hésite pas à le proposer pendant l'injection si le professionnel de santé l'accepte.`,
+      },
+      {
+        title: 'Se faire vacciner soi-même en allaitant',
+        content: `Grippe, COVID, coqueluche (rappel), tétanos : tous compatibles avec l'allaitement selon le CRAT.
+
+Les anticorps que tu développes après ta vaccination passent même en partie dans ton lait et peuvent apporter une protection supplémentaire à bébé les premiers mois.`,
+      },
+      {
+        title: 'En cas de doute sur un vaccin spécifique',
+        content: `Vérifie toujours sur lecrat.fr (Centre de Référence sur les Agents Tératogènes) ou demande confirmation à ta sage-femme ou ton médecin — le réflexe "par précaution, on arrête d'allaiter" est presque toujours injustifié pour les vaccins.`,
+      },
+    ],
+  },
+  {
+    id: 27,
+    category: 'Médicaments',
+    title: 'Fièvre, douleur, rhume : que prendre en allaitant',
+    duration: '5 min',
+    premium: false,
+    source: 'CRAT (lecrat.fr), e-lactancia.org',
+    intro: "Les traitements du quotidien contre la douleur et les petits maux d'hiver sont, pour la grande majorité, parfaitement compatibles avec l'allaitement.",
+    sections: [
+      {
+        title: 'Douleur et fièvre',
+        content: `Paracétamol : compatible sans restriction, en première intention.
+Ibuprofène : compatible également, utile en cas d'engorgement ou de douleurs inflammatoires.
+
+Évite l'aspirine à dose antalgique répétée (utilisable ponctuellement à faible dose sur avis médical uniquement).`,
+      },
+      {
+        title: 'Rhume, toux, mal de gorge',
+        content: `Sprays de lavage nasal, pastilles pour la gorge, solutions salines : compatibles sans restriction.
+
+Pour les sirops contre la toux et décongestionnants : vérifie systématiquement sur e-lactancia ou le CRAT, certaines molécules (notamment la pseudoéphédrine) peuvent réduire la production de lait.`,
+      },
+      {
+        title: 'Le réflexe à avoir',
+        content: `Avant tout traitement, même en vente libre : vérifie sur lecrat.fr ou e-lactancia.org plutôt que de te fier uniquement à la notice, qui recommande souvent l'arrêt de l'allaitement "par précaution" sans que ce soit justifié scientifiquement.`,
+      },
+    ],
+  },
+  {
+    id: 28,
+    category: 'Tire-lait',
+    title: 'Bien choisir son tire-lait',
+    duration: '6 min',
+    premium: false,
+    source: 'La Leche League France',
+    intro: "Manuel, électrique simple ou double pompe : le bon choix dépend de ton usage réel, pas du modèle le plus cher.",
+    sections: [
+      {
+        title: 'Tire-lait manuel',
+        content: `Idéal pour : un usage occasionnel (soulager un engorgement, tirer quelques ml de temps en temps).
+
+Avantages : léger, silencieux, pas cher, pas besoin de prise électrique.
+Limite : fatigant pour tirer de grandes quantités régulièrement.`,
+      },
+      {
+        title: 'Tire-lait électrique simple',
+        content: `Idéal pour : un usage régulier mais pas quotidien intensif (quelques fois par semaine).
+
+Bon compromis entre confort, prix et discrétion. Certains modèles se portent directement dans le soutien-gorge (tire-lait "mains libres").`,
+      },
+      {
+        title: 'Tire-lait électrique double pompe',
+        content: `Idéal pour : reprise du travail avec tire quotidien, constitution d'un stock, allaitement exclusif au tire-lait, prématurité.
+
+Tire les deux seins simultanément : gain de temps réel et stimulation hormonale plus efficace pour maintenir la production sur le long terme.
+
+Souvent le mieux remboursé/loué en pharmacie sur prescription — demande à ta sage-femme.`,
+      },
+    ],
+  },
+  {
+    id: 29,
+    category: 'Tire-lait',
+    title: 'Conservation du lait tiré : les règles à connaître',
+    duration: '5 min',
+    premium: false,
+    source: 'La Leche League France, ANSES',
+    intro: "Les durées de conservation exactes selon la température, pour ne rien gâcher et rester en sécurité.",
+    sections: [
+      {
+        title: 'Les durées de conservation',
+        content: `À température ambiante (moins de 19-22°C) : 4 heures.
+Au réfrigérateur (4°C ou moins) : 4 jours.
+Au congélateur (compartiment du réfrigérateur) : 2 semaines.
+Au congélateur séparé (-18°C) : 6 mois, jusqu'à 12 mois en conditions optimales.
+
+Une fois décongelé : à utiliser dans les 24h, jamais recongelé.`,
+      },
+      {
+        title: 'Bonnes pratiques de stockage',
+        content: `• Étiquette chaque contenant avec la date et l'heure du tirage
+• Utilise le lait le plus ancien en premier (méthode FIFO)
+• Ne remplis pas les contenants à ras bord (le lait se dilate en congelant)
+• Décongèle au réfrigérateur ou sous l'eau tiède, jamais au micro-ondes (détruit des anticorps et crée des zones de surchauffe dangereuses)`,
+      },
+      {
+        title: 'Un dépôt qui se sépare, c\'est normal',
+        content: `Le lait maternel se sépare naturellement en couches (crème au-dessus) au repos — un simple mélange doux avant utilisation suffit à l'homogénéiser. Ce n'est pas un signe que le lait est périmé.`,
+      },
+    ],
+  },
+  {
+    id: 30,
+    category: 'Sevrage',
+    title: 'Sevrage nocturne : arrêter les tétées de nuit en douceur',
+    duration: '6 min',
+    premium: false,
+    source: 'La Leche League France',
+    intro: "Envie de récupérer tes nuits sans tout arrêter d'un coup ? Voici une méthode progressive et respectueuse.",
+    sections: [
+      {
+        title: 'Pourquoi y aller progressivement',
+        content: `Arrêter brutalement les tétées de nuit peut entraîner engorgement, baisse rapide de production en journée, et beaucoup de frustration pour bébé.
+
+Une approche progressive protège ta lactation et laisse à bébé le temps de s'adapter émotionnellement.`,
+      },
+      {
+        title: 'La méthode par paliers',
+        content: `1. Espace progressivement les tétées de nuit de 15-20 minutes supplémentaires chaque nuit
+2. Raccourcis la durée de chaque tétée nocturne avant de la supprimer
+3. Propose d'autres formes de réconfort la nuit (portage, bercement, présence) avant de proposer le sein systématiquement
+4. Le co-parent peut prendre le relais pour certains réveils — bébé associe moins la tétée à ce moment-là`,
+      },
+      {
+        title: 'Et si bébé résiste beaucoup',
+        content: `C'est normal, la tétée de nuit est aussi un moment de réconfort, pas seulement alimentaire. Ralentis le rythme si besoin — il n'y a pas d'urgence, chaque famille avance à son tempo.`,
+      },
+    ],
+  },
+  {
+    id: 31,
+    category: 'Sevrage',
+    title: 'Éviter l\'engorgement pendant le sevrage',
+    duration: '5 min',
+    premium: false,
+    source: 'La Leche League France',
+    intro: "Réduire les tétées trop vite peut faire mal. Voici comment sevrer sans finir avec des seins douloureux.",
+    sections: [
+      {
+        title: 'La règle d\'or : une tétée à la fois',
+        content: `Supprime une seule tétée tous les 3 à 5 jours minimum, en laissant le temps à ta production de s'ajuster progressivement à la baisse.
+
+Commence par la tétée à laquelle bébé semble le moins attaché (souvent celle de milieu de journée), garde les tétées du matin et du coucher pour la fin.`,
+      },
+      {
+        title: 'Si les seins deviennent tendus malgré tout',
+        content: `Exprime juste assez de lait à la main ou au tire-lait pour te soulager (sans vider complètement le sein, ce qui relancerait la production).
+
+Applique du froid entre les tétées, des feuilles de chou vert, et espace un peu plus la prochaine étape du sevrage si besoin.`,
+      },
+      {
+        title: 'Signes qui doivent alerter',
+        content: `Zone rouge, chaude, douloureuse accompagnée de fièvre : possible mastite, consulte rapidement (voir l'article dédié). Continuer à drainer le sein concerné, même en cours de sevrage, fait partie du traitement.`,
+      },
+    ],
+  },
+  {
+    id: 32,
+    category: 'Éveil',
+    title: 'Motricité libre : laisser bébé bouger à son rythme',
+    duration: '6 min',
+    premium: false,
+    source: 'Approche Emmi Pikler',
+    intro: "Pas besoin de lui apprendre à s'asseoir ou à marcher. Bébé sait faire — à condition qu'on lui laisse l'espace et le temps.",
+    sections: [
+      {
+        title: 'Le principe',
+        content: `La motricité libre part du constat que bébé développe ses mouvements dans un ordre naturel et à son propre rythme, sans qu'on ait besoin de le "mettre" dans des positions qu'il n'a pas encore acquises seul (assis, debout).
+
+Développée par la pédiatre Emmi Pikler, cette approche a largement influencé la puériculture actuelle.`,
+      },
+      {
+        title: 'Concrètement, au quotidien',
+        content: `• Pose toujours bébé sur le dos au sol (jamais assis avant qu'il s'assoie seul)
+• Un espace de jeu au sol sécurisé, largement dégagé, plutôt que multipliés les transats et cocons
+• Des vêtements souples qui ne contraignent pas les mouvements
+• Le laisser essayer, se tromper, recommencer sans intervenir trop vite`,
+      },
+      {
+        title: 'Pourquoi ne pas "l\'aider" à s\'asseoir ou marcher',
+        content: `Forcer une position que bébé n'a pas encore les muscles/l'équilibre pour tenir seul peut créer un faux sentiment de sécurité et parfois freiner l'acquisition naturelle du mouvement suivant.
+
+Chaque étape franchie seul renforce la confiance de bébé en ses propres capacités.`,
+      },
+    ],
+  },
+  {
+    id: 33,
+    category: 'Éveil',
+    title: 'Lire à bébé dès la naissance : jamais trop tôt',
+    duration: '5 min',
+    premium: false,
+    source: 'Santé Publique France (programme "Premières Pages")',
+    intro: "Bébé ne comprend pas encore les mots, mais la lecture partagée construit déjà énormément — bien avant qu'il ne parle.",
+    sections: [
+      {
+        title: 'Pourquoi si tôt',
+        content: `Dès les premières semaines, bébé est sensible à ta voix, ses intonations et le rythme des phrases. La lecture partagée stimule le développement du langage bien avant que bébé ne comprenne le sens des mots.
+
+Ce n'est pas une question de "faire un lecteur précoce" — c'est un moment de lien et de calme partagé.`,
+      },
+      {
+        title: 'Comment faire concrètement',
+        content: `• Livres cartonnés, résistants, avec de gros contrastes (noir/blanc/rouge) les premiers mois — la vue de bébé est encore floue
+• Pas besoin de suivre le texte mot à mot : commente les images, invente, chante
+• Quelques minutes suffisent, pas besoin d'un "vrai" moment lecture structuré au début
+• Les livres tissus ou en bain sont parfaits pour la découverte sensorielle dès quelques mois`,
+      },
+      {
+        title: 'Un rituel qui grandit avec bébé',
+        content: `Vers 6-9 mois, bébé commence à tourner les pages lui-même et à pointer des images. Vers 12-18 mois, il réclame souvent les mêmes histoires en boucle — c'est excellent pour la mémorisation du langage, même si ça peut sembler répétitif pour toi !`,
+      },
+    ],
+  },
 ];
 
 export const categories = [
