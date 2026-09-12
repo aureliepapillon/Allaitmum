@@ -32,6 +32,7 @@ const PREMIERES_FOIS = [
   'Premiers pas',
   'Premier "maman"',
   'Premier "papa"',
+  'Premier signe',
   'Première nuit complète',
   'Premier repas solide',
   'Premier bain (aimé)',

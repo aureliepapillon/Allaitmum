@@ -504,6 +504,65 @@ L'allaitement c'est avant tout une relation entre toi et bébé — le matériel
       },
     ],
   },
+  {
+    id: 13,
+    category: 'Éveil',
+    title: 'Le langage des signes avec bébé',
+    duration: '7 min',
+    premium: false,
+    source: 'Monica Companys (Signe avec Bébé), Dr Linda Acredolo & Susan Goodwyn (UC Davis)',
+    intro: "Communiquer avec bébé avant qu'il ne parle : moins de frustration, plus de complicité. Le guide pour démarrer sans pression.",
+    sections: [
+      {
+        title: "C'est quoi, le signe avec bébé ?",
+        content: `Il s'agit d'apprendre à bébé quelques gestes simples (inspirés de la langue des signes) pour qu'il puisse exprimer ses besoins avant de savoir parler.
+
+Bébé comprend bien plus de mots qu'il ne peut en prononcer — ses mains sont prêtes à communiquer avant sa bouche. Le signe vient combler cet écart.
+
+⚠️ Ça ne retarde PAS le langage oral. Les études (Acredolo & Goodwyn, université de Californie) montrent au contraire que les bébés qui signent parlent souvent plus tôt et ont un vocabulaire plus riche — signer, c'est déjà communiquer.`,
+      },
+      {
+        title: 'À partir de quel âge ?',
+        content: `Tu peux commencer dès 6-8 mois, quand bébé a un bon contrôle de ses mains et te regarde attentivement.
+
+Les premiers signes apparaîtront en retour généralement entre 8 et 12 mois — chaque bébé a son rythme, certains signent tôt, d'autres beaucoup plus tard (ou pas du tout, et c'est OK aussi !).
+
+Pas besoin d'attendre un "bon moment" particulier : plus tôt tu commences à signer devant lui, plus vite il aura l'occasion de s'imprégner du geste.`,
+      },
+      {
+        title: 'Comment démarrer sans se prendre la tête',
+        content: `1. Choisis 2-3 signes maximum au début, liés à son quotidien (ex : "manger", "encore", "dodo")
+2. Fais le signe EN MÊME TEMPS que tu dis le mot à voix haute — toujours associer les deux
+3. Répète dans le contexte réel, au bon moment (signe "manger" juste avant/pendant le repas)
+4. Sois patiente : il peut se passer plusieurs semaines avant le premier signe en retour
+5. Célèbre chaque tentative, même approximative — un geste vague qui ressemble au signe compte déjà !
+
+Pas besoin de suivre un programme strict. La régularité compte plus que la quantité de signes.`,
+      },
+      {
+        title: 'Les signes de base pour commencer',
+        content: `🍼 Manger / lait : porter le poing fermé à la bouche, comme si on tétait
+🔁 Encore : rassembler le bout des doigts des deux mains et les toucher plusieurs fois
+😴 Dodo : poser sa joue sur ses mains jointes, comme un oreiller
+✅ Fini / terminé : secouer les deux mains ouvertes de chaque côté
+🧸 Doudou : caresser son propre bras ou son épaule
+🤲 Aide / s'il te plaît : frotter le plat de la main en cercle sur la poitrine
+👋 Encore un classique : le signe "au revoir" avec la main, souvent le tout premier maîtrisé
+
+Ces signes sont inspirés de la méthode "Signe avec Bébé" de Monica Companys, adaptée en France à partir de la Langue des Signes Française.`,
+      },
+      {
+        title: 'Ce que ça change au quotidien',
+        content: `Moins de pleurs de frustration : bébé peut dire "encore faim" ou "j'en ai marre" sans crier.
+
+Plus de complicité : tu comprends ce qu'il veut dire avant même qu'il sache le prononcer — un vrai moment de connexion.
+
+Une transition en douceur vers la parole : le signe n'est qu'une étape, il disparaît naturellement quand le mot parlé prend le relais, souvent vers 18-24 mois.
+
+💡 N'en fait pas un objectif de performance. Certains bébés adorent signer, d'autres préfèrent pointer du doigt ou babiller — chaque mode de communication est valable.`,
+      },
+    ],
+  },
 ];
 
 export const categories = [
@@ -514,6 +573,7 @@ export const categories = [
   'Médicaments',
   'Nutrition',
   'Bébé',
+  'Éveil',
   'Tire-lait',
   'Sommeil',
   'Droits',
