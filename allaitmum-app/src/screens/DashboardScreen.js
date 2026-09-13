@@ -23,6 +23,7 @@ import SouvenirsScreen from './SouvenirsScreen';
 import TeethScreen from './TeethScreen';
 import MedicamentsScreen from './MedicamentsScreen';
 import CroissanceScreen from './CroissanceScreen';
+import SigneAstralScreen from './SigneAstralScreen';
 import EtapesMotricesScreen from './EtapesMotricesScreen';
 import PortageScreen from './PortageScreen';
 import BabyProfileScreen from './BabyProfileScreen';
@@ -507,6 +508,12 @@ export default function DashboardScreen() {
                 <Text style={[styles.menuItemText, { color: theme.textDark }]}>Croissance</Text>
                 {!isPremium && <Ionicons name="star" size={14} color="#FFB300" />}
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuItem}
+                onPress={() => openScreen('signeastral')}
+              >
+                <Text style={[styles.menuItemText, { color: theme.textDark }]}>Signe astral</Text>
+              </TouchableOpacity>
             </View>
 
             {/* Santé section */}
@@ -620,6 +627,10 @@ export default function DashboardScreen() {
 
       <Modal visible={activeScreen === 'growth'} animationType="slide">
         <CroissanceScreen onClose={() => setActiveScreen(null)} />
+      </Modal>
+
+      <Modal visible={activeScreen === 'signeastral'} animationType="slide">
+        <SigneAstralScreen onClose={() => setActiveScreen(null)} />
       </Modal>
 
       <Modal visible={activeScreen === 'medications'} animationType="slide">
