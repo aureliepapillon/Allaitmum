@@ -15,7 +15,7 @@ const CARRIER_TYPES = [
   {
     id: 'echarpe',
     name: 'Écharpe de portage',
-    emoji: '🧣',
+    icon: 'infinite-outline',
     description: 'Tissu long et souple à nouer',
     pros: ['Très polyvalent', 'Positions variées', 'Ajustable à la taille', 'Économique'],
     cons: ['Apprentissage nécessaire', 'Peut être long à installer'],
@@ -24,7 +24,7 @@ const CARRIER_TYPES = [
   {
     id: 'sling',
     name: 'Ring Sling',
-    emoji: '⭕',
+    icon: 'ellipse-outline',
     description: 'Écharpe avec anneaux pour ajustement rapide',
     pros: ['Installation rapide', 'Compact', 'Idéal pour allaiter', 'Portage côté'],
     cons: ['Un seul côté', 'Moins de maintien pour bébé lourd'],
@@ -33,7 +33,7 @@ const CARRIER_TYPES = [
   {
     id: 'mei-tai',
     name: 'Mei-Tai',
-    emoji: '🎀',
+    icon: 'square-outline',
     description: 'Porte-bébé asiatique traditionnel avec pans à nouer',
     pros: ['Plus simple que l\'écharpe', 'Dos et ventre', 'Bonne répartition du poids'],
     cons: ['Moins ajustable qu\'une écharpe', 'Peut être chaud'],
@@ -42,7 +42,7 @@ const CARRIER_TYPES = [
   {
     id: 'preclip',
     name: 'Porte-bébé préformé',
-    emoji: '🎒',
+    icon: 'bag-handle-outline',
     description: 'Porte-bébé avec clips et sangles',
     pros: ['Très facile d\'utilisation', 'Installation rapide', 'Confortable pour longs portages'],
     cons: ['Plus encombrant', 'Prix plus élevé', 'Moins de positions'],
@@ -51,7 +51,7 @@ const CARRIER_TYPES = [
   {
     id: 'peau-a-peau',
     name: 'Peau à peau',
-    emoji: '💗',
+    icon: 'heart-outline',
     description: 'Contact direct peau contre peau',
     pros: ['Régule la température', 'Favorise l\'allaitement', 'Crée du lien', 'Apaise bébé'],
     cons: ['Difficile en déplacement', 'Nécessite d\'être déshabillé'],
@@ -107,12 +107,12 @@ const TIPS_BY_AGE = [
 ];
 
 const SAFETY_RULES = [
-  { icon: '👀', rule: 'Voies respiratoires toujours visibles' },
-  { icon: '💋', rule: 'Assez près pour l\'embrasser' },
-  { icon: '🦵', rule: 'Position grenouille (genoux > fesses)' },
-  { icon: '📏', rule: 'Dos arrondi naturellement' },
-  { icon: '🔒', rule: 'Bien serré, sans jeu' },
-  { icon: '❄️', rule: 'Éviter de surchauffer bébé' },
+  'Voies respiratoires toujours visibles',
+  'Assez près pour l\'embrasser',
+  'Position grenouille (genoux > fesses)',
+  'Dos arrondi naturellement',
+  'Bien serré, sans jeu',
+  'Éviter de surchauffer bébé',
 ];
 
 export default function PortageScreen({ onClose }) {
@@ -152,7 +152,7 @@ export default function PortageScreen({ onClose }) {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Intro */}
         <View style={[styles.introCard, { backgroundColor: theme.primary + '15' }]}>
-          <Text style={{ fontSize: 40, marginBottom: 10 }}>🧣</Text>
+          <Ionicons name="infinite-outline" size={40} color={theme.primary} style={{ marginBottom: 10 }} />
           <Text style={[styles.introTitle, { color: theme.primary }]}>
             Le portage physiologique
           </Text>
@@ -168,10 +168,10 @@ export default function PortageScreen({ onClose }) {
             Règles de sécurité
           </Text>
           <View style={[styles.safetyCard, { backgroundColor: theme.card }]}>
-            {SAFETY_RULES.map((item, index) => (
+            {SAFETY_RULES.map((rule, index) => (
               <View key={index} style={styles.safetyItem}>
-                <Text style={styles.safetyIcon}>{item.icon}</Text>
-                <Text style={[styles.safetyText, { color: theme.textDark }]}>{item.rule}</Text>
+                <Ionicons name="checkmark-circle" size={18} color={theme.primary} />
+                <Text style={[styles.safetyText, { color: theme.textDark }]}>{rule}</Text>
               </View>
             ))}
           </View>
@@ -204,7 +204,7 @@ export default function PortageScreen({ onClose }) {
               onPress={() => setSelectedCarrier(selectedCarrier === carrier.id ? null : carrier.id)}
             >
               <View style={styles.carrierHeader}>
-                <Text style={styles.carrierEmoji}>{carrier.emoji}</Text>
+                <Ionicons name={carrier.icon} size={32} color={theme.primary} style={styles.carrierEmoji} />
                 <View style={styles.carrierInfo}>
                   <Text style={[styles.carrierName, { color: theme.textDark }]}>{carrier.name}</Text>
                   <Text style={[styles.carrierDesc, { color: theme.textLight }]}>{carrier.description}</Text>

@@ -361,7 +361,11 @@ export default function DiversificationScreen({ onClose }) {
       {/* Header */}
       {onClose && (
         <View style={[styles.header, { backgroundColor: theme.card }]}>
-          <TouchableOpacity onPress={onClose} style={styles.backBtn}>
+          <TouchableOpacity
+            onPress={onClose}
+            style={styles.backBtn}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          >
             <Ionicons name="arrow-back" size={24} color={theme.primary} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.primary }]}>Diversification</Text>
@@ -411,10 +415,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 15,
+    paddingTop: 22,
+    paddingBottom: 15,
     paddingHorizontal: 16,
   },
-  backBtn: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
+  backBtn: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center' },
   headerTitle: { fontSize: 20, fontWeight: '700' },
 
   // Tabs
