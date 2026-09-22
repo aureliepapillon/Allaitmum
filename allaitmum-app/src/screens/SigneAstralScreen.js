@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
@@ -12,18 +13,18 @@ import { useApp } from '../utils/AppContext';
 import { parseBirthDate } from '../utils/helpers';
 
 const ZODIAC_SIGNS = [
-  { name: 'Capricorne', symbol: '♑', start: [12, 22], end: [1, 19], element: 'Terre', trait: 'Déterminé et patient dès le berceau — un tempérament de bâtisseur qui prend son temps pour tout comprendre.' },
-  { name: 'Verseau', symbol: '♒', start: [1, 20], end: [2, 18], element: 'Air', trait: 'Curieux et indépendant, souvent captivé par ce qui sort de l\'ordinaire dès les premiers mois.' },
-  { name: 'Poissons', symbol: '♓', start: [2, 19], end: [3, 20], element: 'Eau', trait: 'Sensible et intuitif, un bébé qui capte vite les émotions de son entourage.' },
-  { name: 'Bélier', symbol: '♈', start: [3, 21], end: [4, 19], element: 'Feu', trait: 'Énergique et impatient, veut tout découvrir tout de suite — pas du genre à attendre son tour.' },
-  { name: 'Taureau', symbol: '♉', start: [4, 20], end: [5, 20], element: 'Terre', trait: 'Calme et sensoriel, adore les câlins, les textures douces et une routine bien installée.' },
-  { name: 'Gémeaux', symbol: '♊', start: [5, 21], end: [6, 20], element: 'Air', trait: 'Éveillé et bavard très tôt, change d\'humeur vite, adore observer tout ce qui bouge autour de lui.' },
-  { name: 'Cancer', symbol: '♋', start: [6, 21], end: [7, 22], element: 'Eau', trait: 'Attaché et câlin, a besoin de repères stables et du contact rassurant de ses parents.' },
-  { name: 'Lion', symbol: '♌', start: [7, 23], end: [8, 22], element: 'Feu', trait: 'Sourire facile et présence qui se fait remarquer — un tempérament qui aime être au centre de l\'attention.' },
-  { name: 'Vierge', symbol: '♍', start: [8, 23], end: [9, 22], element: 'Terre', trait: 'Observateur et minutieux, souvent sensible aux changements dans son environnement.' },
-  { name: 'Balance', symbol: '♎', start: [9, 23], end: [10, 22], element: 'Air', trait: 'Sociable et sensible à l\'ambiance autour de lui, apprécie la douceur et l\'harmonie.' },
-  { name: 'Scorpion', symbol: '♏', start: [10, 23], end: [11, 21], element: 'Eau', trait: 'Intense et déterminé, un petit caractère bien affirmé dès les premières semaines.' },
-  { name: 'Sagittaire', symbol: '♐', start: [11, 22], end: [12, 21], element: 'Feu', trait: 'Curieux et joueur, toujours partant pour explorer un nouvel espace ou un nouveau jouet.' },
+  { name: 'Capricorne', image: require('../../assets/zodiac/capricorne.png'), start: [12, 22], end: [1, 19], element: 'Terre', trait: 'Déterminé et patient dès le berceau — un tempérament de bâtisseur qui prend son temps pour tout comprendre.' },
+  { name: 'Verseau', image: require('../../assets/zodiac/verseau.png'), start: [1, 20], end: [2, 18], element: 'Air', trait: 'Curieux et indépendant, souvent captivé par ce qui sort de l\'ordinaire dès les premiers mois.' },
+  { name: 'Poissons', image: require('../../assets/zodiac/poissons.png'), start: [2, 19], end: [3, 20], element: 'Eau', trait: 'Sensible et intuitif, un bébé qui capte vite les émotions de son entourage.' },
+  { name: 'Bélier', image: require('../../assets/zodiac/belier.png'), start: [3, 21], end: [4, 19], element: 'Feu', trait: 'Énergique et impatient, veut tout découvrir tout de suite — pas du genre à attendre son tour.' },
+  { name: 'Taureau', image: require('../../assets/zodiac/taureau.png'), start: [4, 20], end: [5, 20], element: 'Terre', trait: 'Calme et sensoriel, adore les câlins, les textures douces et une routine bien installée.' },
+  { name: 'Gémeaux', image: require('../../assets/zodiac/gemeaux.png'), start: [5, 21], end: [6, 20], element: 'Air', trait: 'Éveillé et bavard très tôt, change d\'humeur vite, adore observer tout ce qui bouge autour de lui.' },
+  { name: 'Cancer', image: require('../../assets/zodiac/cancer.png'), start: [6, 21], end: [7, 22], element: 'Eau', trait: 'Attaché et câlin, a besoin de repères stables et du contact rassurant de ses parents.' },
+  { name: 'Lion', image: require('../../assets/zodiac/lion.png'), start: [7, 23], end: [8, 22], element: 'Feu', trait: 'Sourire facile et présence qui se fait remarquer — un tempérament qui aime être au centre de l\'attention.' },
+  { name: 'Vierge', image: require('../../assets/zodiac/vierge.png'), start: [8, 23], end: [9, 22], element: 'Terre', trait: 'Observateur et minutieux, souvent sensible aux changements dans son environnement.' },
+  { name: 'Balance', image: require('../../assets/zodiac/balance.png'), start: [9, 23], end: [10, 22], element: 'Air', trait: 'Sociable et sensible à l\'ambiance autour de lui, apprécie la douceur et l\'harmonie.' },
+  { name: 'Scorpion', image: require('../../assets/zodiac/scorpion.png'), start: [10, 23], end: [11, 21], element: 'Eau', trait: 'Intense et déterminé, un petit caractère bien affirmé dès les premières semaines.' },
+  { name: 'Sagittaire', image: require('../../assets/zodiac/sagittaire.png'), start: [11, 22], end: [12, 21], element: 'Feu', trait: 'Curieux et joueur, toujours partant pour explorer un nouvel espace ou un nouveau jouet.' },
 ];
 
 function getZodiacSign(birthDate) {
@@ -71,7 +72,7 @@ export default function SigneAstralScreen({ onClose }) {
         ) : (
           <>
             <View style={[styles.signCard, { backgroundColor: theme.primary + '15', borderColor: theme.primary }]}>
-              <Text style={[styles.symbol, { color: theme.primary }]}>{sign.symbol}</Text>
+              <Image source={sign.image} style={styles.signImage} resizeMode="contain" />
               <Text style={[styles.signName, { color: theme.primary }]}>{sign.name}</Text>
               <Text style={[styles.babyLine, { color: theme.textDark }]}>
                 {baby.name || 'Bébé'} est {sign.name === 'Verseau' || sign.name === 'Balance' || sign.name === 'Scorpion' ? '' : 'un·e '}{sign.name.toLowerCase()}
@@ -105,14 +106,16 @@ export default function SigneAstralScreen({ onClose }) {
                       z.name === sign.name && { borderColor: theme.primary, borderWidth: 1.5 },
                     ]}
                   >
-                    <Text style={[styles.gridSymbol, { color: z.name === sign.name ? theme.primary : theme.textLight }]}>
-                      {z.symbol}
-                    </Text>
+                    <Image source={z.image} style={styles.gridImage} resizeMode="contain" />
                     <Text style={[styles.gridName, { color: theme.textDark }]}>{z.name}</Text>
                   </View>
                 ))}
               </View>
             </View>
+
+            <Text style={[styles.credit, { color: theme.textLight }]}>
+              Illustrations : © Agau | Dreamstime.com
+            </Text>
           </>
         )}
       </ScrollView>
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
-  symbol: { fontSize: 56, fontWeight: '300' },
+  signImage: { width: 110, height: 110 },
   signName: { fontSize: 24, fontWeight: '700', marginTop: 4 },
   babyLine: { fontSize: 14, marginTop: 6 },
   elementTag: {
@@ -193,6 +196,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
-  gridSymbol: { fontSize: 22 },
+  gridImage: { width: 44, height: 44 },
   gridName: { fontSize: 11, textAlign: 'center' },
+
+  credit: { fontSize: 11, textAlign: 'center', marginTop: 4 },
 });
