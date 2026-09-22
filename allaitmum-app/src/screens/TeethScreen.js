@@ -8,7 +8,7 @@ import {
   Modal,
   TextInput,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeContext';
 import { useApp } from '../utils/AppContext';
 
@@ -98,9 +98,11 @@ export default function TeethScreen({ onClose }) {
         ]}
         onPress={() => handleToothPress(tooth)}
       >
-        <Text style={[styles.toothText, { color: isOut ? '#fff' : theme.textLight }]}>
-          {isOut ? '🦷' : '○'}
-        </Text>
+        {isOut ? (
+          <Ionicons name="checkmark" size={16} color="#fff" />
+        ) : (
+          <Text style={[styles.toothText, { color: theme.textLight }]}>○</Text>
+        )}
       </TouchableOpacity>
     );
   };
@@ -113,7 +115,7 @@ export default function TeethScreen({ onClose }) {
           <Ionicons name="arrow-back" size={24} color={theme.primary} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.primary }]}>
-          🦷 Dents de {baby.name || 'bébé'}
+          Dents de {baby.name || 'bébé'}
         </Text>
         <View style={{ width: 40 }} />
       </View>
@@ -121,7 +123,7 @@ export default function TeethScreen({ onClose }) {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {/* Counter */}
         <View style={[styles.counterCard, { backgroundColor: theme.primary }]}>
-          <Text style={styles.counterEmoji}>🦷</Text>
+          <MaterialCommunityIcons name="tooth" size={32} color="#fff" />
           <View style={styles.counterInfo}>
             <Text style={styles.counterNumber}>{teethCount}/20</Text>
             <Text style={styles.counterLabel}>dents sorties</Text>
@@ -140,9 +142,7 @@ export default function TeethScreen({ onClose }) {
             ))}
           </View>
 
-          <View style={[styles.divider, { borderColor: theme.border }]}>
-            <Text style={[styles.dividerText, { color: theme.textLight }]}>👅</Text>
-          </View>
+          <View style={[styles.divider, { borderColor: theme.border }]} />
 
           <View style={styles.teethRow}>
             {TEETH_MAP.lower.map((tooth) => (
@@ -175,7 +175,7 @@ export default function TeethScreen({ onClose }) {
                 const toothInfo = [...TEETH_MAP.upper, ...TEETH_MAP.lower].find((x) => x.id === t.toothId);
                 return (
                   <View key={t.id} style={[styles.toothItem, { backgroundColor: theme.card }]}>
-                    <Text style={styles.toothItemEmoji}>🦷</Text>
+                    <MaterialCommunityIcons name="tooth" size={22} color={theme.primary} />
                     <View style={styles.toothItemInfo}>
                       <Text style={[styles.toothItemName, { color: theme.textDark }]}>
                         {toothInfo?.name || t.toothId}
@@ -199,11 +199,11 @@ export default function TeethScreen({ onClose }) {
         </Text>
         <View style={[styles.infoCard, { backgroundColor: theme.secondary + '40' }]}>
           <Text style={[styles.infoText, { color: theme.text }]}>
-            🦷 Incisives centrales : 6-10 mois{'\n'}
-            🦷 Incisives latérales : 9-16 mois{'\n'}
-            🦷 Premières molaires : 13-19 mois{'\n'}
-            🦷 Canines : 16-23 mois{'\n'}
-            🦷 Deuxièmes molaires : 23-31 mois
+            • Incisives centrales : 6-10 mois{'\n'}
+            • Incisives latérales : 9-16 mois{'\n'}
+            • Premières molaires : 13-19 mois{'\n'}
+            • Canines : 16-23 mois{'\n'}
+            • Deuxièmes molaires : 23-31 mois
           </Text>
           <Text style={[styles.infoNote, { color: theme.textLight }]}>
             Chaque bébé est différent, pas d'inquiétude si l'ordre varie !
@@ -246,7 +246,7 @@ export default function TeethScreen({ onClose }) {
                   style={[styles.modalBtn, { backgroundColor: theme.primary }]}
                   onPress={handleConfirm}
                 >
-                  <Text style={styles.modalBtnText}>🦷 Marquer comme sortie</Text>
+                  <Text style={styles.modalBtnText}>Marquer comme sortie</Text>
                 </TouchableOpacity>
               </>
             )}

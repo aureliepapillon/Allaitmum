@@ -406,11 +406,11 @@ Il en existe en différentes tailles (S, M, L) — la taille compte beaucoup pou
       },
       {
         title: 'Quand peut-elle aider ?',
-        content: `✅ Mamelons plats ou ombiliqués (qui ne ressortent pas)
-✅ Mamelons très douloureux ou crevassés (en transition)
-✅ Bébé prématuré ou avec un frein de langue
-✅ Bébé habitué au biberon qui a du mal à revenir au sein
-✅ Sein trop engorgé et dur (bébé n'arrive pas à saisir)
+        content: `• Mamelons plats ou ombiliqués (qui ne ressortent pas)
+• Mamelons très douloureux ou crevassés (en transition)
+• Bébé prématuré ou avec un frein de langue
+• Bébé habitué au biberon qui a du mal à revenir au sein
+• Sein trop engorgé et dur (bébé n'arrive pas à saisir)
 
 Ce n'est pas une solution miracle — si bébé ne prend pas bien le sein, une consultante en lactation (IBCLC) doit être consultée en priorité.`,
       },
@@ -541,13 +541,13 @@ Pas besoin de suivre un programme strict. La régularité compte plus que la qua
       },
       {
         title: 'Les signes de base pour commencer',
-        content: `🍼 Manger / lait : porter le poing fermé à la bouche, comme si on tétait
-🔁 Encore : rassembler le bout des doigts des deux mains et les toucher plusieurs fois
-😴 Dodo : poser sa joue sur ses mains jointes, comme un oreiller
-✅ Fini / terminé : secouer les deux mains ouvertes de chaque côté
-🧸 Doudou : caresser son propre bras ou son épaule
-🤲 Aide / s'il te plaît : frotter le plat de la main en cercle sur la poitrine
-👋 Encore un classique : le signe "au revoir" avec la main, souvent le tout premier maîtrisé
+        content: `• Manger / lait : porter le poing fermé à la bouche, comme si on tétait
+• Encore : rassembler le bout des doigts des deux mains et les toucher plusieurs fois
+• Dodo : poser sa joue sur ses mains jointes, comme un oreiller
+• Fini / terminé : secouer les deux mains ouvertes de chaque côté
+• Doudou : caresser son propre bras ou son épaule
+• Aide / s'il te plaît : frotter le plat de la main en cercle sur la poitrine
+• Un classique : le signe "au revoir" avec la main, souvent le tout premier maîtrisé
 
 Ces signes sont inspirés de la méthode "Signe avec Bébé" de Monica Companys, adaptée en France à partir de la Langue des Signes Française.`,
       },

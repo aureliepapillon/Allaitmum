@@ -133,7 +133,7 @@ const botResponses = [
   {
     keywords: ['régime', 'maigrir', 'perte', 'poids', 'kilos'],
     answer:
-      "L'allaitement brûle ~500 kcal/jour. Perte de poids naturelle et progressive.\n\n⚠️ Régime restrictif déconseillé (< 1800 kcal) : risque de baisser ta production.\n\nMange équilibré, écoute ta faim, bois beaucoup. Les kilos partiront progressivement.",
+      "L'allaitement brûle ~500 kcal/jour. Perte de poids naturelle et progressive.\n\nRégime restrictif déconseillé (< 1800 kcal) : risque de baisser ta production.\n\nMange équilibré, écoute ta faim, bois beaucoup. Les kilos partiront progressivement.",
   },
   {
     keywords: ['allergi', 'plv', 'aplv', 'lactose', 'intolérance'],
