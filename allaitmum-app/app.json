@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.aureliepapillon.Allaitmum",
-      "buildNumber": "10",
+      "buildNumber": "12",
       "infoPlist": {
         "NSUserNotificationsUsageDescription": "Malo utilise les notifications pour les rappels de vaccins et de tétées."
       }
